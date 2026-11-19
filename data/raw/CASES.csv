@@ -1,0 +1,9 @@
+case_id,cooling_mode,inlet_setpoint_C,dp_setpoint_kPa,vapor_setpoint_C,start,end,n_samples,file
+1,air,25,2,,2024-10-31 11:50:00,2024-11-01 08:30:00,249,ocp_air_cooling_5min.csv
+2,air,35,4,,2024-11-01 08:50:00,2024-11-02 10:05:00,304,ocp_air_cooling_5min.csv
+3,air,45,6,,2024-11-02 10:10:00,2024-11-03 05:50:00,237,ocp_air_cooling_5min.csv
+4,air,45,8,,2024-11-03 05:55:00,2024-11-04 07:35:00,309,ocp_air_cooling_5min.csv
+5,air,45,10,,2024-11-04 07:40:00,2024-11-05 01:00:00,209,ocp_air_cooling_5min.csv
+6,hybrid,25,2,45,2024-09-20 16:25:00,2024-09-21 13:35:00,255,ocp_hybrid_cooling_5min.csv
+7,hybrid,35,2,45,2024-09-21 13:40:00,2024-09-22 10:55:00,256,ocp_hybrid_cooling_5min.csv
+8,hybrid,45,2,45,2024-09-22 11:00:00,2024-09-23 05:00:00,217,ocp_hybrid_cooling_5min.csv
