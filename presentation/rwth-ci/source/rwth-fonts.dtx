@@ -1,0 +1,201 @@
+% \iffalse meta-comment
+%
+% RWTH-CI -- Corporate Design for RWTH Aachen University
+% ----------------------------------------------------------------------------
+%
+%  Copyright (C) 2025–2026 by Marei Peischl <rwth-ci@peitex.de> and Lukas C. Bossert
+%
+% ============================================================================
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3c
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+% http://www.latex-project.org/lppl.txt
+% and version 1.3c or later is part of all distributions of LaTeX
+% version 2008/05/04 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is
+%   Marei Peischl rwth-ci@peitex.de
+%
+% The development repository can be found at
+% https://gitlab.git.nrw/rwth-it-center/rwth-latex-templates/rwth-ci
+% Please use the issue tracker for feedback!
+%
+% ============================================================================
+%
+% \fi
+% \iffalse
+%<*driver>
+\ProvidesFile{rwth-fonts.dtx}
+  [2026-04-03 v1.2 Fonts for RWTH-CI, Corporate Design of RWTH Aachen University]
+%</driver>
+%<@@=ptxcd>
+%<*identification>
+\NeedsTeXFormat{LaTeX2e}[2022-10-01]
+%<package>\ProvidesExplPackage{rwth-fonts}{2026-04-03}{1.2}{Fonts for RWTH-CI}
+%</identification>
+%<*driver>
+\providecommand*{\PtxcdDocDTXfiles}{rwth-fonts.dtx}
+\providecommand*{\PtxcdDocTitle}{Fonts for RWTH-CI}
+\input{rwth-ci.dtx}
+%</driver>
+% \fi
+% \begin{documentation}
+% \section{Font configuration – \pkg{rwth-fonts.sty}}
+% \end{documentation}
+% \begin{implementation}
+% \iffalse
+%<*initialize>
+% \fi
+% \begin{variable}{\g_@@_freefonts_bool,\g_@@_font_error_bool}
+%   Variables corresponding to \option{freefonts}
+%    \begin{macrocode}
+\bool_new:N \g_@@_freefonts_bool
+\bool_new:N \g_@@_font_error_bool
+%    \end{macrocode}
+% \end{variable}
+% \iffalse
+%</initialize>
+%<*declareoptions>
+% \fi
+%    \begin{macrocode}
+\keys_define:nn {ptxcd/fonts} {
+%    \end{macrocode}
+% \iffalse
+%</declareoptions>
+%<*options>
+% \fi
+% \end{implementation}
+% \begin{documentation}
+% \DescribeKeyOption{freefonts=value}{auto}
+% The Corporate Design is using commercial fonts.
+% To allow editing documents also on computers without a valid font license, the option \option{freefonts} provides a mechanism for this.
+% By default the font selection is configured to try to use the official font if available.
+% And will create a warning if the official setting is not possible.
+%
+% Please be aware that chcking font availability slows down the compilation process.
+% You probably want to set the value to true or false to speed up.
+% \end{documentation}
+% \begin{implementation}
+% \begin{optionenv}{freefonts}
+%    \begin{macrocode}
+  freefonts .choice:,
+  freefonts / true .code:n = {
+      \bool_gset_true:N  \g_@@_freefonts_bool
+      \bool_gset_false:N \g_@@_font_error_bool
+    },
+  freefonts / auto .code:n = {
+      \bool_gset_false:N \g_@@_freefonts_bool
+      \bool_gset_false:N \g_@@_font_error_bool
+    },
+  freefonts / false .code:n = {
+      \bool_gset_false:N \g_@@_freefonts_bool
+      \bool_gset_true:N \g_@@_font_error_bool
+    },
+  freefonts .initial:n = auto,
+  freefonts .default:n = true,
+  freefonts .usage:n = load,
+%    \end{macrocode}
+% \end{optionenv}
+% \end{implementation}
+% \begin{documentation}
+% \DescribeKeyOption{fontdefaults=\meta{boolean}}{false}
+% Configure if this package is setting any font defaults or only adds a font family matching the requirements.
+% \end{documentation}
+% \begin{implementation}
+% \begin{optionenv}{fontdefaults}
+%    \begin{macrocode}
+  fontdefaults .bool_gset:N = \g_@@_fontdefaults_bool,
+  fontdefaults .initial:n = false,
+  fontdefaults .default:n = true,
+  fontdefaults .usage:n = load,
+%    \end{macrocode}
+% \end{optionenv}
+% \iffalse
+%</options>
+%<*processoptions>
+% \fi
+%    \begin{macrocode}
+}
+\ProcessKeyOptions[ptxcd/fonts]
+%    \end{macrocode}
+% \iffalse
+%</processoptions>
+%<*body>
+% \fi
+% Save the sfdefault to avoid interaction with other parts of the document.
+%    \begin{macrocode}
+\bool_if:NF \g_@@_fontdefaults_bool {
+  \let\rwth@cached@fdefault\sfdefault
+}
+
+\RequirePackage{iftex}
+%    \end{macrocode}
+% \changes{v1.2-dev}{2026-04-03}{Fix implementation of font choice to work the same way for all compilers.}
+%    \begin{macrocode}
+\ifPDFTeX
+  \bool_if:NTF \g_@@_freefonts_bool {
+    \RequirePackage{arimo}
+  } {
+    \bool_if:NTF \g_@@_font_error_bool
+      {\use_ii:nnn}
+      {\use:n}
+    {\file_if_exist:nTF {uarial.sty}} {
+      \RequirePackage[scaled]{uarial}
+    } {
+      \RequirePackage{arimo}
+    }
+  }
+  \RequirePackage[T1]{fontenc}
+\else
+  \RequirePackage{fontspec}
+  \bool_if:NTF \g_@@_freefonts_bool {
+    \RequirePackage{arimo}
+  } {
+    \bool_if:NTF \g_@@_font_error_bool
+      {\use_ii:nnn}
+      {\use:n}
+    {
+      \fontspec_font_if_exist:nTF {Arial}
+    }{
+      \setsansfont[
+        ItalicFont     = *-Italic ,
+        BoldFont       = *-Bold ,
+        BoldItalicFont = *-BoldItalic
+      ]{Arial}
+    }{
+      \RequirePackage{arimo}
+    }
+  }
+\fi
+\bool_if:NTF \g_@@_fontdefaults_bool {
+  \renewcommand*{\familydefault}{\sfdefault}
+} {
+  \let\rwth@sffamily\sfdefault
+  \let\rwth@cached@sfdefault\sfdefault
+}
+\RequirePackage{anyfontsize}
+%    \end{macrocode}
+% %^^A\cite[22,24]{rwth-ci-basics}
+% The Design Guideline does not allow any use of italic text.
+% \cs{emph} is configured to use bold text instead.
+%    \begin{macrocode}
+\DeclareEmphSequence{\bfseries}
+
+\cs_if_exist:NF \ptxcd@OrigLaTeXLogo {
+  \bool_if:NF \g_@@_use_LaTeX_Logo_bool {
+    \let\ptxcd@OrigLaTeXLogo\LaTeX
+    \let\ptxcd@OrigTeXLogo\TeX
+    \renewcommand*\LaTeX{LaTeX}
+    \renewcommand*\TeX{TeX}
+  }
+}
+%    \end{macrocode}
+% \iffalse
+%</body>
+% \fi
+% \end{implementation}
+% \Finale
+\endinput

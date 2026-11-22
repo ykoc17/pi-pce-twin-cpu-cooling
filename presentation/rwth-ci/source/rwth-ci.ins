@@ -1,0 +1,98 @@
+%% This is file `rwth-ci.ins' version 1.2 (2026-04-03),
+%% it is part of
+%% RWTH-CI -- Corporate Design for RWTH Aachen University
+%% ----------------------------------------------------------------------------
+%%
+%%  Copyright (C) 2025–2026 by Marei Peischl <rwth-ci@peitex.de> and Lukas C. Bossert
+
+\input docstrip.tex
+\keepsilent
+
+\usedir{tex/latex/rwth-ci}
+
+\generate{
+	\file{rwth-letter.sty}{
+		\from{rwth-letter.dtx}{package,identification}
+		\from{rwth-ci.dtx}{init,logo,department}
+		\from{rwth-letter.dtx}{package,initialization}
+		\from{rwth-ci.dtx}{letter,options,explpackage,processoptions}
+		%\from{rwth-letter.dtx}{package,head}
+		%\from{rwth-ci.dtx}{package,letter}% TODO initialize options to check if rwth class was loaded,processoptions}
+		%\from{rwth-ci.dtx}{letter,options,explpackage,processoptions}
+		\from{rwth-letter.dtx}{processoptions}
+		\from{rwth-ci.dtx}{logoFallback}
+		\from{rwth-letter.dtx}{package,body}
+	}
+}
+
+\generate{
+	\file{rwth-beamer.cls}{
+		\from{rwth-beamer.dtx}{class,identification}
+		\from{rwth-ci.dtx}{class,beamer,options,titlesepline}
+		\from{rwth-beamer.dtx}{class,options,processoptions,}
+		\from{rwth-ci.dtx}{buildOptions,beamer}
+		%\from{rwth-ci.dtx}{class,beamer,processoptions}
+		\from{rwth-beamer.dtx}{class,head}
+	}
+	\file{beamerthemeRWTH.sty}{
+		\from{rwth-beamer.dtx}{theme,identification,declareoptions,options}
+		\from{rwth-ci.dtx}{options,init-department,theme,processoptions}
+		\from{rwth-beamer.dtx}{theme,head,init-department,body}
+	}
+	\file{beamerinnerthemeRWTH.sty}{
+		\from{rwth-beamer.dtx}{package,main,declareoptions,inner,identification,options}
+		\from{rwth-ci.dtx}{titlegraphic-opt}
+		\from{rwth-beamer.dtx}{inner,processoptions}
+		\from{rwth-ci.dtx}{logoFallback,beamer,ExplSyntax}
+		\from{rwth-beamer.dtx}{package,inner,body,notfinal}
+		\from{rwth-ci.dtx}{titlegraphic-setup,ExplSyntax,beamer}
+		\from{rwth-beamer.dtx}{final}
+	}
+	\file{beamercolorthemeRWTH.sty}{
+		\from{rwth-beamer.dtx}{package,main,color,identification,body}
+	}
+	\file{beamerfontthemeRWTH.sty}{
+		\from{rwth-beamer.dtx}{package,main,font,identification,body}
+	}
+	\file{beamerouterthemeRWTH.sty}{
+		\from{rwth-beamer.dtx}{package,main,outer,identification,body}
+	}
+}
+
+\generate{\file{rwth-sciposter.cls}{%
+		\from{rwth-sciposter.dtx}{class,initialize,identification}%
+		\from{rwth-ci.dtx}{options,class,sciposter,print}%
+		\from{rwth-sciposter.dtx}{options,processoptions,class,packages,body}%
+		\from{rwth-ci.dtx}{logoFallback}
+	}%
+}
+
+\generate{
+	\file{rwth-colors.sty}{
+		\from{rwth-colors.dtx}{package,identification}
+		\from{rwth-ci.dtx}{init-department}
+		\from{rwth-colors.dtx}{package,declareoptions,options,body,package}
+	}
+}
+
+\generate{
+	\file{rwth-fonts.sty}{
+		\from{rwth-fonts.dtx}{package,identification,initialize,declareoptions,options}
+		\from{rwth-ci.dtx}{fonts}
+		\from{rwth-fonts.dtx}{processoptions,body}
+	}
+}
+
+\generate{
+	\file{rwth-lettersize11bp.clo}{
+		\from{rwth-sizes.dtx}{scrsize,rwthletter}
+	}
+}
+
+\generate{
+	\file{rwth-layout.sty}{
+		\from{rwth-ci.dtx}{package,declareoptions,options,identification,initialize,init-department,logoFallback}
+	}
+}
+
+\endbatchfile

@@ -6,8 +6,8 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+from configs.data_config import INPUT_COLUMNS
 from thermal_twin.data import (
-    INPUT_COLUMNS,
     DatasetValidationError,
     inspect_dataset,
     load_dataset,

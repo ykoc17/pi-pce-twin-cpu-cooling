@@ -1,0 +1,219 @@
+file,column,description,unit,confidence,source_column_name
+ocp_air_cooling_5min.csv,time_local,"Timestamp, 5-minute resolution (time zone not stated in source files)",ISO 8601,high,Time
+ocp_air_cooling_5min.csv,total_server_power_W,"Total electrical power of the 9 servers, energy meter",W,high,Total power (energy meter)
+ocp_air_cooling_5min.csv,total_cpu_power_W,Sum of CPU power draw over all 18 CPUs (as reported by the servers),W,high,Total power (CPUs)
+ocp_air_cooling_5min.csv,cpu_power_W__srv1_cpu1,Power draw of CPU 1 in server 1,W,high,Srv 1 CPU 1
+ocp_air_cooling_5min.csv,cpu_power_W__srv1_cpu2,Power draw of CPU 2 in server 1,W,high,Srv 1 CPU 2
+ocp_air_cooling_5min.csv,cpu_power_W__srv2_cpu1,Power draw of CPU 1 in server 2,W,high,Srv 2 CPU 1
+ocp_air_cooling_5min.csv,cpu_power_W__srv2_cpu2,Power draw of CPU 2 in server 2,W,high,Srv 2 CPU 2
+ocp_air_cooling_5min.csv,cpu_power_W__srv3_cpu1,Power draw of CPU 1 in server 3,W,high,Srv 3 CPU 1
+ocp_air_cooling_5min.csv,cpu_power_W__srv3_cpu2,Power draw of CPU 2 in server 3,W,high,Srv 3 CPU 2
+ocp_air_cooling_5min.csv,cpu_power_W__srv4_cpu1,Power draw of CPU 1 in server 4,W,high,Srv 4 CPU 1
+ocp_air_cooling_5min.csv,cpu_power_W__srv4_cpu2,Power draw of CPU 2 in server 4,W,high,Srv 4 CPU 2
+ocp_air_cooling_5min.csv,cpu_power_W__srv5_cpu1,Power draw of CPU 1 in server 5,W,high,Srv 5 CPU 1
+ocp_air_cooling_5min.csv,cpu_power_W__srv5_cpu2,Power draw of CPU 2 in server 5,W,high,Srv 5 CPU 2
+ocp_air_cooling_5min.csv,cpu_power_W__srv6_cpu1,Power draw of CPU 1 in server 6,W,high,Srv 6 CPU 1
+ocp_air_cooling_5min.csv,cpu_power_W__srv6_cpu2,Power draw of CPU 2 in server 6,W,high,Srv 6 CPU 2
+ocp_air_cooling_5min.csv,cpu_power_W__srv7_cpu1,Power draw of CPU 1 in server 7,W,high,Srv 7 CPU 1
+ocp_air_cooling_5min.csv,cpu_power_W__srv7_cpu2,Power draw of CPU 2 in server 7,W,high,Srv 7 CPU 2
+ocp_air_cooling_5min.csv,cpu_power_W__srv8_cpu1,Power draw of CPU 1 in server 8,W,high,Srv 8 CPU 1
+ocp_air_cooling_5min.csv,cpu_power_W__srv8_cpu2,Power draw of CPU 2 in server 8,W,high,Srv 8 CPU 2
+ocp_air_cooling_5min.csv,cpu_power_W__srv9_cpu1,Power draw of CPU 1 in server 9,W,high,Srv 9 CPU 1
+ocp_air_cooling_5min.csv,cpu_power_W__srv9_cpu2,Power draw of CPU 2 in server 9,W,high,Srv 9 CPU 2
+ocp_air_cooling_5min.csv,cpu_utilisation_pct__srv1,CPU utilisation of server 1 (stress-ng load; can exceed 100 in source),%,medium,srv1
+ocp_air_cooling_5min.csv,cpu_utilisation_pct__srv2,CPU utilisation of server 2 (stress-ng load; can exceed 100 in source),%,medium,srv2
+ocp_air_cooling_5min.csv,cpu_utilisation_pct__srv3,CPU utilisation of server 3 (stress-ng load; can exceed 100 in source),%,medium,srv3
+ocp_air_cooling_5min.csv,cpu_utilisation_pct__srv4,CPU utilisation of server 4 (stress-ng load; can exceed 100 in source),%,medium,srv4
+ocp_air_cooling_5min.csv,cpu_utilisation_pct__srv5,CPU utilisation of server 5 (stress-ng load; can exceed 100 in source),%,medium,srv5
+ocp_air_cooling_5min.csv,cpu_utilisation_pct__srv6,CPU utilisation of server 6 (stress-ng load; can exceed 100 in source),%,medium,srv6
+ocp_air_cooling_5min.csv,cpu_utilisation_pct__srv7,CPU utilisation of server 7 (stress-ng load; can exceed 100 in source),%,medium,srv7
+ocp_air_cooling_5min.csv,cpu_utilisation_pct__srv8,CPU utilisation of server 8 (stress-ng load; can exceed 100 in source),%,medium,srv8
+ocp_air_cooling_5min.csv,cpu_utilisation_pct__srv9,CPU utilisation of server 9 (stress-ng load; can exceed 100 in source),%,medium,srv9
+ocp_air_cooling_5min.csv,cpu_utilisation_pct__mean,Mean utilisation over servers (see note on missing server 1 in hybrid file),%,medium,Average utilisation (%)
+ocp_air_cooling_5min.csv,tunnel_temp_before_fan_C,Wind-tunnel air temperature before the fan (WT3-SA4 side),degC,medium,Temp before fan
+ocp_air_cooling_5min.csv,tunnel_temp_after_cooler_C,Wind-tunnel air temperature after the liquid-to-air cooler (controlled),degC,medium,Temp after cooler (controlled)
+ocp_air_cooling_5min.csv,server_inlet_air_temp_tunnel_C,"Air temperature before the servers, wind-tunnel sensor",degC,high,Temp before servers
+ocp_air_cooling_5min.csv,inlet_temp_setpoint_C,Server inlet air temperature setpoint (Table 2),degC,high,Temp setpoint
+ocp_air_cooling_5min.csv,onewire_temp_after_servers__mean,Mean of 1-wire probes behind the servers (hot aisle),degC,medium,Temperature after servers
+ocp_air_cooling_5min.csv,onewire_temp_after_servers__probe1,1-wire probe 1 behind the servers (probe-to-server mapping not documented),degC,medium,1
+ocp_air_cooling_5min.csv,onewire_temp_after_servers__probe2,1-wire probe 2 behind the servers (probe-to-server mapping not documented),degC,medium,2
+ocp_air_cooling_5min.csv,onewire_temp_after_servers__probe3,1-wire probe 3 behind the servers (probe-to-server mapping not documented),degC,medium,3
+ocp_air_cooling_5min.csv,onewire_temp_after_servers__probe4,1-wire probe 4 behind the servers (probe-to-server mapping not documented),degC,medium,4
+ocp_air_cooling_5min.csv,onewire_temp_after_servers__probe5,1-wire probe 5 behind the servers (probe-to-server mapping not documented),degC,medium,5
+ocp_air_cooling_5min.csv,onewire_temp_after_servers__probe6,1-wire probe 6 behind the servers (probe-to-server mapping not documented),degC,medium,6
+ocp_air_cooling_5min.csv,onewire_temp_after_servers__probe7,1-wire probe 7 behind the servers (probe-to-server mapping not documented),degC,medium,7
+ocp_air_cooling_5min.csv,onewire_temp_after_servers__probe8,1-wire probe 8 behind the servers (probe-to-server mapping not documented),degC,medium,8
+ocp_air_cooling_5min.csv,cpu_temp_C__mean,Mean CPU temperature over 18 CPUs (IPMI),degC,high,Average CPU temperatures
+ocp_air_cooling_5min.csv,cpu_temp_C__srv1_cpu1,"CPU 1 temperature, server 1 (IPMI, +/-0.5 degC)",degC,high,srv1cpu1
+ocp_air_cooling_5min.csv,cpu_temp_C__srv2_cpu1,"CPU 1 temperature, server 2 (IPMI, +/-0.5 degC)",degC,high,srv2cpu1
+ocp_air_cooling_5min.csv,cpu_temp_C__srv3_cpu1,"CPU 1 temperature, server 3 (IPMI, +/-0.5 degC)",degC,high,srv3cpu1
+ocp_air_cooling_5min.csv,cpu_temp_C__srv4_cpu1,"CPU 1 temperature, server 4 (IPMI, +/-0.5 degC)",degC,high,srv4cpu1
+ocp_air_cooling_5min.csv,cpu_temp_C__srv5_cpu1,"CPU 1 temperature, server 5 (IPMI, +/-0.5 degC)",degC,high,srv5cpu1
+ocp_air_cooling_5min.csv,cpu_temp_C__srv6_cpu1,"CPU 1 temperature, server 6 (IPMI, +/-0.5 degC)",degC,high,srv6cpu1
+ocp_air_cooling_5min.csv,cpu_temp_C__srv7_cpu1,"CPU 1 temperature, server 7 (IPMI, +/-0.5 degC)",degC,high,srv7cpu1
+ocp_air_cooling_5min.csv,cpu_temp_C__srv8_cpu1,"CPU 1 temperature, server 8 (IPMI, +/-0.5 degC)",degC,high,srv8cpu1
+ocp_air_cooling_5min.csv,cpu_temp_C__srv9_cpu1,"CPU 1 temperature, server 9 (IPMI, +/-0.5 degC)",degC,high,srv9cpu1
+ocp_air_cooling_5min.csv,cpu_temp_C__srv1_cpu2,"CPU 2 temperature, server 1 (IPMI, +/-0.5 degC)",degC,high,srv1cpu2
+ocp_air_cooling_5min.csv,cpu_temp_C__srv2_cpu2,"CPU 2 temperature, server 2 (IPMI, +/-0.5 degC)",degC,high,srv2cpu2
+ocp_air_cooling_5min.csv,cpu_temp_C__srv3_cpu2,"CPU 2 temperature, server 3 (IPMI, +/-0.5 degC)",degC,high,srv3cpu2
+ocp_air_cooling_5min.csv,cpu_temp_C__srv4_cpu2,"CPU 2 temperature, server 4 (IPMI, +/-0.5 degC)",degC,high,srv4cpu2
+ocp_air_cooling_5min.csv,cpu_temp_C__srv5_cpu2,"CPU 2 temperature, server 5 (IPMI, +/-0.5 degC)",degC,high,srv5cpu2
+ocp_air_cooling_5min.csv,cpu_temp_C__srv6_cpu2,"CPU 2 temperature, server 6 (IPMI, +/-0.5 degC)",degC,high,srv6cpu2
+ocp_air_cooling_5min.csv,cpu_temp_C__srv7_cpu2,"CPU 2 temperature, server 7 (IPMI, +/-0.5 degC)",degC,high,srv7cpu2
+ocp_air_cooling_5min.csv,cpu_temp_C__srv8_cpu2,"CPU 2 temperature, server 8 (IPMI, +/-0.5 degC)",degC,high,srv8cpu2
+ocp_air_cooling_5min.csv,cpu_temp_C__srv9_cpu2,"CPU 2 temperature, server 9 (IPMI, +/-0.5 degC)",degC,high,srv9cpu2
+ocp_air_cooling_5min.csv,server_inlet_temp_C__mean,Mean inlet temperature as reported by the servers,degC,high,Average inlet temperatures
+ocp_air_cooling_5min.csv,server_inlet_temp_C__srv1,Inlet temperature reported by server 1 (integer resolution),degC,high,1_inlet
+ocp_air_cooling_5min.csv,server_inlet_temp_C__srv2,Inlet temperature reported by server 2 (integer resolution),degC,high,2_inlet
+ocp_air_cooling_5min.csv,server_inlet_temp_C__srv3,Inlet temperature reported by server 3 (integer resolution),degC,high,3_inlet
+ocp_air_cooling_5min.csv,server_inlet_temp_C__srv4,Inlet temperature reported by server 4 (integer resolution),degC,high,4_inlet
+ocp_air_cooling_5min.csv,server_inlet_temp_C__srv5,Inlet temperature reported by server 5 (integer resolution),degC,high,5_inlet
+ocp_air_cooling_5min.csv,server_inlet_temp_C__srv6,Inlet temperature reported by server 6 (integer resolution),degC,high,6_inlet
+ocp_air_cooling_5min.csv,server_inlet_temp_C__srv7,Inlet temperature reported by server 7 (integer resolution),degC,high,7_inlet
+ocp_air_cooling_5min.csv,server_inlet_temp_C__srv8,Inlet temperature reported by server 8 (integer resolution),degC,high,8_inlet
+ocp_air_cooling_5min.csv,server_inlet_temp_C__srv9,Inlet temperature reported by server 9 (integer resolution),degC,high,9_inlet
+ocp_air_cooling_5min.csv,server_outlet_temp_C__mean,Mean outlet temperature as reported by the servers,degC,high,Average outlet temperatures
+ocp_air_cooling_5min.csv,server_outlet_temp_C__srv1,Outlet temperature reported by server 1 (integer resolution),degC,high,1_outlet
+ocp_air_cooling_5min.csv,server_outlet_temp_C__srv2,Outlet temperature reported by server 2 (integer resolution),degC,high,2_outlet
+ocp_air_cooling_5min.csv,server_outlet_temp_C__srv3,Outlet temperature reported by server 3 (integer resolution),degC,high,3_outlet
+ocp_air_cooling_5min.csv,server_outlet_temp_C__srv4,Outlet temperature reported by server 4 (integer resolution),degC,high,4_outlet
+ocp_air_cooling_5min.csv,server_outlet_temp_C__srv5,Outlet temperature reported by server 5 (integer resolution),degC,high,5_outlet
+ocp_air_cooling_5min.csv,server_outlet_temp_C__srv6,Outlet temperature reported by server 6 (integer resolution),degC,high,6_outlet
+ocp_air_cooling_5min.csv,server_outlet_temp_C__srv7,Outlet temperature reported by server 7 (integer resolution),degC,high,7_outlet
+ocp_air_cooling_5min.csv,server_outlet_temp_C__srv8,Outlet temperature reported by server 8 (integer resolution),degC,high,8_outlet
+ocp_air_cooling_5min.csv,server_outlet_temp_C__srv9,Outlet temperature reported by server 9 (integer resolution),degC,high,9_outlet
+ocp_air_cooling_5min.csv,dimm_temp_C__mean,Mean over all DIMM sensors,degC,high,Average memory temperatures
+ocp_air_cooling_5min.csv,dimm_temp_C__srv1_sensor1,DIMM temperature sensor 1 (of 4) in server 1; sensor-to-slot mapping per source column dimm1,degC,medium,1dimm1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv1_sensor2,DIMM temperature sensor 2 (of 4) in server 1; sensor-to-slot mapping per source column dimm1.1,degC,medium,1dimm1.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv1_sensor3,DIMM temperature sensor 3 (of 4) in server 1; sensor-to-slot mapping per source column dimm2,degC,medium,1dimm2
+ocp_air_cooling_5min.csv,dimm_temp_C__srv1_sensor4,DIMM temperature sensor 4 (of 4) in server 1; sensor-to-slot mapping per source column dimm2.1,degC,medium,1dimm2.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv2_sensor1,DIMM temperature sensor 1 (of 4) in server 2; sensor-to-slot mapping per source column dimm1,degC,medium,2dimm1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv2_sensor2,DIMM temperature sensor 2 (of 4) in server 2; sensor-to-slot mapping per source column dimm1.1,degC,medium,2dimm1.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv2_sensor3,DIMM temperature sensor 3 (of 4) in server 2; sensor-to-slot mapping per source column dimm2,degC,medium,2dimm2
+ocp_air_cooling_5min.csv,dimm_temp_C__srv2_sensor4,DIMM temperature sensor 4 (of 4) in server 2; sensor-to-slot mapping per source column dimm2.1,degC,medium,2dimm2.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv3_sensor1,DIMM temperature sensor 1 (of 4) in server 3; sensor-to-slot mapping per source column dimm1,degC,medium,3dimm1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv3_sensor2,DIMM temperature sensor 2 (of 4) in server 3; sensor-to-slot mapping per source column dimm1.1,degC,medium,3dimm1.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv3_sensor3,DIMM temperature sensor 3 (of 4) in server 3; sensor-to-slot mapping per source column dimm2,degC,medium,3dimm2
+ocp_air_cooling_5min.csv,dimm_temp_C__srv3_sensor4,DIMM temperature sensor 4 (of 4) in server 3; sensor-to-slot mapping per source column dimm2.1,degC,medium,3dimm2.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv4_sensor1,DIMM temperature sensor 1 (of 4) in server 4; sensor-to-slot mapping per source column dimm1,degC,medium,4dimm1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv4_sensor2,DIMM temperature sensor 2 (of 4) in server 4; sensor-to-slot mapping per source column dimm1.1,degC,medium,4dimm1.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv4_sensor3,DIMM temperature sensor 3 (of 4) in server 4; sensor-to-slot mapping per source column dimm2,degC,medium,4dimm2
+ocp_air_cooling_5min.csv,dimm_temp_C__srv4_sensor4,DIMM temperature sensor 4 (of 4) in server 4; sensor-to-slot mapping per source column dimm2.1,degC,medium,4dimm2.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv5_sensor1,DIMM temperature sensor 1 (of 4) in server 5; sensor-to-slot mapping per source column dimm1,degC,medium,5dimm1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv5_sensor2,DIMM temperature sensor 2 (of 4) in server 5; sensor-to-slot mapping per source column dimm1.1,degC,medium,5dimm1.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv5_sensor3,DIMM temperature sensor 3 (of 4) in server 5; sensor-to-slot mapping per source column dimm2,degC,medium,5dimm2
+ocp_air_cooling_5min.csv,dimm_temp_C__srv5_sensor4,DIMM temperature sensor 4 (of 4) in server 5; sensor-to-slot mapping per source column dimm2.1,degC,medium,5dimm2.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv6_sensor1,DIMM temperature sensor 1 (of 4) in server 6; sensor-to-slot mapping per source column dimm1,degC,medium,6dimm1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv6_sensor2,DIMM temperature sensor 2 (of 4) in server 6; sensor-to-slot mapping per source column dimm1.1,degC,medium,6dimm1.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv6_sensor3,DIMM temperature sensor 3 (of 4) in server 6; sensor-to-slot mapping per source column dimm2,degC,medium,6dimm2
+ocp_air_cooling_5min.csv,dimm_temp_C__srv6_sensor4,DIMM temperature sensor 4 (of 4) in server 6; sensor-to-slot mapping per source column dimm2.1,degC,medium,6dimm2.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv7_sensor1,DIMM temperature sensor 1 (of 4) in server 7; sensor-to-slot mapping per source column dimm1,degC,medium,7dimm1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv7_sensor2,DIMM temperature sensor 2 (of 4) in server 7; sensor-to-slot mapping per source column dimm1.1,degC,medium,7dimm1.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv7_sensor3,DIMM temperature sensor 3 (of 4) in server 7; sensor-to-slot mapping per source column dimm2,degC,medium,7dimm2
+ocp_air_cooling_5min.csv,dimm_temp_C__srv7_sensor4,DIMM temperature sensor 4 (of 4) in server 7; sensor-to-slot mapping per source column dimm2.1,degC,medium,7dimm2.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv8_sensor1,DIMM temperature sensor 1 (of 4) in server 8; sensor-to-slot mapping per source column dimm1,degC,medium,8dimm1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv8_sensor2,DIMM temperature sensor 2 (of 4) in server 8; sensor-to-slot mapping per source column dimm1.1,degC,medium,8dimm1.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv8_sensor3,DIMM temperature sensor 3 (of 4) in server 8; sensor-to-slot mapping per source column dimm2,degC,medium,8dimm2
+ocp_air_cooling_5min.csv,dimm_temp_C__srv8_sensor4,DIMM temperature sensor 4 (of 4) in server 8; sensor-to-slot mapping per source column dimm2.1,degC,medium,8dimm2.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv9_sensor1,DIMM temperature sensor 1 (of 4) in server 9; sensor-to-slot mapping per source column dimm1,degC,medium,9dimm1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv9_sensor2,DIMM temperature sensor 2 (of 4) in server 9; sensor-to-slot mapping per source column dimm1.1,degC,medium,9dimm1.1
+ocp_air_cooling_5min.csv,dimm_temp_C__srv9_sensor3,DIMM temperature sensor 3 (of 4) in server 9; sensor-to-slot mapping per source column dimm2,degC,medium,9dimm2
+ocp_air_cooling_5min.csv,dimm_temp_C__srv9_sensor4,DIMM temperature sensor 4 (of 4) in server 9; sensor-to-slot mapping per source column dimm2.1,degC,medium,9dimm2.1
+ocp_air_cooling_5min.csv,pch_temp_C__mean,Mean platform controller hub (PCH) temperature,degC,high,Average board temperatures
+ocp_air_cooling_5min.csv,pch_temp_C__srv1,"PCH temperature, server 1",degC,high,1pch
+ocp_air_cooling_5min.csv,pch_temp_C__srv2,"PCH temperature, server 2",degC,high,2pch
+ocp_air_cooling_5min.csv,pch_temp_C__srv3,"PCH temperature, server 3",degC,high,3pch
+ocp_air_cooling_5min.csv,pch_temp_C__srv4,"PCH temperature, server 4",degC,high,4pch
+ocp_air_cooling_5min.csv,pch_temp_C__srv5,"PCH temperature, server 5",degC,high,5pch
+ocp_air_cooling_5min.csv,pch_temp_C__srv6,"PCH temperature, server 6",degC,high,6pch
+ocp_air_cooling_5min.csv,pch_temp_C__srv7,"PCH temperature, server 7",degC,high,7pch
+ocp_air_cooling_5min.csv,pch_temp_C__srv8,"PCH temperature, server 8",degC,high,8pch
+ocp_air_cooling_5min.csv,pch_temp_C__srv9,"PCH temperature, server 9",degC,high,9pch
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__mean,Mean server fan speed (fans fixed at lowest setting),rpm,high,Average fan speeds
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv1_fan1,"Fan 1 speed, server 1",rpm,high,1fan1
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv1_fan2,"Fan 2 speed, server 1",rpm,high,1fan2
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv2_fan1,"Fan 1 speed, server 2",rpm,high,2fan1
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv2_fan2,"Fan 2 speed, server 2",rpm,high,2fan2
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv3_fan1,"Fan 1 speed, server 3",rpm,high,3fan1
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv3_fan2,"Fan 2 speed, server 3",rpm,high,3fan2
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv4_fan1,"Fan 1 speed, server 4",rpm,high,4fan1
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv4_fan2,"Fan 2 speed, server 4",rpm,high,4fan2
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv5_fan1,"Fan 1 speed, server 5",rpm,high,5fan1
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv5_fan2,"Fan 2 speed, server 5",rpm,high,5fan2
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv6_fan1,"Fan 1 speed, server 6",rpm,high,6fan1
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv6_fan2,"Fan 2 speed, server 6",rpm,high,6fan2
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv7_fan1,"Fan 1 speed, server 7",rpm,high,7fan1
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv7_fan2,"Fan 2 speed, server 7",rpm,high,7fan2
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv8_fan1,"Fan 1 speed, server 8",rpm,high,8fan1
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv8_fan2,"Fan 2 speed, server 8",rpm,high,8fan2
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv9_fan1,"Fan 1 speed, server 9",rpm,high,9fan1
+ocp_air_cooling_5min.csv,server_fan_speed_rpm__srv9_fan2,"Fan 2 speed, server 9",rpm,high,9fan2
+ocp_air_cooling_5min.csv,tunnel_diff_pressure_WT3_SA3_Pa,Differential pressure across the server section (the 'DP setpoint' of Table 2),Pa,high,WT3_SA3
+ocp_air_cooling_5min.csv,tunnel_pressure_WT3_SA7_Pa,Wind-tunnel pressure sensor SA7 (role to be confirmed by authors),Pa,low,WT3_SA7
+ocp_air_cooling_5min.csv,tunnel_pressure_WT3_SA8_Pa,Wind-tunnel pressure sensor SA8 (role to be confirmed by authors),Pa,low,WT3_SA8
+ocp_air_cooling_5min.csv,tunnel_airflow_m3_h,Airflow measured by the venturi meter (WT3-SA2),m3/h,high,Airflow [m3/h]
+ocp_air_cooling_5min.csv,tunnel_relative_humidity_fraction,Relative humidity in the tunnel (stored as fraction 0-1),fraction,medium,Relative humidity in windtunnel
+ocp_air_cooling_5min.csv,tunnel_fan_setpoint_fraction,Wind-tunnel fan control signal (stored as fraction 0-1),fraction,low,Fan setpoint (%)
+ocp_air_cooling_5min.csv,tunnel_fan_power_raw,"Wind-tunnel fan power; values 0.1-0.9 suggest kW or normalised, unit NOT verified (paper quotes ~40 W)",unverified,low,Fan Power (W)
+ocp_air_cooling_5min.csv,calc_deltaT_servers_K,Derived: 'Temperature after servers' minus 'Temp before servers',K,high,DT
+ocp_air_cooling_5min.csv,calc_mdot_cp_W_per_K,"Derived: air mass flow x specific heat (W/K), used for air-side heat",W/K,medium,m˙⋅ Cp​
+ocp_air_cooling_5min.csv,calc_air_heat_server_side_W,"Derived: heat added to airflow, server side = DT x mdot*cp",W,high,Power (W)
+ocp_air_cooling_5min.csv,calc_temp_before_fan_C,Duplicate of tunnel_temp_before_fan_C used in the cooling-side calculation,degC,high,Temp before fan.1
+ocp_air_cooling_5min.csv,calc_temp_after_cooler_C,Duplicate of tunnel_temp_after_cooler_C used in the cooling-side calculation,degC,high,Temp after cooler (controlled).1
+ocp_air_cooling_5min.csv,calc_air_heat_cooling_side_W,"Derived: heat removed from airflow, cooling side = (T before fan - T after cooler) x mdot*cp",W,high,Power (W).1
+ocp_air_cooling_5min.csv,calc_air_heat_difference_W,Derived: server-side minus cooling-side air heat,W,high,Difference
+ocp_air_cooling_5min.csv,cpu_freq_Hz__mean,Mean CPU core frequency over all CPUs,Hz,high,Average CPU frequency
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv1_cpu1_mean,mean core frequency of CPU 1 in server 1 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,1cpu1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv1_cpu1_max,max core frequency of CPU 1 in server 1 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,1cpu1.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv1_cpu1_min,min core frequency of CPU 1 in server 1 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,1cpu1.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv2_cpu1_mean,mean core frequency of CPU 1 in server 2 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,2cpu1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv2_cpu1_max,max core frequency of CPU 1 in server 2 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,2cpu1.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv2_cpu1_min,min core frequency of CPU 1 in server 2 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,2cpu1.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv3_cpu1_mean,mean core frequency of CPU 1 in server 3 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,3cpu1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv3_cpu1_max,max core frequency of CPU 1 in server 3 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,3cpu1.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv3_cpu1_min,min core frequency of CPU 1 in server 3 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,3cpu1.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv4_cpu1_mean,mean core frequency of CPU 1 in server 4 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,4cpu1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv4_cpu1_max,max core frequency of CPU 1 in server 4 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,4cpu1.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv4_cpu1_min,min core frequency of CPU 1 in server 4 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,4cpu1.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv5_cpu1_mean,mean core frequency of CPU 1 in server 5 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,5cpu1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv5_cpu1_max,max core frequency of CPU 1 in server 5 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,5cpu1.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv5_cpu1_min,min core frequency of CPU 1 in server 5 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,5cpu1.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv6_cpu1_mean,mean core frequency of CPU 1 in server 6 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,6cpu1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv6_cpu1_max,max core frequency of CPU 1 in server 6 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,6cpu1.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv6_cpu1_min,min core frequency of CPU 1 in server 6 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,6cpu1.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv7_cpu1_mean,mean core frequency of CPU 1 in server 7 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,7cpu1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv7_cpu1_max,max core frequency of CPU 1 in server 7 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,7cpu1.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv7_cpu1_min,min core frequency of CPU 1 in server 7 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,7cpu1.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv8_cpu1_mean,mean core frequency of CPU 1 in server 8 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,8cpu1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv8_cpu1_max,max core frequency of CPU 1 in server 8 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,8cpu1.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv8_cpu1_min,min core frequency of CPU 1 in server 8 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,8cpu1.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv9_cpu1_mean,mean core frequency of CPU 1 in server 9 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,9cpu1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv9_cpu1_max,max core frequency of CPU 1 in server 9 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,9cpu1.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv9_cpu1_min,min core frequency of CPU 1 in server 9 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,9cpu1.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv1_cpu2_mean,mean core frequency of CPU 2 in server 1 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,1cpu2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv1_cpu2_max,max core frequency of CPU 2 in server 1 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,1cpu2.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv1_cpu2_min,min core frequency of CPU 2 in server 1 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,1cpu2.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv2_cpu2_mean,mean core frequency of CPU 2 in server 2 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,2cpu2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv2_cpu2_max,max core frequency of CPU 2 in server 2 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,2cpu2.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv2_cpu2_min,min core frequency of CPU 2 in server 2 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,2cpu2.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv3_cpu2_mean,mean core frequency of CPU 2 in server 3 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,3cpu2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv3_cpu2_max,max core frequency of CPU 2 in server 3 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,3cpu2.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv3_cpu2_min,min core frequency of CPU 2 in server 3 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,3cpu2.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv4_cpu2_mean,mean core frequency of CPU 2 in server 4 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,4cpu2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv4_cpu2_max,max core frequency of CPU 2 in server 4 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,4cpu2.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv4_cpu2_min,min core frequency of CPU 2 in server 4 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,4cpu2.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv5_cpu2_mean,mean core frequency of CPU 2 in server 5 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,5cpu2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv5_cpu2_max,max core frequency of CPU 2 in server 5 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,5cpu2.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv5_cpu2_min,min core frequency of CPU 2 in server 5 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,5cpu2.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv6_cpu2_mean,mean core frequency of CPU 2 in server 6 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,6cpu2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv6_cpu2_max,max core frequency of CPU 2 in server 6 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,6cpu2.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv6_cpu2_min,min core frequency of CPU 2 in server 6 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,6cpu2.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv7_cpu2_mean,mean core frequency of CPU 2 in server 7 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,7cpu2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv7_cpu2_max,max core frequency of CPU 2 in server 7 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,7cpu2.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv7_cpu2_min,min core frequency of CPU 2 in server 7 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,7cpu2.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv8_cpu2_mean,mean core frequency of CPU 2 in server 8 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,8cpu2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv8_cpu2_max,max core frequency of CPU 2 in server 8 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,8cpu2.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv8_cpu2_min,min core frequency of CPU 2 in server 8 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,8cpu2.2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv9_cpu2_mean,mean core frequency of CPU 2 in server 9 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,9cpu2
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv9_cpu2_max,max core frequency of CPU 2 in server 9 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,9cpu2.1
+ocp_air_cooling_5min.csv,cpu_freq_Hz__srv9_cpu2_min,min core frequency of CPU 2 in server 9 (mean/max/min assignment INFERRED from magnitudes; to be confirmed),Hz,medium,9cpu2.2

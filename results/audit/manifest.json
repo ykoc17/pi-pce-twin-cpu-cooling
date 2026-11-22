@@ -1,0 +1,32 @@
+{
+  "python_version": "3.13.13",
+  "sources": [
+    {
+      "path": "data\\raw\\ocp_air_cooling_5min.csv",
+      "sha256": "7a729dcc9d90d1fd7dc0cf761070a2b45ddb367d7710f1e0e92657c32853f1b1"
+    },
+    {
+      "path": "data\\raw\\CASES.csv",
+      "sha256": "814a806918a52941158afdda375b7e4841c4ef42ac973d7c37abcfb718859659"
+    },
+    {
+      "path": "data\\raw\\DATA_DICTIONARY.csv",
+      "sha256": "f054f435214ccfc430f5ca7f70464ff0bb91883dc414efafa791692dbad193e3"
+    }
+  ],
+  "versions": {
+    "thermal-twin": "0.1.0",
+    "numpy": "2.5.5",
+    "pandas": "2.3.3",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.2"
+  },
+  "settings": {
+    "coverage_bins_per_axis": 5,
+    "figure_dpi": 300,
+    "maximum_requires_all_18_sensors": true,
+    "correlation_policy": "pairwise complete, separate pooled and within-case",
+    "fan_unit": "unverified",
+    "random_sampling": false
+  }
+}

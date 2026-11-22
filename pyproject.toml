@@ -22,8 +22,9 @@ dev = ["pytest>=8.3,<10"]
 [project.scripts]
 thermal-twin = "thermal_twin.cli:main"
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.setuptools]
+packages = ["thermal_twin", "configs"]
+package-dir = {"" = "src", configs = "configs"}
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

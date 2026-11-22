@@ -1,0 +1,689 @@
+% \iffalse meta-comment
+%
+% RWTH-CI -- Corporate Design for RWTH Aachen University
+% ----------------------------------------------------------------------------
+%
+%  Copyright (C) 2025–2026 by Marei Peischl <rwth-ci@peitex.de> and Lukas C. Bossert
+%
+% ============================================================================
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3c
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+% http://www.latex-project.org/lppl.txt
+% and version 1.3c or later is part of all distributions of LaTeX
+% version 2008/05/04 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is
+%   Marei Peischl <rwth-ci@peitex.de>
+%
+% The development repository can be found at
+% https://gitlab.git.nrw/rwth-it-center/rwth-latex-templates/rwth-ci
+% Please use the issue tracker for feedback!
+%
+% ============================================================================
+%
+% \fi
+% \iffalse
+%<*driver>
+\ProvidesFile{rwth-beamer.dtx}
+  [2026-04-03 v1.2 Beamer for RWTH-CI, Corporate Design of RWTH Aachen University]
+%</driver>
+%<@@=ptxcd>
+%<*identification>
+%<package|class>\NeedsTeXFormat{LaTeX2e}[2023-10-01]
+%<class>\ProvidesExplClass{rwth-beamer}{2026-04-03}{1.2}{Beamer slides using the Corporate Design of RWTH Aachen University}
+%<theme>\ProvidesExplPackage{beamerthemeRWTH}{2026-04-03}{1.2}{Beamer theme using the Corporate Design of RWTH Aachen University}
+%<font>\ProvidesPackage{beamerfontthemeRWTH}[
+%<color>\ProvidesPackage{beamercolorthemeRWTH}[
+%<inner>\ProvidesPackage{beamerinnerthemeRWTH}[
+%<outer>\ProvidesPackage{beamerouterthemeRWTH}[
+%<package>  2026-04-03 v1.2 Beamer
+%<font>  font
+%<color>  color
+%<inner>  inner
+%<outer>  outer
+%<package>  theme for RWTH-CI
+%<package>]
+%</identification>
+%<*driver>
+\providecommand*{\PtxcdDocDTXfiles}{rwth-beamer.dtx}
+\providecommand*{\PtxcdDocTitle}{Beamer for RWTH-CI}
+\input{rwth-ci.dtx}
+%</driver>
+%<*initialize>
+% \fi
+% \begin{documentation}
+% \section{Beamer Slides – \pkg{rwth-beamer.cls}}
+% The slide layout for RWTH-CI is based on the beamer class.
+% There is a corresponding wrapper class, which should be preferred over loading the beamer theme.
+% The demo file for this document type is called \file{DEMO-RWTHBeamer.tex}.
+% \end{documentation}
+% \begin{implementation}
+% \iffalse
+%</initialize>
+%<*declareoptions>
+% \fi
+%    \begin{macrocode}
+%<inner&main>\ExplSyntaxOn
+\keys_define:nn {ptxcd/beamer
+%<inner&main>  /inner
+} {
+%    \end{macrocode}
+% \iffalse
+%</declareoptions>
+%<*options>
+% \fi
+% \end{implementation}
+% \begin{documentation}
+% \subsection{Class specific options}
+% \DescribeKeyOption{titlepage=graphics,plain}{graphics}
+% Use the title variant without colored area or titlegraphic.
+% \end{documentation}
+% \begin{implementation}
+% \begin{optionenv}{titlepage}
+%    \begin{macrocode}
+  plain-titlepage .bool_set:N = \l__@@_plain_title_bool,
+  titlepage .choice:,
+  titlepage / graphics .meta:n = {plain-titlepage=false},
+  titlepage / plain .meta:n = {plain-titlepage=true},
+  titlepage .initial:n = graphics,
+%    \end{macrocode}
+% \end{optionenv}
+% \end{implementation}
+% \begin{implementation}
+% \iffalse
+%</options>
+%<*processoptions&!inner>
+% \fi
+%    \begin{macrocode}
+%<(head&!init-department)|class>}
+%    \end{macrocode}
+%    \begin{macrocode}
+\DeclareOption*{%
+  \PassOptionsToClass{\CurrentOption}{beamer}
+}
+\ProcessKeyOptions[ptxcd/beamer]
+\ProcessOptions*
+%    \end{macrocode}
+% \iffalse
+%</processoptions&!inner>
+%<*inner&processoptions>
+}
+% \fi
+%    \begin{macrocode}
+\ExplSyntaxOff
+\ProcessKeyOptions[ptxcd/beamer/inner]
+%    \end{macrocode}
+% \iffalse
+%</inner&processoptions>
+%<*class&processoptions>
+% \fi
+%
+% Avoid warning concerning unavailble font size.
+% The package will be loaded anyway later as a part of the font setup.
+% \changes{v1.0b}{2026-01-23}{load anyfontsize before class to avoid fontsize warning}
+%    \begin{macrocode}
+\RequirePackage{iftex}
+\ifPDFTeX
+	\RequirePackage{anyfontsize}
+\fi
+%    \end{macrocode}
+% Load the beamer class.
+%    \begin{macrocode}
+\PassOptionsToClass{t,aspectratio=169,9pt}{beamer}
+\LoadClass{beamer}
+%    \end{macrocode}
+% \changes{v1.0}{2025-12-18}{Fine tune font sizes}
+%    \begin{macrocode}
+% Fine tuning sizes
+\let\normalsize\@undefined
+\DeclareRobustCommand\normalsize{%
+  \@setfontsize\normalsize{8.50966pt}\@xipt%
+  \abovedisplayskip 8\p@ \@plus4\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus3\p@
+  \belowdisplayshortskip 5\p@ \@plus3\p@ \@minus3\p@
+  \belowdisplayskip \abovedisplayskip
+  \let\@listi\@listI}
+\normalsize
+\let\large\@undefined
+\DeclareRobustCommand\large{\@setfontsize\large{9.45517}\@xiipt}
+\let\huge\@undefined
+\DeclareRobustCommand\huge{\@setfontsize\huge{15.12828pt}{20pt}}
+%    \end{macrocode}
+% \iffalse
+%</class&processoptions>
+% \fi
+%    \begin{macrocode}
+%<class&head>\usetheme{RWTH}
+%    \end{macrocode}
+% \iffalse
+%<*body>
+% \fi
+%    \begin{macrocode}
+%<!class>\mode<presentation>
+%    \end{macrocode}
+% \iffalse
+%<*theme>
+% \fi
+%    \begin{macrocode}
+\setbeamersize{
+  text~margin~left=4.7mm,
+  text~margin~right=4.7mm,
+}
+
+\newlength{\frametextheight}
+\setlength{\frametextheight}{
+  \dimexpr\paperheight-6.2mm-5mm
+}
+
+\usefonttheme{RWTH}
+\usecolortheme{RWTH}
+\useinnertheme{RWTH}
+\useoutertheme{RWTH}
+%    \end{macrocode}
+% \iffalse
+%</theme>
+%<*color>
+% \fi
+%    \begin{macrocode}
+\PassOptionsToPackage{RGB}{rwth-colors}
+\RequirePackage{rwth-colors}
+
+\setbeamercolor{normal text}{fg=black,bg=}
+% TODO
+\setbeamercolor{alerted text}{fg=red}
+\setbeamercolor{example text}{fg=green!50!black}
+
+\setbeamercolor{structure}{fg=rwth-blue-100}
+
+\setbeamercolor{local structure}{parent=structure}
+
+\setbeamercolor{titlelike}{parent=structure}
+
+\setbeamercolor{title}{parent=titlelike}
+
+\setbeamercolor{subtitle}{parent=normal text}
+
+\setbeamercolor*{author in head/foot}{}
+\setbeamercolor*{institute in head/foot}{}
+\setbeamercolor*{date in head/foot}{}
+
+\setbeamercolor{titlegraphic}{fg=rwth-blue-100}
+
+\setbeamercolor{headline}{}
+\setbeamercolor{footline}{}
+
+\setbeamercolor{frametitle}{parent=titlelike}
+\setbeamercolor{framesubtitle}{parent=normal text}
+
+\setbeamercolor{separation line}{fg=black}
+
+%    \end{macrocode}
+% \iffalse
+%</color>
+%<*font>
+% \fi
+%    \begin{macrocode}
+\RequirePackage{rwth-fonts}
+
+\setbeamerfont{structure}{series=\bfseries}
+\setbeamerfont{tiny structure}{size=\tiny}
+
+\setbeamerfont{title}{size*={15.2}{18.3},parent=structure}
+\setbeamerfont*{subtitle}{size=\Large,series=\mdseries}
+\setbeamerfont*{author}{parent=subtitle}
+\setbeamerfont*{date}{parent=subtitle}
+\setbeamerfont*{institute}{parent=subtitle}
+
+\setbeamerfont{headline}{parent={tiny structure}}
+\setbeamerfont{footline}{parent={tiny structure}}
+
+\setbeamerfont{frametitle}{parent=structure,size=\Large}
+\setbeamerfont{framesubtitle}{parent=frametitle}
+%    \end{macrocode}
+% \iffalse
+%</font>
+%<*inner>
+% \fi
+%    \begin{macrocode}
+\defbeamertemplate{title}{RWTH}[1][]{%
+  \begin{beamercolorbox}[left,#1]{title}
+    \usebeamerfont{title}\strut\inserttitle\par%
+    \ifx\insertsubtitle\@empty%
+    \else%
+      \vskip0.25em%
+      {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+    \fi%
+  \end{beamercolorbox}%
+}
+
+\defbeamertemplate{author}{RWTH}[1][]{%
+  \ifx\insertauthor\@empty
+  \else
+    \begin{beamercolorbox}[left,#1]{author}
+      \usebeamerfont{author}\strut\insertauthor\par
+    \end{beamercolorbox}
+  \fi
+}
+
+\defbeamertemplate{institute}{RWTH}[1][]{%
+  \ifx\insertinstitute\@empty
+  \else
+    \begin{beamercolorbox}[left,#1]{institute}
+      \usebeamerfont{institute}\strut\insertinstitute\par
+    \end{beamercolorbox}
+  \fi
+}
+
+\defbeamertemplate{date}{RWTH}[1][]{%
+  \ifx\insertdate\@empty
+  \else
+    \begin{beamercolorbox}[left,#1]{date}
+      \usebeamerfont{date}\strut\insertdate\par
+    \end{beamercolorbox}
+  \fi
+}
+
+\ExplSyntaxOn
+\defbeamertemplate*{titlegraphic}{RWTH}{%
+  {\usebeamercolor[fg]{titlegraphic}
+      \def\height{\l__ptxcd_titlegraphic_ht_dim}
+      \def\width{\l__ptxcd_titlegraphic_wd_dim}
+      \inserttitlegraphic
+      \par}
+}
+
+\titlegraphic{\rule{\width}{\height}}
+
+\dim_zero_new:N \l_@@_tmpa_dim
+\box_new:N \l_@@_tmpa_box
+\dim_zero_new:N \l_@@_titlegraphic_ht_dim
+\dim_zero_new:N \l_@@_titlegraphic_wd_dim
+
+\defbeamertemplate*{title~logo}{RWTH}{
+  \begin{beamercolorbox}[right]{title~logo}
+    \raisebox{-.64\c_@@_logo_height_dim}{\insertlogo}
+  \end{beamercolorbox}
+}
+
+\box_new:N \g_@@_logo_box
+\dim_const:Nn \c_@@_logo_height_dim {10.7mm}
+% TODO general white space?
+\dim_const:Nn \c_@@_logo_hsep_dim {2.1mm}
+\dim_new:N \g_@@_logo_width_dim
+
+\hook_gput_code:nnn {begindocument} {init-rwth-logo}{
+  \hbox_gset:Nn \g_@@_logo_box {\_@@_insert_logo:n {\c_@@_logo_height_dim}}
+}
+
+\logo{\box_use:N \g_@@_logo_box}
+
+\cs_new:Nn \_@@_set_dim_to_ratio:NnN {
+  \tl_if_blank:nTF {#2} {
+    \dim_set:Nn #1 {.3333#3}
+  } {
+    \_@@_set_dim_to_ratio_aux:NNw #1 #3 #2 \q_stop
+  }
+}
+\cs_generate_variant:Nn \_@@_set_dim_to_ratio:NnN {NVN}
+
+\exp_last_unbraced:Nnf \use:n {\cs_new:Npn \_@@_set_dim_to_ratio_aux:NNw #1 #2 #3} \c_colon_str #4 \q_stop{
+  \dim_set:Nn #1 { #3 #2 / #4 }
+}
+
+\renewcommand*\maketitle[1][]{
+  \begingroup
+    \keys_set:nn {ptxcd/beamer/inner} {#1}
+    \ifbeamer@inframe\titlepage\else\frame[plain]{\titlepage}\fi
+  \endgroup
+}
+
+\defbeamertemplate*{title~page}{RWTH}[1][]
+{
+  \bool_if:NTF \l__@@_plain_title_bool {
+% plain title
+    \_@@_title_layout:nn {
+      \usebeamertemplate{title}
+    }{
+      \begin{beamercolorbox}[
+          wd=\linewidth
+        ]{title~page}
+        \usebeamertemplate{author}
+        \par
+        \skip_vertical:n {\c_zero_dim plus 1fil}
+        \usebeamertemplate{institute}
+        \par
+        \usebeamertemplate{date}
+      \end{beamercolorbox}
+    }
+  }{
+% default title
+    \_@@_title_layout_graphics:nn {
+      \begin{beamercolorbox}[
+          wd= \l_@@_titlegraphic_wd_dim,
+          ht= \l_@@_titlegraphic_ht_dim,
+          sep=0pt
+        ]{titlegraphic}
+        \usebeamertemplate{titlegraphic}
+      \end{beamercolorbox}
+    }{
+      \begin{beamercolorbox}[
+          wd=\linewidth
+        ]{title~page}
+        \usebeamertemplate{title}
+        \skip_vertical:n {.2ex plus 1fil}
+        \usebeamertemplate{author}
+        \par
+        \skip_vertical:n {\c_zero_dim plus 1fil}
+        \usebeamertemplate{institute}
+        \par
+        \usebeamertemplate{date}
+      \end{beamercolorbox}
+    }
+  }
+}[action]{
+  \setbeamertemplate{title}[RWTH][#1]
+  \setbeamertemplate{author}[RWTH][#1]
+  \setbeamertemplate{institute}[RWTH][#1]
+  \setbeamertemplate{date}[RWTH][#1]
+  \setbeamertemplate{titlegraphic}[RWTH]
+}
+
+\ExplSyntaxOff
+
+% Section page: RWTH
+\ExplSyntaxOn
+\cs_new:Nn \_@@_title_layout:nn {
+  \ifbeamer@inframe
+    \vskip-\beamer@frametopskip
+    \ifbeamer@plainframe
+      \vskip-2.6pt
+    \else
+      \vskip-\dimexpr3mm-3pt\relax% headheight
+    \fi
+  \fi
+  \nointerlineskip
+  \vbox_to_ht:nn {\ifbeamer@plainframe\paperheight\else\textheight\fi}
+  {
+    \vfill
+    \vbox_to_ht:nn {.4\textheight} {
+      \vfill
+      #1
+    }
+    \par
+    \bool_if:NT \g_@@_titlesepline_bool {\usebeamercolor{separation~line}
+      \color{fg}
+      \rule{\linewidth}{.25pt}\par}
+    \vskip.5ex\par
+    \vbox_to_ht:nn {.4\textheight} {
+      #2
+      \vfill
+    }
+    \vfill
+    \ifbeamer@plainframe
+      \makebox[\linewidth][r]{\insertlogo\skip_horizontal:n {-\c_@@_logo_hsep_dim}}
+      \vskip-2.6pt
+    \fi
+  }
+}
+
+\cs_new:Nn \_@@_title_layout_graphics:nn {
+  \vskip-\beamer@frametopskip
+  \nointerlineskip
+  \_@@_set_dim_to_ratio:NVN \l_@@_titlegraphic_ht_dim
+  \l__ptxcd_titlegraphic_ratio_str \paperheight
+  \dim_set:Nn \l_@@_titlegraphic_wd_dim {\paperwidth}
+  \vbox_to_ht:nn {\paperheight}{
+    #1
+    \par\vskip.7\baselineskip\relax
+    #2
+    \par\vfill
+  }
+  \smash{\makebox[\linewidth][r]{\raisebox{.36\c_@@_logo_height_dim}{\insertlogo}\skip_horizontal:n {-\c_@@_logo_hsep_dim}}}
+}
+
+\clist_map_inline:nn {part,section,subsection} {
+  \defbeamertemplate*{#1~page}{RWTH}[1][]{
+    \_@@_title_layout:nn  {
+      \begin{beamercolorbox}[left]{#1~title}
+        {\usebeamerfont{#1~name}\usebeamercolor[fg]{#1~name}\use:c {#1name}\space\use:c{insert#1number}}
+      \end{beamercolorbox}
+    } {
+% TODO ? sectionsubtitle?
+      \begin{beamercolorbox}[left]{#1~title}
+        \usebeamerfont{#1~title}
+        \vskip.5ex\use:c{insert#1}\par
+      \end{beamercolorbox}
+    }
+  }
+  \expandafter\def\csname #1page\endcsname{%
+    \ifbeamer@inframe\usebeamertemplate*{#1~page}\else\frame[plain]{\usebeamertemplate*{#1~page}}\fi
+  }
+}
+\ExplSyntaxOff
+%</inner>
+%<*color>
+\setbeamercolor{part name}{parent=titlelike}
+\setbeamercolor*{part title}{parent={normal text}}
+
+\setbeamercolor{section name}{parent=titlelike}
+\setbeamercolor*{section title}{parent={normal text}}%{parent=titlelike}
+
+\setbeamercolor{subsection name}{parent=titlelike}
+\setbeamercolor*{subsection title}{parent={normal text}}
+%</color>
+%<*font>
+\setbeamerfont{part name}{parent=title}
+\setbeamerfont{part title}{parent=normal text,size=\small}
+
+\setbeamerfont{section name}{parent=title}
+\setbeamerfont{section title}{parent=normal text,size=\small}
+
+\setbeamerfont{subsection name}{parent=title}
+\setbeamerfont{subsection title}{parent=normal text,size=\small}
+%</font>
+%<*inner>
+
+% Lists
+% List spacing
+
+\setlength\leftmargini  {1em}
+\setlength\leftmarginii  {1em}
+\setlength\leftmarginiii  {1em}
+\setlength  \labelsep  {.25em}
+\setlength  \labelwidth{1em}
+\addtolength\labelwidth{-\labelsep}
+
+\def\@listi{\leftmargin\leftmargini
+  \topsep 3\p@ \@plus2\p@ \@minus2.5\p@
+  \parsep 0\p@
+  \itemsep3\p@ \@plus2\p@ \@minus3\p@}
+\let\@listI\@listi
+\def\@listii{\leftmargin\leftmarginii
+  \topsep    2\p@ \@plus1\p@ \@minus2\p@
+  \parsep    0\p@   \@plus\p@
+  \itemsep   \parsep}
+\def\@listiii{\leftmargin\leftmarginiii
+  \topsep    2\p@ \@plus1\p@ \@minus2\p@
+  \parsep    0\p@   \@plus\p@
+  \itemsep   \parsep}
+\setlength\partopsep{\z@skip}
+
+% Itemize items, RWTH
+\defbeamertemplate*{itemize item}{RWTH}{\usebeamerfont*{itemize item}\raise1.5pt\hbox{\donotcoloroutermaths\scalebox{.55}{$\bullet$}}}
+\defbeamertemplate*{itemize subitem}{RWTH}{\usebeamerfont*{itemize subitem}\raise1.5pt\hbox{\donotcoloroutermaths\rule{.7ex}{.5pt}}}
+\defbeamertemplate*{itemize subsubitem}{RWTH}{\usebeamerfont*{itemize subsubitem}\raise1.5pt\hbox{\donotcoloroutermaths\scalebox{.35}{$\blacksquare$}}}
+%    \end{macrocode}
+% \iffalse
+%</inner>
+%<*outer>
+% \fi
+%    \begin{macrocode}
+% Navigation symbols
+\defbeamertemplate*{navigation symbols}{RWTH}{}
+% Headline and footline
+% match top/bottom margin
+\defbeamertemplate*{headline}{RWTH}
+{\rule{0pt}{\dimexpr5.2mm-3pt}}%3 pt hardcoded inside beamerthemeboxes.sty
+\setbeamertemplate{page number in head/foot}[framenumber]
+%</outer>
+%<font>\setbeamerfont{footline}{size*={4.3pt}{5.15pt}}
+%<color>\setbeamercolor{footline}{fg=rwth-blue-100}
+%<*outer>
+%    \end{macrocode}
+% \end{implementation}
+% \begin{documentation}
+% \subsection{Class specific commands}
+%
+% \DescribeMacro{\footlinetext}\marg{Additional text to be placed in the footline}
+% \end{documentation}
+% \begin{implementation}
+% \begin{macro}{\footlinetext}
+%    \begin{macrocode}
+\newcommand*{\footlinetext}[1]{%
+  \def\insertfootlinetext{#1}%
+}
+\footlinetext{}
+%    \end{macrocode}
+% \end{macro}
+% footline
+%    \begin{macrocode}
+\ExplSyntaxOn
+\bool_new:N \l_ptxcd_separate_bool
+\defbeamertemplate*{separation~line}{RWTH}{
+  \hskip.95\beamer@leftmargin
+  {\usebeamercolor{upper~separation~line~foot}
+    \color{fg}
+    \rule{\dimexpr\textwidth-.95cm}{.25pt}
+  }\par\nointerlineskip
+}
+
+\setbeamertemplate{footline}{
+  \hskip.95\beamer@leftmargin
+  {\usebeamercolor{upper~separation~line~foot}
+    \color{fg}
+    \rule{\dimexpr\textwidth-.95cm}{.25pt}
+  }
+  \par\nointerlineskip
+  \leavevmode\begin{beamercolorbox}[leftskip=\dimexpr\beamer@leftmargin,rightskip=\dim_eval:n {\beamer@rightmargin-\c_@@_logo_hsep_dim}]{footline}
+    \usebeamerfont{footline}
+    \makebox[.07\linewidth][l]{\usebeamertemplate{page~number~in~head/foot}}
+    \parbox[t]{\dim_eval:n {.85\linewidth - \box_wd:N \g_@@_logo_box}}{
+    \strut\raggedright
+    \def\\{% define separator
+    \bool_if:NTF \l_ptxcd_separate_bool
+    {\usebeamertemplate{footline~sep}}
+    {\bool_set_true:N  \l_ptxcd_separate_bool}
+    }
+    \clist_map_variable:nNn {title,author,institute, date} \l_tmpa_tl {
+      \tl_if_empty:cF {beamer@short\l_tmpa_tl} {
+        \\% separator
+        \use:c {insertshort\l_tmpa_tl}
+      }
+    }
+    \tl_if_blank:VF \insertfootlinetext {
+      \\
+      \insertfootlinetext
+    }
+    }
+    \hfill
+    \raisebox{-.64\c_@@_logo_height_dim}{\insertlogo}
+  \end{beamercolorbox}
+}
+\setbeamertemplate{footline~sep}{\hspace{1.2ex}\smash{\rule[-.55\dp\strutbox]{.35pt}{1.1\ht\strutbox}}\hspace{1.2ex}}
+\ExplSyntaxOff
+
+% sidebar should not show the logo
+\defbeamertemplate*{sidebar right}{RWTH}
+{
+  \vfill%
+  \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
+  \vskip2pt%
+}
+
+%    \end{macrocode}
+% frametitle
+% \iffalse
+%</outer>
+%<*color>
+% \fi
+%    \begin{macrocode}
+\setbeamercolor{frametitle}{fg=rwth-blue-100}
+%    \end{macrocode}
+% \iffalse
+%</color>
+%<*font>
+% \fi
+%    \begin{macrocode}
+\setbeamerfont{frametitle}{series=\bfseries,size*={9.5pt}{11.4pt}}
+\setbeamerfont*{framesubtitle}{parent=frametitle}
+%    \end{macrocode}
+% \iffalse
+%</font>
+%<*outer>
+% \fi
+% \changes{v1.0}{2025-12-18}{Fine tune frame title spacing}
+%    \begin{macrocode}
+\ExplSyntaxOn
+\keys_define:nn {ptxcd/beamer/slide} {
+  more-space .bool_set:N = \l_@@_increase_space_bool,
+  more-space .initial:n = false,
+  more-space .default:n = true,
+}
+
+\define@key{beamerframe}{more-space}[true]{
+  \keys_set:nn {ptxcd/beamer/slide} {
+    more-space = #1
+  }
+}
+\defbeamertemplate*{frametitle}{RWTH}
+{%
+\nointerlineskip
+\vskip-2.9mm
+\begin{beamercolorbox}[wd=\textwidth,left]{frametitle}
+  \usebeamerfont{frametitle}%
+  \vbox to 7.8mm {
+      \vfill
+      \raggedright
+      \strut\insertframetitle\strut\par%
+    } \par\nointerlineskip\vskip.4mm
+  \makebox[\linewidth][c]{
+    \usebeamercolor{lower~separation~line~head}
+    \color{fg}\rule{\textwidth}{.25pt}
+  }
+  \if@tempswa\else\vskip-.3cm\fi% set inside beamercolorbox... evil here... same as with default frame title
+\end{beamercolorbox}%
+{%
+\bool_if:NTF \l_@@_increase_space_bool {
+  \ifx\insertframesubtitle\@empty%
+  \else%
+}{
+  \iftrue
+    }
+    \vskip.67cm
+    {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\strut\insertframesubtitle\strut\par}%
+    \vskip-.12cm
+  \fi
+}%
+}
+\ExplSyntaxOff
+
+%    \end{macrocode}
+% \iffalse
+%</outer>
+%</body>
+%<*(!class&body&!notfinal)|final>
+% \fi
+%    \begin{macrocode}
+\mode
+<all>
+%    \end{macrocode}
+% \iffalse
+%</(!class&body&!notfinal)|final>
+% \fi
+% \end{implementation}
+% \Finale
+\endinput

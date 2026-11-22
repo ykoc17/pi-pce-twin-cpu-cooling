@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from thermal_twin.data import EXPECTED_CPU_COLUMNS, EXPECTED_SHAPE, INPUT_COLUMNS
+from configs.data_config import EXPECTED_CPU_COLUMNS, EXPECTED_SHAPE, INPUT_COLUMNS
 
 
 @pytest.fixture

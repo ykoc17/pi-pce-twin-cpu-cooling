@@ -1,0 +1,4 @@
+input,total_cpu_power_W,server_inlet_air_temp_tunnel_C,tunnel_fan_power_raw
+total_cpu_power_W,1,0.1929412754,-0.03459354538
+server_inlet_air_temp_tunnel_C,0.1929412754,1,0.8080033358
+tunnel_fan_power_raw,-0.03459354538,0.8080033358,1

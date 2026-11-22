@@ -1,0 +1,707 @@
+% \iffalse meta-comment
+%
+% RWTH-CI -- Corporate Design for RWTH Aachen University
+% ----------------------------------------------------------------------------
+%
+%  Copyright (C) 2025–2026 by Marei Peischl <rwth-ci@peitex.de> and Lukas C. Bossert
+%
+% ============================================================================
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3c
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+% http://www.latex-project.org/lppl.txt
+% and version 1.3c or later is part of all distributions of LaTeX
+% version 2008/05/04 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is
+%   Marei Peischl <rwth-ci@peitex.de>
+%
+% The development repository can be found at
+% https://gitlab.git.nrw/rwth-it-center/rwth-latex-templates/rwth-ci
+% Please use the issue tracker for feedback!
+% ============================================================================
+%
+% \fi
+%
+% \iffalse
+%<*driver>
+\ProvidesFile{rwth-ci.dtx}
+  [2026-04-03 v1.2 Fundamental configuration for RWTH-CI]
+%</driver>
+%<@@=ptxcd>
+%<*identification>
+%<package|class>\NeedsTeXFormat{LaTeX2e}[2022/10/01]
+%<package>\ProvidesExplPackage{rwth-layout}{2026-04-03}{1.2}{Fundamental configuration for for RWTH-CI}
+%</identification>
+%<*driver>
+\documentclass[lm-default=false,cs-break-nohyphen]{l3doc}
+
+\usepackage[highlightmode=immediate]{minted}
+\usepackage{accsupp}
+\setminted{
+	tabsize=2,
+	breaksymbol={\BeginAccSupp{method=escape,ActualText={}}\tiny\ensuremath{\hookrightarrow}\EndAccSupp{}}
+}
+\newenvironment{examplecode}{%
+		\VerbatimEnvironment%
+		\fvset{gobble=0}%
+		\begin{VerbatimOut}[gobble=1]{examplecode.out}%
+}{%
+		\end{VerbatimOut}%
+		\inputminted[autogobble, escapeinside=||]{latex}{examplecode.out}%
+}
+
+\ExplSyntaxOn
+\makeatletter
+\tl_new:N \l__ptxtools_doc_values_tl
+\newcommand*{\codefamily}{\MacroFont}
+\DeclareTextFontCommand{\codefont}{\codefamily}
+\providecommand{\option}[1]{\codefont{#1}}
+\newcommand{\optionvalue}[1]{\codefont{#1}}
+
+\cs_new:Npn \__ptxctools_parse_key_option:w #1 #2 #3 #4 = #5 \q_stop {
+  \begingroup
+  \let\PrintDescribeOption\PrintDescribeKeyOption
+  \tl_set:Nn \l__ptxtools_doc_values_tl {\small\IfBooleanTF{#3}{\textsf{#5}}{\textsf{(\codefont{#5})}}}
+  \noindent\DescribeOption{#4}\hfill
+  \small
+  \tl_if_blank:nTF {#2} {\meta{\textrm{initially~unset}}} {
+    \IfBooleanTF{#1}
+    {#2}
+    {(default:~\codefont{#2})}
+  }\strut\par
+  \endgroup
+}
+
+\newcommand*{\PrintDescribeKeyOption}[1]{
+  {\MacroFont #1=}\rlap{\hskip\marginparsep\l__ptxtools_doc_values_tl}
+}
+
+\bool_new:N \l_ptxtools_last_was_describe_bool
+\NewDocumentCommand{\DescribeKeyOption}{smms}{
+  \bool_if:NTF \l_ptxtools_last_was_describe_bool {
+    \vskip -\lastskip
+  }{
+    \par
+    \dim_compare:nNnF {\parskip} > {\c_zero_dim} {\medskip}
+  }
+  \__ptxctools_parse_key_option:w #1 {#3} #4 #2 \q_stop
+
+  \bool_set_true:N \l_ptxtools_last_was_describe_bool
+  \AddToHookNext{para/begin}{
+    \bool_set_false:N \l_ptxtools_last_was_describe_bool
+    \OmitIndent
+  }
+  \smallskip
+}
+
+% to support small layout adjustments for the texdoc version
+\newcommand*{\IfOnlyDocumentation}[1]{
+  \bool_if_exist:NT \g__codedoc_typeset_implementation_bool {
+    \bool_if:NF \g__codedoc_typeset_implementation_bool {#1}
+  }
+}
+
+\NewDocumentCommand{\PtxtoolsLoadDocDTX}{m}{
+  \exp_args:No \clist_map_inline:nn {#1} {\DocInput{##1}}
+}
+
+\ExplSyntaxOff
+
+\usepackage{underscore-ltx}
+
+\DeclareRobustCommand{\issue}[1]{%
+  {\DeclareFieldFormat{citeurlpostfix}{\href{##1/issues/#1}{\##1}}\citefield{othr-ci-repo}[citeurlpostfix]{url}}%
+}
+\newcommand*{\version}[1]{v#1}
+
+\usepackage{tabularx}
+\usepackage{biblatex}
+\addbibresource{DEMO-RWTHBibliography.bib}
+
+\usepackage{pifont}% Zapf-Dingbats Symbols
+\newcommand*{\FeatureTrue}{\ding{52}}
+\newcommand*{\FeatureFalse}{\ding{56}}
+
+% Load RWTH-CI packages
+\RequirePackage{rwth-colors}
+\EnableCrossrefs
+
+\CodelineIndex
+\RecordChanges
+
+\providecommand*{\PtxcdDocTitle}{\pkg{\jobname} -- \LaTeX{} using the Corporate Design of RWTH Aachen University}
+
+\GetFileInfo{\jobname.dtx}
+\DoNotIndex{\newcommand,\newenvironment}
+\title{\PtxcdDocTitle^^A
+  \thanks{This file describes version \fileversion, last revised \filedate.}
+}
+\author{Marei Peischl\thanks{Email: \href{mailto:rwth-ci@peitex.de}{rwth-ci@peitex.de}}}
+\date{\fileversion~of \filedate}
+
+\renewcommand*{\partname}{Part}
+
+% avoid conflict with | in bibliography
+\RemoveFromHook{begindocument}[l3doc]
+\AddToHook{begindocument/end}{
+	\MakeShortVerb \"
+	\MakeShortVerb \|
+}
+
+\begin{document}
+
+\maketitle
+\OnlyDescription
+\DisableImplementation
+
+\tableofcontents
+
+\clearpage
+
+\expandafter\ifx\csname PtxcdDocDTXfiles\endcsname\relax
+	\providecommand*{\PtxcdDocDTXfiles}{rwth-ci.dtx,rwth-fonts.dtx,rwth-colors.dtx,rwth-letter.dtx,rwth-beamer.dtx,rwth-sciposter.dtx}
+	\part{Global configuration and auxiliary packages}
+	\PtxtoolsLoadDocDTX{rwth-ci.dtx,rwth-fonts.dtx,rwth-colors.dtx}
+
+	\clearpage
+	\part{Document Types}
+	\PtxtoolsLoadDocDTX{rwth-letter.dtx,rwth-beamer.dtx,rwth-sciposter.dtx}
+\else
+	\PtxtoolsLoadDocDTX{\PtxcdDocDTXfiles}
+\fi
+
+% Don't include Implementation on CTAN
+\expandafter\ifx\csname DoNotTypesetImplementation\endcsname\relax
+  \DisableDocumentation\EnableImplementation
+  \begin{implementation}
+  \part{Implementation}
+  \end{implementation}
+  \PtxtoolsLoadDocDTX{\PtxcdDocDTXfiles}
+\fi
+
+\PrintChanges
+\printbibliography
+% Restore \code to be a wrapper for index numbers
+\begingroup
+\renewcommand*\code[1]{#1}
+\PrintIndex
+\endgroup
+
+\end{document}
+% \fi
+% \begin{documentation}
+%
+% \end{documentation}
+% \iffalse
+%</driver>
+% \fi
+%    \begin{macrocode}
+%<class|package|(init&logo)>\tl_new:N \g_ptxcd_logofile_tl
+%    \end{macrocode}
+% \iffalse
+%<*init&department>
+% \fi
+%    \begin{macrocode}
+\tl_if_exist:NF \g_@@_config_prefix_tl {
+	\tl_new:N \g_@@_config_prefix_tl
+	\tl_gset:Nn \g_@@_config_prefix_tl {rwth-}
+}
+%    \end{macrocode}
+% \iffalse
+%</init&department>
+%<*class|package>
+% \fi
+% \begin{implementation}
+%    \begin{macrocode}
+%<!beamer>\prop_new:N \g_ptxcd_clsopts_prop
+%<!beamer>\int_new:N \g_ptxcd_paper_int
+%<sciposter>\bool_new:N \g_@@_logo_bottom_bool
+\str_const:Nn \c_@@_base_str {
+%<beamer>  beamer
+%<sciposter>  sciposter
+%<package>  layout
+}
+%    \end{macrocode}
+% \iffalse
+%</class|package>
+%<*class|(init&department)>
+% \fi
+% \changes{v1.2-dev}{2026-02-17}{Fix department config for letters and prepare to support additional packages.}
+%    \begin{macrocode}
+\msg_if_exist:nnF {rwth-ci} {no-departmentconfig-found} {
+	\msg_new:nnn {rwth-ci} {no-departmentconfig-found} {
+		The~package~has~been~configured~to~load~the~config~file~“#1”.\\
+		I~can't~find~this~file.~Skipping.
+	}
+}
+\hook_gput_code:nnn {
+%<class>	class/\@currname/after
+%<!class>	package/\@currname/after
+}{
+  \@currname/department-config
+}{
+  \file_if_exist_input:nF {\g_@@_config_prefix_tl\g_ptxcd_department_str.cfg} {
+    \str_if_eq:eeF {\g_@@_config_prefix_tl\g_ptxcd_department_str} {rwth-default} {
+      \msg_note:nne {rwth-ci} {no-departmentconfig-found} {\g_@@_config_prefix_tl\g_ptxcd_department_str.cfg}
+    }
+  }
+}
+%    \end{macrocode}
+% \iffalse
+%</class|(init&department)>
+%<*class|package>
+% \fi
+%    \begin{macrocode}
+\exp_args:Ne \keys_define:nn {ptxcd/\c_@@_base_str} {
+%    \end{macrocode}
+% \iffalse
+%</class|package>
+%<*options>
+% \fi
+% \end{implementation}
+% \begin{documentation}
+% \section{General configuration options}
+% \DescribeKeyOption{logofile=\meta{file name/path}}{rwth_mx}
+% Is used to configure specific logos.
+% The logos are reserved to be used by RWTH departments and may therefore not be published within this bundle.
+%
+% Depending on the color mode (see \autoref{sec:colormode}) the actual file searched for will be extended by the suffices |_cmyk| or |_rgb|.
+% Within this document the file |rwth_mx_cmyk| was used.
+% \end{documentation}
+% \begin{implementation}
+% \begin{optionenv}{logofile}
+% \changes{v1.0}{2025-12-18}{init .pdf extension if no extension was found}
+%    \begin{macrocode}
+  logofile .code:n = {
+    \file_parse_full_name:nNNN {#1} \g_tmpa_tl \l_tmpa_tl \l_tmpb_tl
+    \tl_gset:Ne \g_ptxcd_logofile_tl {\tl_if_empty:NF \g_tmpa_tl  {\g_tmpa_tl/}\l_tmpa_tl}
+    \tl_if_empty:NTF \l_tmpb_tl {
+      \tl_if_empty:NT \g_@@_logofile_ext_tl {
+        \tl_gset:Nn \g_@@_logofile_ext_tl {.pdf}
+      }
+    }{
+      \tl_gset_eq:NN \g_@@_logofile_ext_tl \l_tmpb_tl
+    }
+  },
+%<class>  logofile .initial:n = ,
+%    \end{macrocode}
+% \end{optionenv}
+% \end{implementation}
+% \begin{documentation}
+% \DescribeKeyOption{logofile-ext=\meta{extension}}{.pdf}
+% \end{documentation}
+% \begin{implementation}
+% \begin{optionenv}{logofile-ext}
+%    \begin{macrocode}
+  logofile-ext .tl_gset:N = \g_@@_logofile_ext_tl,
+%<class>  logofile-ext .initial:n = .pdf,
+%    \end{macrocode}
+% \end{optionenv}
+% \end{implementation}
+% \begin{documentation}
+% \DescribeKeyOption{accept-missing-logos=\meta{boolean}}{false but switched to true, if no logofile is selected}
+% As the logo files sadly may not be published within this bundle, the default setting allows all files to be compiled without a logo.
+% There will be a warning and the logo postion will be marked showing the desired filename.
+% \end{documentation}
+% \begin{implementation}
+% \begin{optionenv}{accept-missing-logos}
+%    \begin{macrocode}
+  accept-missing-logos .bool_gset:N = \g_@@_logo_workaround_bool,
+%<class>  accept-missing-logos .initial:n = false,
+  accept-missing-logos .usage:n = load,
+  accept-missing-logos .default:n = true,
+%    \end{macrocode}
+% \end{optionenv}
+% \end{implementation}
+% \iffalse
+%</options>
+%<*options|fonts>
+% \fi
+% \begin{implementation}
+% undocumented feature
+% \begin{optionenv}{LaTeX-logo}
+%    \begin{macrocode}
+  LaTeX-logo .bool_gset:N = \g_@@_use_LaTeX_Logo_bool,
+%<fonts>  LaTeX-logo .initial:n = false,
+%<fonts>  LaTeX-logo .usage:n = load,
+%    \end{macrocode}
+% \end{optionenv}
+% \end{implementation}
+% \iffalse
+%</options|fonts>
+%<*options>
+% \fi
+% \begin{documentation}
+% \DescribeKeyOption{department=\meta{department}}{default}
+% RWTH-CI supports department specific configuration files.
+% The \optionvalue{default} is used to detect if a user specific setting was provided.
+% \DescribeKeyOption{departmentconfigprefix=\meta{prefix}}{rwth-}
+% By default this setting will search for files called |rwth-|\meta{department}|.cfg|, where |rwth-| can be changed using \option{departmentconfigprefix}.
+% This option could also be used to load config files from  specific subdirectories.
+% This might be useful if a specific department wants some internal templates to be shared separately.
+% \end{documentation}
+% \begin{implementation}
+% \begin{optionenv}{department}
+%    \begin{macrocode}
+  department .choice:,
+  department / default .code:n = \str_gset:Nn \g_ptxcd_department_str {default},
+%<class>  department .initial:n = default,
+  department / unknown .code:n = {
+      \str_gset:NV \g_ptxcd_department_str \l_keys_value_tl
+    },
+%    \end{macrocode}
+% \end{optionenv}
+% \begin{optionenv}{departmentconfigprefix}
+%    \begin{macrocode}
+  departmentconfigprefix .tl_gset:N = \g_@@_config_prefix_tl,
+%<class>  departmentconfigprefix .initial:n = rwth-,
+%    \end{macrocode}
+% \end{optionenv}
+% \end{implementation}
+% \begin{documentation}
+% \DescribeKeyOption{colormode=RGB/cmyk}{depens on document type}
+% Selects the color scheme to be converted to.
+% This will also affect the logo selection.
+% \end{documentation}
+% \begin{implementation}
+% \begin{optionenv}{colormode}
+%    \begin{macrocode}
+  colormode .code:n = \PassOptionsToPackage{colormode=#1}{rwth-colors},
+  RGB .code:n = \PassOptionsToPackage{colormode=RGB}{rwth-colors},
+  cmyk .code:n = \PassOptionsToPackage{colormode=RGB}{rwth-colors},
+%    \end{macrocode}
+% \end{optionenv}
+%    \begin{macrocode}
+%<!titlegraphic-opt&(init-department|class)>  titlegraphic .code:n = \PassOptionsToPackage{titlegraphic={#1}}{beamerinnerthemeRWTH},
+%    \end{macrocode}
+% \end{implementation}
+% \iffalse
+%<*sciposter>
+% \fi
+% \begin{documentation}
+% \DescribeKeyOption{logo=top/bottom}{top}
+% Allows to change the logo position. This option is currently only supported by the \cls{rwth-sciposter}.
+% \end{documentation}
+% \begin{implementation}
+% \begin{optionenv}{logo}
+%    \begin{macrocode}
+  logo .choice:,
+  logo / bottom .code:n = { \bool_gset_true:N \g_@@_logo_bottom_bool },
+  logo / top .code:n = { \bool_gset_false:N \g_@@_logo_bottom_bool },
+  logo / head .meta:n = {logo=top},
+  logo / foot .meta:n = {logo=bottom},
+  logo .initial:n = {top},
+%    \end{macrocode}
+% \end{optionenv}
+% \end{implementation}
+% \iffalse
+%</sciposter>
+%<*letter|sciposter|package>
+% \fi
+% \begin{documentation}
+% \DescribeKeyOption{raggedright=\meta{boolean}}{true}
+% The CI requires all text to be set ragged right.
+% This option can be used to disable this setting to avoid conflicts with additional packages or configuration to adjust the placement of elements.
+% In general this setting will be enabled at |\begin{document}| but for \pkg{rwth-letter} the option \option{letterhooks} allows to limit this setting for the letter environment.
+% \end{documentation}
+% \begin{implementation}
+% \begin{optionenv}{raggedright}
+%    \begin{macrocode}
+  raggedright .bool_gset:N = \g_@@_raggedright_bool,
+  raggedright .initial:n = true,
+  raggedright .default:n = true,
+  raggedright .usage:n = load,
+%    \end{macrocode}
+% \end{optionenv}
+% \iffalse
+%</letter|sciposter|package>
+%</options>
+%<*titlegraphic-opt>
+% \fi
+% \end{implementation}
+% \begin{documentation}
+% \DescribeKeyOption{titlegraphic=1:3,2:3,false}{1:3}
+% The titlegraphic can be used in different sizes.
+% This option is currently only supported by \cls{rwth-beamer}.
+%
+% This option can be changed locally.
+% Therefore the |\titlepage| command was extended to accept an optional argument.
+% \begin{examplecode}
+% \titlepage[titlegraphic=1:3]
+% \end{examplecode}
+% \end{documentation}
+% \begin{implementation}
+% \begin{optionenv}{titlegraphic}
+%    \begin{macrocode}
+  titlegraphic-ratio .str_set:N = \l__ptxcd_titlegraphic_ratio_str,
+  titlegraphic .multichoice:,
+  titlegraphic / 1:3 .meta:n ={titlegraphic-ratio={1:3}},
+  titlegraphic / 2:3  .meta:n = {titlegraphic-ratio={2:3}},
+  titlegraphic / false .meta:n = {titlepage=plain},
+  titlegraphic / true .meta:n = {titlepage=graphics},
+  titlegraphic .initial:n = 1:3,
+%    \end{macrocode}
+% \end{optionenv}
+% \end{implementation}
+% \iffalse
+%</titlegraphic-opt>
+%<*options>
+%<*titlesepline>
+% \fi
+% \begin{documentation}
+% \DescribeKeyOption{titlesepline=\meta{boolean}}{false}
+% This option is currently only supported by \cls{rwth-beamer}.
+% \end{documentation}
+% \begin{implementation}
+% \begin{optionenv}{titlesepline}
+%    \begin{macrocode},
+  titlesepline .bool_gset:N = \g_@@_titlesepline_bool,
+  titlesepline .initial:n = true,
+  titlesepline .default:n = true,
+%    \end{macrocode}
+% \end{optionenv}
+% \end{implementation}
+% \iffalse
+%</titlesepline>
+%<*print>
+% \fi
+% \begin{implementation}
+% fontsize
+% \begin{optionenv}{fontsize}
+%    \begin{macrocode}
+  fontsize .code:n = \prop_gput:Nnn \g_ptxcd_clsopts_prop {fontsize} {#1},
+  fontsize .initial:n =
+%<beamer> 9 pt,% beamer
+%<sciposter> 23bp,
+%    \end{macrocode}
+% \end{optionenv}
+% \end{implementation}
+% \begin{documentation}
+% \iffalse\DescribeKeyOption{paper=a\meta{n}/portrait/landscape}{\meta{depends on document type}}\fi
+% \DescribeKeyOption{paper=portrait/landscape}{\meta{depends on document type}}
+% The supported paper sizes as well as the default setting depends on the document type.
+% \iffalse Standard print documents use \optionvalue{a4} and support the fulle range from \optionvalue{a0} to \optionvalue{a6}. \fi
+% The default values for posters is \optionvalue{a0} and \optionvalue{portrait}.
+% \end{documentation}
+% \begin{implementation}
+% \changes{v1.1}{2026-04-03}{Add support for landscape and portrait als boolean options.}
+% \begin{optionenv}{paper}
+%    \begin{macrocode}
+  paper .multichoices:nn = {
+%<sciposter>      a0%%,a1,a2,a3
+%<poster>      a0,a1,a2,a3,a4
+%<!(sciposter|poster)>      a0,a1,a2,a3,a4,a5,a6
+}{
+  \int_gset_eq:NN \g_ptxcd_paper_int  \l_keys_choice_int
+%<!(sciposter|poster)>      \exp_args:Nx \PassOptionsToPackage{paper=\l_keys_choice_tl}{typearea}
+      \exp_args:Nx \PassOptionsToPackage{\l_keys_choice_tl paper}{geometry}
+    },
+  paper .initial:n =
+%<!(sciposter|poster)>  a4,
+%<sciposter|poster>  a0,
+%    \end{macrocode}
+% \iffalse
+%<*sciposter>
+% \fi
+%    \begin{macrocode}
+  paper / landscape .code:n = \PassOptionsToPackage{landscape}{geometry},
+  paper / portrait .code:n = \PassOptionsToPackage{portrait}{geometry},
+  landscape / .choice:,
+  landscape / true .meta:n = {paper = landscape},
+  landscape / false .meta:n = {paper = portrait},
+  portrait / .choice:,
+  portrait / true .meta:n = {paper = portrait},
+  portrait / false .meta:n = {paper = landscape},
+%    \end{macrocode}
+% \end{optionenv}
+% \iffalse
+%</sciposter>
+%</print>
+%<*class&!beamer>
+% \fi
+%    \begin{macrocode}
+  unknown .code:n = {\prop_gput:NVn \g_ptxcd_clsopts_prop \l_keys_key_tl {#1}},
+%    \end{macrocode}
+% \iffalse
+%</class&!beamer>
+%</options>
+% \fi
+%    \begin{macrocode}
+%<processoptions|package>}
+%    \end{macrocode}
+% \iffalse
+%<*processoptions|init-department>
+% \fi
+%    \begin{macrocode}
+\str_if_exist:NF \g_ptxcd_department_str {
+  \str_new:N \g_ptxcd_department_str
+  \str_gset:Nn \g_ptxcd_department_str {default}
+}
+%    \end{macrocode}
+% \iffalse
+%</processoptions|init-department>
+%<*!theme>
+%<*processoptions|(beamer&buildOptions)>
+% \fi
+% Allow to add options via l3build |typesetcmds|.
+% Be aware that in this case also the group has to be expanded.
+%    \begin{macrocode}
+\cs_if_exist:NT \ptxcdDefaultBuildOptions {
+  \exp_args:Ne \keys_set:ne { ptxcd /
+%<class|beamer>    \c_@@_base_str
+%<letter>    letter
+  } {
+    \ptxcdDefaultBuildOptions
+  }
+}
+%    \end{macrocode}
+% \iffalse
+%</processoptions|(beamer&buildOptions)>
+%</!theme>
+%<*processoptions|package>
+% \fi
+%    \begin{macrocode}
+%<class|package>\ProcessKeyOptions[ptxcd/\c_@@_base_str]
+%    \end{macrocode}
+% \iffalse
+%</processoptions|package>
+%<ExplSyntax>\ExplSyntaxOn
+%<*logoFallback>
+% \fi
+% \changes{v0.2}{2025-11-12}{enable accept-missing-logos for the default logo setup}
+%    \begin{macrocode}
+\tl_if_empty:NT \g_ptxcd_logofile_tl {
+  \msg_new:nnn {rwth-ci} {no-logo-selected} {You~did~not~select~a~logofile.\\
+    I~will~try~to~use~the~example~logo~`rwth_mx`~and~enable~the~`accept-missing-logos`}
+  \msg_warning:nn {rwth-ci} {no-logo-selected}
+  \tl_gset:Nn \g_ptxcd_logofile_tl {rwth_mx}
+  \tl_gset:Nn \g_@@_logofile_ext_tl {.pdf}
+  \bool_gset_true:N \g_@@_logo_workaround_bool
+}
+%    \end{macrocode}
+% Define a macro to insert the logo workaround to only need this definition once.
+% \changes{v0.2}{2025-11-12}{Add warning if logo fallback is active.}
+%    \begin{macrocode}
+\msg_new:nnn {rwth-ci} {missing-logofile} {%
+  The~logofile~(#1)~could~not~be~found.\\
+  Please~check~if~if~can~be~found~by~the~compiler.
+}
+\cs_new:Nn \_@@_insert_logo:n {
+%    \end{macrocode}
+% TODO: Check if rgb is a good default for logo selection.
+% Try to detect if colormode specific file is available.
+%    \begin{macrocode}
+  \file_if_exist:nTF {\g_ptxcd_logofile_tl\tl_if_empty:NTF \g_@@_colormode_tl {_rgb} {_\g_@@_colormode_tl}\g_@@_logofile_ext_tl } {
+    \bool_set_true:N \l_tmpa_bool
+    \bool_set_true:N \l_tmpb_bool
+  }{
+    \bool_set_false:N \l_tmpa_bool
+    \file_if_exist:nTF {\g_ptxcd_logofile_tl\g_@@_logofile_ext_tl}
+      {\bool_set_true:N \l_tmpb_bool}
+      {\bool_set_false:N \l_tmpb_bool}
+  }
+  \bool_if:NTF \g_@@_logo_workaround_bool {
+    \bool_if:NTF \l_tmpb_bool
+    \use_i:nn
+    \use_ii:nn
+  }{
+    \use_i:nn
+  }
+  {\includegraphics[height=#1]{\g_ptxcd_logofile_tl\bool_if:NT \l_tmpa_bool {\tl_if_empty:NTF \g_@@_colormode_tl {_rgb} {_\g_@@_colormode_tl}}\g_@@_logofile_ext_tl}}
+  {
+%<!beamer>    \frame
+%<beamer>    \framelatex
+    {\parbox[c][#1][c]{2.186\dimexpr#1}{\centering<Missing~Logo~file~\tl_to_str:N \g_ptxcd_logofile_tl>}}
+    \msg_warning:nnV {rwth-ci} {missing-logofile} \g_ptxcd_logofile_tl
+  }
+}
+%    \end{macrocode}
+% \iffalse
+%</logoFallback>
+%<*titlegraphic-setup>
+% \fi
+% \end{implementation}
+% \begin{documentation}
+% \section{RWTH-CI specific title elements}
+% All templates except the \pkg{rwth-letter}, are configured to use |\title|, |author|, \dots for configuration of the title block/page.
+% There are some additional elements which can be used depending on the document type.
+%
+% \DescribeMacro{\titlegraphic}
+% Accepts any \LaTeX{} content, does not have to be an image.
+% This is placed flush with the top corner in the main part of the title page.
+% This macro is usually used to place a graphic:
+% \begin{examplecode}
+%   \titlegraphic{\includegraphics[width=\width]{example-image-plain}}
+% \end{examplecode}
+% \DescribeMacro{\width}\DescribeMacro{\height}
+% \cs[no-index]{width} and \cs[no-index]{height} can be used to select the appropriate size of the image.
+% There also is a starred variant \cs[no-index]{titlegraphic*}, to allow automatic scaling and any necessary clipping to fill the reserved space. This is done automatically using \pkg{trimclip}.
+% \begin{examplecode}
+%   \titlegraphic*{\includegraphics{example-image-plain}}
+% \end{examplecode}
+% \end{documentation}
+% \begin{implementation}
+%    \begin{macrocode}
+\RequirePackage{trimclip}
+\box_new:N \l_@@_titlegraphic_box
+%<!beamer>\NewDocumentCommand
+%<beamer>\RenewDocumentCommand
+{\titlegraphic}{sm}{
+  \IfBooleanTF{#1}{
+%<!beamer>    \tl_gset:Nn  \g_ptxcd_titleimage_code_tl
+%<beamer>    \def\inserttitlegraphic
+    {
+      \hbox_set:Nn \l_@@_titlegraphic_box {\raisebox{\depth}{#2}}
+      \box_resize_to_wd:Nn \l_@@_titlegraphic_box {\width}
+      \dim_compare:nTF {\box_ht:N \l_@@_titlegraphic_box -\height> \c_zero_dim}
+      {
+        \dim_set:Nn \l_tmpa_dim {.5\box_ht:N \l_@@_titlegraphic_box - .5\height}
+        \clipbox{0pt~\dim_eval:n{\l_tmpa_dim}~0pt~\dim_eval:n{\l_tmpa_dim}}{\box_use:N \l_@@_titlegraphic_box}
+      }{
+        \box_resize_to_ht:Nn \l_@@_titlegraphic_box {\height}
+        \dim_set:Nn \l_tmpa_dim {(\box_wd:N \l_@@_titlegraphic_box - \width) / 2}
+        \clipbox{\dim_eval:n{\l_tmpa_dim}~0pt~\dim_eval:n{\l_tmpa_dim}~0pt}{\box_use:N \l_@@_titlegraphic_box}
+      }
+    }
+  }{
+%<!beamer>    \tl_gset:Nn  \g_ptxcd_titleimage_code_tl
+%<beamer>    \def\inserttitlegraphic
+    {#2}
+  }
+}
+%    \end{macrocode}
+% \iffalse
+%</titlegraphic-setup>
+% \fi
+%    \begin{macrocode}
+%<ExplSyntax>\ExplSyntaxOff
+%    \end{macrocode}
+% \iffalse
+%<*package>
+% \fi
+%    \begin{macrocode}
+\PassOptionsToPackage{fontdefaults=true}{rwth-fonts}
+\RequirePackage{rwth-fonts}
+\RequirePackage{rwth-colors}
+\bool_if:NT  \g_@@_raggedright_bool {
+  \hook_gput_code:nnn {begindocument/end} {rwth-ci/raggedright} {\raggedright}
+}
+\RequirePackage{scrlayer-scrpage}
+\RequirePackage{graphicx}
+\DeclareNewLayer[background,align=tl,voffset=0mm, hoffset=20mm,
+  mode=picture,
+  width=\dim_eval:n {\paperwidth-25mm},
+  height=32mm,
+  contents={\makebox[\layerwidth][r]{\_@@_insert_logo:n {\layerheight}}}
+]{rwth-logo}
+\AddLayersToPageStyle{scrheadings}{rwth-logo}
+%    \end{macrocode}
+% \iffalse
+%</package>
+% \fi
+% \end{implementation}
+\endinput

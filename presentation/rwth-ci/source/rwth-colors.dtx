@@ -1,0 +1,130 @@
+% \iffalse meta-comment
+%
+% RWTH-CI -- Corporate Design for RWTH Aachen University
+% ----------------------------------------------------------------------------
+%
+%  Copyright (C) 2025–2026 by Marei Peischl <rwth-ci@peitex.de> and Lukas C. Bossert
+%
+% ============================================================================
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3c
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+% http://www.latex-project.org/lppl.txt
+% and version 1.3c or later is part of all distributions of LaTeX
+% version 2008/05/04 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is
+%   Marei Peischl rwth-ci@peitex.de
+%
+% The development repository can be found at
+% https://gitlab.git.nrw/rwth-it-center/rwth-latex-templates/rwth-ci
+% Please use the issue tracker for feedback!
+%
+% ============================================================================
+%
+% \fi
+% \iffalse
+%<*driver>
+\ProvidesFile{rwth-colors.dtx}
+  [2026-04-03 v1.2 Color setup for RWTH-CI, Corporate Design of RWTH Aachen University]
+%</driver>
+%<@@=ptxcd>
+%<*identification>
+\NeedsTeXFormat{LaTeX2e}[2022-10-01]
+%<package>\ProvidesExplPackage{rwth-colors}{2026-04-03}{1.2}{Color setup for RWTH-CI}
+%</identification>
+%<*driver>
+\providecommand*{\PtxcdDocDTXfiles}{rwth-colors.dtx}
+\providecommand*{\PtxcdDocTitle}{\pkg{rwth-colors}~--~\LaTeX{}~color~setup~for~RWTH-CI}
+\input{rwth-ci.dtx}
+%</driver>
+% \fi
+% \begin{documentation}
+% \section{Color setup – \pkg{rwth-colors.sty}}
+% The colors setup is done using the \pkg{xcolor} package.
+% All mechanims described in the corresponding documentation may be used.
+%
+% All design specific colors are defined according to the guideline \cite{rwth-ci-guideline}.
+% The predefined colors are listed below:
+%
+% \begingroup
+% \raggedright
+% \ExplSyntaxOn
+% \renewcommand*{\definecolor}[3]{
+%   \if_mode_vertical:
+%   \bool_set_true:N \l_tmpa_bool
+%   \tl_range:nnn {#1} {1} {-5}\hfill
+%   \tl_range:nnn {#1} {-4} {-1}\space
+%   \else:
+%   \quad\tl_range:nnn {#1} {-3} {-1}\space
+%   \fi:
+%   \textcolor{#1}{\rule{1cm}{\ht\strutbox}}
+% }
+% \begingroup\cctab_select:N \c_document_cctab \input{rwthcolors.def}\endgroup
+% \ExplSyntaxOff
+% \endgroup
+%
+% \bigskip
+% \noindent As one might realize the shadings are defined directly.
+% Those should be used to stick to the CI guideline \cite{rwth-ci-guideline} instead of using the color mixing provided by \pkg{xcolor}.
+% \end{documentation}
+% \begin{implementation}
+% \iffalse
+%<*declareoptions>
+% \fi
+%    \begin{macrocode}
+\tl_new:N \g_@@_colormode_tl
+\keys_define:nn {ptxcd/colors} {
+%    \end{macrocode}
+% \iffalse
+%</declareoptions>
+%<*options>
+% \fi
+% \end{implementation}
+% \begin{documentation}
+% \subsection{Package specific options}
+% \DescribeKeyOption*{colormode=cmyk/RGB}{Depends on document type}*
+% \label{sec:colormode}
+% The colormode can be selected to overwrite the default setting.
+% Please be aware, that there is a difference in casing and \code{RGB} has to be used uppercase and \code{cmyk} lowercase.
+% Internally the values between uppercase and lowercase model names would differ.
+% \end{documentation}
+% \begin{implementation}
+% \begin{optionenv}{colormode}
+%    \begin{macrocode}
+  colormode .choices:nn = {cmyk,RGB}{
+      \@ifpackageloaded{xcolor}{
+        \selectcolormodel{\l_keys_value_tl}
+      }{
+        \exp_args:No \PassOptionsToPackage{\l_keys_value_tl}{xcolor}
+        \tl_gset:Ne \g_@@_colormode_tl {\str_lowercase:f {\l_keys_value_tl}}
+      }
+    },
+  colormode .usage:n = load,
+  RGB .meta:n = {colormode=RGB},
+  cmyk .meta:n = {colormode=cmyk},
+%    \end{macrocode}
+% \end{optionenv}
+%    \begin{macrocode}
+}
+\ProcessKeyOptions[ptxcd/colors]
+\RequirePackage{xcolor}
+
+\input{rwthcolors.def}
+%    \end{macrocode}
+% \iffalse
+%</options>
+%<*package&body>
+% \fi
+%    \begin{macrocode}
+
+%    \end{macrocode}
+% \iffalse
+%</package&body>
+% \fi
+% \end{implementation}
+% \Finale
+\endinput

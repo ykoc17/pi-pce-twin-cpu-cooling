@@ -1,0 +1,240 @@
+% \iffalse meta-comment
+%
+% RWTH-CI -- Corporate Design for RWTH Aachen University
+% ----------------------------------------------------------------------------
+%
+%  Copyright (C) 2025–2026 by Marei Peischl <rwth-ci@peitex.de> and Lukas C. Bossert
+%
+% ============================================================================
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3c
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+% http://www.latex-project.org/lppl.txt
+% and version 1.3c or later is part of all distributions of LaTeX
+% version 2008/05/04 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is
+%   Marei Peischl <rwth-ci@peitex.de>
+%
+% The development repository can be found at
+% https://gitlab.git.nrw/rwth-it-center/rwth-latex-templates/rwth-ci
+% Please use the issue tracker for feedback!
+%
+% ============================================================================
+%
+% \fi
+%
+% \iffalse% no documentation on this
+% \iffalse^^A Preparation for real docstrip documentation
+%<*driver>
+\ProvidesFile{rwth-sizes.dtx}
+  [2026-04-03 v1.2 Paper and font size configuration for RWTH-CI]
+\typeout{***********************************************************}
+\typeout{No documentation included in this file! Please see rwth-ci.pdf for more the general documentation information.}
+\typeout{***********************************************************}
+\stop
+%</driver>
+% \iffalse %no documentation on this
+%<@@=ptxcd>
+%
+% The following part is a modified version of
+% scrkernel-fonts.dtx and scrkernel-paragraphs.dtx
+% Copyright (c) Markus Kohm, 2002-2024
+% modified by Marei Peischl <rwth-ci@peitex.de>
+% \iffalse
+%<*scrsize>
+% \fi
+%    \begin{macrocode}
+\ProvidesFile{%
+%<9pt>    rwthsize9pt.clo%
+%<rwthletter>    rwthlettersize11bp.clo%
+  }[
+%<9pt>    RWTH-CI  font size class option (9pt)
+%<rwthletter>    rwthletter font size class option (11bp)
+  ]
+%    \end{macrocode}
+%
+% \begin{command}{\normalsize,\datasize,\small,\footnotesize,\scriptsize,\tiny,\large,
+%     \Large,\LARGE,\huge,\Huge}
+%    \begin{macrocode}
+\let\normalsize\@undefined
+\DeclareRobustCommand\normalsize{%
+%<*9pt>
+  \@setfontsize\normalsize\@ixpt\@xipt%
+  \abovedisplayskip 8\p@ \@plus4\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus3\p@
+  \belowdisplayshortskip 5\p@ \@plus3\p@ \@minus3\p@
+%</9pt>
+%    \end{macrocode}
+%   lettersizes
+%
+%   normalsize:
+%   Arial Regular 11bp %\normalsize
+%   8.5bp 12bp  %\small
+%   bank 7bp 11bp
+%   backaddress: rwth-blue-100, 6bp
+%    \end{macrocode}
+%<*rwthletter>
+  \@setfontsize\normalsize{11bp}{13bp}
+  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+  \abovedisplayshortskip \z@ \@plus3\p@
+  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+%</rwthletter>
+  \belowdisplayskip \abovedisplayskip
+  \let\@listi\@listI
+  }
+  \def\datasize{%
+    \normalsize
+    \@setfontsize\normalsize
+%<9pt>      \@ixpt\@xipt
+%<rwthletter>      \@xpt\@xiiipt
+  }
+  \let\small\@undefined
+  \DeclareRobustCommand\small{%
+%<*9pt>
+  \@setfontsize\small\@viiipt\@ixpt%
+  \abovedisplayskip 5\p@ \@plus2\p@ \@minus2\p@
+  \abovedisplayshortskip \z@ \@plus1\p@
+  \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
+  \def\@listi{\leftmargin\leftmargini
+    \topsep 3\p@ \@plus\p@ \@minus\p@
+%</9pt>
+%<*rwthletter>
+    \@setfontsize\small{8.5bp}{12bp}%
+    \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
+    \abovedisplayshortskip \z@ \@plus2\p@
+    \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+    \def\@listi{\leftmargin\leftmargini
+      \topsep 4\p@ \@plus2\p@ \@minus2\p@
+%</rwthletter>
+      \parsep 2\p@ \@plus\p@ \@minus\p@
+      \itemsep \parsep}%
+    \belowdisplayskip \abovedisplayskip
+  }
+  \let\footnotesize\@undefined
+  \DeclareRobustCommand\footnotesize{%
+%<*9pt>
+    \@setfontsize\footnotesize{7bp}{11bp}%
+    \abovedisplayskip 4\p@ \@plus2\p@ \@minus2\p@
+    \abovedisplayshortskip \z@ \@plus1\p@
+    \belowdisplayshortskip 2.5\p@ \@plus\p@ \@minus\p@
+%</9pt>
+%<*rwthletter>
+    \@setfontsize\footnotesize{7bp}{11bp}%
+    \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
+    \abovedisplayshortskip \z@ \@plus\p@
+    \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
+%</rwthletter>
+    \def\@listi{\leftmargin\leftmargini
+      \topsep 3\p@ \@plus\p@ \@minus\p@
+      \parsep 2\p@ \@plus\p@ \@minus\p@
+      \itemsep \parsep}%
+    \belowdisplayskip \abovedisplayskip
+  }
+  \let\scriptsize\@undefined
+  \let\tiny\@undefined
+  \let\large\@undefined
+  \let\Large\@undefined
+  \let\LARGE\@undefined
+  \let\huge\@undefined
+  \let\Huge\@undefined
+%<*9pt>
+  \DeclareRobustCommand\scriptsize{\@setfontsize\scriptsize\@vipt\@viipt}
+  \DeclareRobustCommand\tiny{\@setfontsize\tiny\@vpt\@vipt}
+  \DeclareRobustCommand\large{\@setfontsize\large\@xpt\@xiipt}
+  \DeclareRobustCommand\Large{\@setfontsize\Large\@xipt{13}}
+  \DeclareRobustCommand\LARGE{\@setfontsize\LARGE\@xiipt{14}}
+  \DeclareRobustCommand\huge{\@setfontsize\huge\@xivpt{18}}
+  \DeclareRobustCommand\Huge{\@setfontsize\Huge\@xviipt{22}}
+%</9pt>
+%<*rwthletter>
+  \DeclareRobustCommand\scriptsize{\@setfontsize\scriptsize{6bp}{7bp}}
+  \DeclareRobustCommand\tiny{\@setfontsize\tiny\@vipt\@viipt}
+  \DeclareRobustCommand\large{\@setfontsize\large\@xiipt{14}}
+  \DeclareRobustCommand\Large{\@setfontsize\Large\@xivpt{18}}
+  \DeclareRobustCommand\LARGE{\@setfontsize\LARGE\@xviipt{22}}
+  \DeclareRobustCommand\huge{\@setfontsize\huge\@xxpt{25}}
+  \DeclareRobustCommand\Huge{\@setfontsize\Huge\@xxvpt{30}}
+%</rwthletter>
+  \normalsize
+%    \end{macrocode}
+% \end{command}
+% The values are same as with the standard classes.
+%    \begin{macrocode}
+%<*9pt>
+\setlength\footnotesep    {6.3\p@}
+\setlength{\skip\footins} {8\p@ \@plus 4\p@ \@minus 2\p@}
+\setlength\textfloatsep   {18\p@ \@plus 2\p@ \@minus 4\p@}
+\setlength\dbltextfloatsep{18\p@ \@plus 2\p@ \@minus 2\p@}
+%</9pt>
+%<*rwthletter>
+\setlength\footnotesep    {6.65\p@}
+\setlength{\skip\footins} {9\p@ \@plus 4\p@ \@minus 2\p@}
+\setlength\textfloatsep   {20\p@ \@plus 2\p@ \@minus 4\p@}
+\setlength\dbltextfloatsep{20\p@ \@plus 2\p@ \@minus 4\p@}
+%</rwthletter>
+\setlength\floatsep       {12\p@ \@plus 2\p@ \@minus 2\p@}
+\setlength\intextsep      {12\p@ \@plus 2\p@ \@minus 2\p@}
+\setlength\dblfloatsep    {12\p@ \@plus 2\p@ \@minus 2\p@}
+\setlength\@fptop         {0\p@ \@plus 1fil}
+\setlength\@fpsep         {8\p@ \@plus 2fil}
+\setlength\@fpbot         {0\p@ \@plus 1fil}
+\setlength\@dblfptop      {0\p@ \@plus 1fil}
+\setlength\@dblfpsep      {8\p@ \@plus 2fil}
+\setlength\@dblfpbot      {0\p@ \@plus 1fil}
+\setlength\partopsep      {2\p@ \@plus 1\p@ \@minus 1\p@}
+%    \end{macrocode}
+% \begin{macro}{\@listi,\@listii,\@listiii,\@listiv,\@listv,\@listvi}
+%   The definitions are the same as with the standard classes.
+%    \begin{macrocode}
+\def\@listi{\leftmargin\leftmargini
+  \parsep 4\p@ \@plus2\p@ \@minus\p@
+%<9pt>  \topsep 8\p@ \@plus2\p@ \@minus3\p@
+%<rwthletter>  \topsep 8\p@ \@plus2\p@ \@minus4\p@
+  \itemsep \parsep}
+\let\@listI\@listi
+\def\@listii {\leftmargin\leftmarginii
+  \labelwidth\leftmarginii
+  \advance\labelwidth-\labelsep
+  \topsep    4\p@ \@plus2\p@ \@minus\p@
+  \parsep    2\p@ \@plus\p@  \@minus\p@
+  \itemsep   \parsep}
+\def\@listiii{\leftmargin\leftmarginiii
+  \labelwidth\leftmarginiii
+  \advance\labelwidth-\labelsep
+  \topsep    2\p@ \@plus\p@\@minus\p@
+  \parsep    \z@
+  \partopsep \p@ \@plus\z@ \@minus\p@
+  \itemsep   \topsep}
+\def\@listiv {\leftmargin\leftmarginiv
+  \labelwidth\leftmarginiv
+  \advance\labelwidth-\labelsep}
+\def\@listv  {\leftmargin\leftmarginv
+  \labelwidth\leftmarginv
+  \advance\labelwidth-\labelsep}
+\def\@listvi {\leftmargin\leftmarginvi
+  \labelwidth\leftmarginvi
+  \advance\labelwidth-\labelsep}
+% %% From File: $Id: scrkernel-paragraphs.dtx 3064 2019-02-01 07:40:28Z kohm $
+\@ifundefined{@list@extra}{}{%
+  \expandafter\ifnum\scr@v@is@ge{3.17}\par@updaterelative\fi
+  \l@addto@macro{\@listi}{\@list@extra}%
+  \let\@listI=\@listi
+  \l@addto@macro{\@listii}{\@list@extra}%
+  \l@addto@macro{\@listiii}{\@list@extra}%
+  \l@addto@macro{\footnotesize}{\protect\add@extra@listi{ftns}}%
+  \l@addto@macro{\small}{\protect\add@extra@listi{sml}}%
+}
+\@listi
+%    \end{macrocode}
+% \end{macro}^^A \@listi … \@listvi
+% \end{ilength}^^A \@fptop … \@dblfpbot
+% \end{length}^^A \footnotesep … \partopsep
+%
+%</scrsize>
+% \Finale
+% \fi^^A No documentation on this
+\endinput

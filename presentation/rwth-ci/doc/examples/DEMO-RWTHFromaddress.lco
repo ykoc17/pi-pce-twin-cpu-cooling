@@ -1,0 +1,69 @@
+%% This is file `DEMO-RWTHFromaddress.lco' version 1.2 (2026-04-03),
+%% it is part of
+%% RWTH-CI -- Corporate Design for RWTH Aachen University
+%% ----------------------------------------------------------------------------
+%%
+%% Copyright (C) 2025–2026 by Marei Peischl <marei@peitex.de>
+%%
+%% ============================================================================
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3c
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%% http://www.latex-project.org/lppl.txt
+%% and version 1.3c or later is part of all distributions of LaTeX
+%% version 2008/05/04 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%%
+%% The current maintainer of this work is
+%%   Marei Peischl <rwth-ci@peitex.de>
+%%
+%% The development repository can be found at
+%% https://gitlab.git.nrw/rwth-it-center/rwth-latex-templates/rwth-ci
+%% Please use the issue tracker for feedback!
+%%
+%% If you need a compiled version of this document, have a look at
+%% http://mirror.ctan.org/macros/latex/contrib/rwth-ci/doc
+%% or at the documentation directory of this package (if installed)
+%% <path to your LaTeX distribution>/doc/latex/rwth-ci
+%% ============================================================================
+%%
+
+\ProvidesFile{DEMO-RWTHFromaddress.lco}[2024-07-02 Example letter configuration file for RWTH-CI]
+
+% Institute should be configured in German + English
+\setkomavar{frominstitution}{Institut für Musterforschung}
+\setkomavar{frominstitution-short}{IM}
+\setkomavar{frominstitution-id}{010420}
+
+% Address:
+\setkomavar{fromaddress}{Musterstraße 7\\52074 Aachen\\GERMANY}
+% Optional setting for the backaddress. It's preconfigured to use:
+
+% Personal information:
+\setkomavar{fromname}{Prof. Dr. Kim Muster}
+\setkomavar{fromfunction}{Musterforscherin}
+
+\setkomavar{fromoffice}{Gebäude\\Geschoss, Raum Nr.}
+
+\setkomavar{fromphone}{+49\,241\,80\,-\,xxxxx\\+49\,241\,80\,-\,yyyyy}
+\setkomavar{fromemail}{kim.muster@mi.rwth-aachen.de.de}
+\setkomavar{fromurl}{https://mi.rwth-aachen.de/}
+
+\setkomavar*{fromvat}{USt-Identifikationsnummer}
+\setkomavar{fromvat}{DE\,121\,689\,807}
+\setkomavar*{fromtax}{Steuernummer}
+\setkomavar{fromtax}{201/5930/5005}
+
+\setkomavar*{frombank}{}
+\setkomavar{frombank}{
+Kontoinhaber\\
+Name der Bank\\
+Konto 000\,000\,000\\% optional
+BLZ 000\,000\,00\\% optional
+SWIFT-BIC: ABCDEF1
+IBAN:  DE00\,0000\,0000\,0000\,0000\,00
+}
+
+%% End of file `DEMO-RWTHFromaddress.lco'.
