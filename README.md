@@ -142,6 +142,68 @@ unmeasured combinations, and why case ranges or occupied coarse bins cannot
 justify extrapolation. Case membership alone does not establish steady state.
 No predictive models are fitted.
 
+## Steady-state preprocessing
+
+```bash
+thermal-twin preprocess
+thermal-twin preprocess --min-dwell-minutes 45 --initial-settling-minutes 30
+```
+
+The command writes `data/processed/steady_state.csv` and a diagnostics report at
+`results/preprocessing/report.md`. Override destinations with `--output PATH` and
+`--diagnostics DIRECTORY`; `--data PATH` selects a different source CSV. Raw input
+directories are protected against output writes. Reinstall the package after
+changing code or defaults with `python -m pip install .`.
+
+Every time and stability threshold is defined in `configs/preprocessing_config.py`.
+The frozen `PreprocessingConfig` records the defaults; the effective configuration,
+source/output SHA-256 hashes, and software versions are saved in the diagnostics
+manifest. CLI overrides are available for `--min-dwell-minutes`,
+`--initial-settling-minutes`, and `--stability-window-minutes`.
+
+The deterministic algorithm:
+
+1. Keeps only cases 1–5 with finite values for all three inputs, retaining source
+   order. Case changes, excluded rows, and time gaps break continuity. Within a
+   continuous block, sustained changes between approximately constant input-level
+   windows identify new plateaus, even when a transition spans several samples.
+   Median levels from two 15-minute windows are compared across a 15-minute
+   transition guard. Nearby detections within 30 minutes are consolidated; isolated
+   spikes do not become additional operating conditions. No period count is forced.
+   The optional recorded `cpu_utilisation_pct__mean` marker helps identify workload
+   changes when CPU power changes little. It is used only for segmentation; the
+   three PCE inputs remain CPU power, inlet temperature, and raw fan power. Missing
+   utilization does not discard valid data. Its above-100 values are not clipped
+   or interpreted as calibrated workload percentages. DP is not used.
+2. Discards the first 20 minutes of each candidate by default, then requires at
+   least 30 minutes of consecutive, sensor-complete observations. Duration means
+   last timestamp minus first timestamp: seven five-minute observations span 30 minutes.
+3. Checks all three input ranges and every CPU's temperature standard deviation,
+   peak-to-peak range, and absolute linear drift in 30-minute sliding windows AND
+   over the full accepted interval. Both local and global checks must pass.
+   The per-CPU standard-deviation limit is 1 C and the peak-to-peak limit is 3 C.
+   The default rolling drift tolerance is 0.08 C/min to accommodate one-degree
+   sensor steps in short windows; full-interval drift is limited to 0.03 C/min.
+4. Retains the longest admissible interval within each candidate, breaking equal
+   lengths by earliest start. It emits at most one row per candidate; overlapping
+   stability windows and other stable fragments do not become additional rows.
+
+No missing readings are imputed, and accepted intervals never bridge incomplete
+CPU readings. The initial settling interval alone does not establish equilibrium.
+All inputs and temperatures in the output are means over the same retained
+timestamps. The target `equilibrium_max_cpu_temp_C` is **the maximum of the 18
+individual CPU means**, rather than the average of instantaneous maxima.
+The output includes start/end timestamps, elapsed duration, sample count, case,
+candidate ID, hottest CPU, and per-sensor variability and drift.
+
+Diagnostics include every original row's selection/exclusion status, all candidate
+periods and rejection reasons, accepted counts per case, and PNG/PDF plots of the
+accepted and rejected observations on the original input/temperature time series.
+Fan signal remains on its unverified-unit raw scale. These configurable heuristics
+establish observed stability at five-minute resolution, not physical proof of
+equilibrium. Nonoverlapping operating periods are not necessarily statistically
+independent replicates; later validation must still respect time and case grouping.
+
 ## Presentation
 
 The RWTH-CI LaTeX presentation is in
@@ -171,6 +233,11 @@ install the project first and reinstall it after source changes.
 Audit tests additionally cover sensor-complete maxima, nonfinite values,
 timestamp defects, inclusive case windows, pairwise-complete correlations,
 coverage count conservation, raw-unit preservation, provenance, and saved plots.
+Preprocessing tests use synthetic traces with known plateaus, load steps, thermal
+transients, noise, drift, missing sensors, and gaps. They check the aggregation
+target, minimum dwell, global versus local stability, and reproducible output.
+They also cover gradual transitions, isolated spikes, optional workload markers,
+and segmentation that does not depend on temperatures or a desired period count.
 
 ## Project layout
 
@@ -181,12 +248,13 @@ coverage count conservation, raw-unit preservation, provenance, and saved plots.
 ├── README.md
 ├── data/
 │   ├── raw/                 # Original HEATWISE files; never modified
-│   └── processed/           # Reserved for later processing
+│   └── processed/           # steady_state.csv from preprocess
 ├── src/
 │   └── thermal_twin/        # Python package and CLI
 ├── tests/
 ├── results/
 │   ├── audit/               # Generated report, figures, tables, and provenance
+│   ├── preprocessing/       # Selection diagnostics and plots
 │   ├── figures/
 │   ├── tables/
 │   └── models/

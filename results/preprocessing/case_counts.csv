@@ -1,0 +1,6 @@
+case_id,labeled_rows,candidate_operating_periods,accepted_operating_periods,rejected_operating_periods,accepted_samples
+1,249,5,4,1,60
+2,304,5,4,1,116
+3,237,5,5,0,108
+4,309,5,4,1,92
+5,209,5,2,3,45

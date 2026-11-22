@@ -17,3 +17,4 @@ EXPECTED_CPU_COLUMNS = frozenset(
     for cpu in (1, 2)
 )
 EXPECTED_CASE_IDS = frozenset(range(1, 6))
+WORKLOAD_COLUMN = "cpu_utilisation_pct__mean"

@@ -1,0 +1,51 @@
+{
+  "source": "data\\raw\\ocp_air_cooling_5min.csv",
+  "source_sha256": "7a729dcc9d90d1fd7dc0cf761070a2b45ddb367d7710f1e0e92657c32853f1b1",
+  "output": "data\\processed\\steady_state.csv",
+  "output_sha256": "c7e97366301e21139c4d1859d09d0c5be132042db7c30d6ebf8615a3ac91661d",
+  "config": {
+    "sample_interval_minutes": 5.0,
+    "minimum_dwell_minutes": 30.0,
+    "initial_settling_minutes": 20.0,
+    "stability_window_minutes": 30.0,
+    "level_comparison_window_minutes": 15.0,
+    "transition_guard_minutes": 15.0,
+    "minimum_change_separation_minutes": 30.0,
+    "use_workload_marker": true,
+    "workload_step_pct": 10.0,
+    "workload_range_pct": 10.0,
+    "cpu_power_step_abs_W": 80.0,
+    "cpu_power_step_relative": 0.04,
+    "inlet_temperature_step_C": 1.0,
+    "fan_power_step_raw": 0.06,
+    "cpu_power_range_abs_W": 40.0,
+    "cpu_power_range_relative": 0.04,
+    "inlet_temperature_range_C": 1.0,
+    "fan_power_range_abs_raw": 0.025,
+    "fan_power_range_relative": 0.03,
+    "cpu_temperature_std_C": 1.0,
+    "cpu_temperature_range_C": 3.0,
+    "cpu_temperature_window_drift_C_per_minute": 0.08,
+    "cpu_temperature_drift_C_per_minute": 0.03
+  },
+  "python_version": "3.13.13",
+  "versions": {
+    "thermal-twin": "0.1.0",
+    "numpy": "2.5.5",
+    "pandas": "2.3.3",
+    "matplotlib": "3.11.2"
+  },
+  "target": "max over 18 CPUs of their interval-average temperatures",
+  "incomplete_sensor_policy": "exclude; never bridge missing readings",
+  "candidate_policy": "one longest admissible interval per input period; earliest-start tie break",
+  "segmentation": "persistent input/workload level changes; no target period count",
+  "auxiliary_workload_column": "cpu_utilisation_pct__mean",
+  "pce_input_columns": [
+    "total_cpu_power_W",
+    "server_inlet_air_temp_tunnel_C",
+    "tunnel_fan_power_raw"
+  ],
+  "duration_convention": "end minus start; N regularly spaced samples span (N-1)*5 minutes",
+  "fan_power_unit": "unverified; no conversion",
+  "dp_used": false
+}

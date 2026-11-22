@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import replace
 import sys
 from pathlib import Path
 
@@ -26,8 +27,36 @@ def main(argv: list[str] | None = None) -> int:
                        help="DATA_DICTIONARY.csv path (default: beside the dataset)")
     audit.add_argument("--output", type=Path, default=Path("results/audit"),
                        help="Output directory (default: %(default)s)")
+    preprocess = commands.add_parser("preprocess", help="Extract approximately steady operating observations")
+    preprocess.add_argument("--data", type=Path, default=DEFAULT_DATA_PATH, help="Air-cooling CSV path")
+    preprocess.add_argument("--output", type=Path, default=Path("data/processed/steady_state.csv"))
+    preprocess.add_argument("--diagnostics", type=Path, default=Path("results/preprocessing"))
+    preprocess.add_argument("--min-dwell-minutes", type=float,
+                            help="Minimum retained duration after settling (default: preprocessing config)")
+    preprocess.add_argument("--initial-settling-minutes", type=float,
+                            help="Initial interval to discard (default: preprocessing config)")
+    preprocess.add_argument("--stability-window-minutes", type=float,
+                            help="Sliding stability window (default: preprocessing config)")
     args = parser.parse_args(argv)
     try:
+        if args.command == "preprocess":
+            from configs.preprocessing_config import DEFAULT_PREPROCESSING_CONFIG
+            from thermal_twin.preprocessing import run_preprocess
+            overrides = {name: value for name, value in {
+                "minimum_dwell_minutes": args.min_dwell_minutes,
+                "initial_settling_minutes": args.initial_settling_minutes,
+                "stability_window_minutes": args.stability_window_minutes,
+            }.items() if value is not None}
+            try:
+                config = replace(DEFAULT_PREPROCESSING_CONFIG, **overrides)
+            except ValueError as exc:
+                parser.error(str(exc))
+            result = run_preprocess(args.data, output=args.output, diagnostics=args.diagnostics, config=config)
+            print(f"Saved {len(result.observations)} steady operating observations: {args.output}")
+            print(result.case_counts[["case_id", "accepted_operating_periods"]].to_string(index=False))
+            print(f"Diagnostics: {args.diagnostics / 'report.md'}")
+            print("Counts are nonoverlapping operating periods; statistical independence is not established.")
+            return 0
         if args.command == "audit":
             from thermal_twin.audit import FAN_UNIT_NOTE, run_audit
             quality = run_audit(args.data, cases_path=args.cases,

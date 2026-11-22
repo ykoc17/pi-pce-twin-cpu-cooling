@@ -8,11 +8,18 @@ The PDF contains the template's blue title page followed by:
   motivation; a facility photo and dataset overview; the air-cooling subset and
   actuator optimization objective; the proposed digital twin;
   the rationale for experimental rather than purely synthetic training data.
-- **Input Data**, editable in `sections/input-data.tex` (four slides): operating
+- **Input Data**, editable in `sections/input-data.tex` (four context slides): operating
   cases and model variables; two slides on dataset problems; preprocessing and
   steady-state selection. Problems are numbered **1. Sparsity**, **2. Unverified
   unit of fan signal**, and **3. Input Dependence**. The first two use the inlet/fan
   scatter plot; the third uses `input_correlation_matrix.pdf` from the audit.
+- **Preprocessing results**, a subsection under Input Data, editable in
+  `sections/preprocessing-results.tex` (five slides): selection steps; the full
+  selection overview and color meanings; an enlarged case 4 example; converting
+  each selected interval into one PCE observation; and the per-case results
+  (19 accepted observations from 25 candidate periods). The target is the maximum
+  of the 18 CPU means over the same selected timestamps, not the average of
+  instantaneous maxima. No predictive model has been fitted.
 
 The Introduction has the subsections **Motivation and Context** (three slides),
 **Why a Digital Twin?** (one slide), and **Why not Synthetic Data?** (one slide).
@@ -23,7 +30,12 @@ credit uses the RWTH template's native `\footlinetext` command with a link to th
 RISE source article. The proposed control and safety architecture is explicitly
 conceptual; the project scope is offline development and evaluation.
 
-Figures reference the existing vector PDFs in `../../results/audit/figures/`.
+Figures reference the existing vector PDFs in `../../results/audit/figures/`
+and `../../results/preprocessing/figures/`. The selection overview is shown in
+full; the case 4 example enlarges its power and temperature panels. Green bands
+denote accepted intervals, orange points are rejected or unselected, yellow
+points are discarded settling readings, and gray points/crosses are excluded.
+The dashed green line is the maximum of the period's 18 CPU averages.
 Selected panels are cropped using LaTeX `trim` and `clip`; the original figures
 remain unchanged. Sources are linked or named at the bottom of each slide.
 The institute and date fields remain blank and can be filled in in the preamble.
