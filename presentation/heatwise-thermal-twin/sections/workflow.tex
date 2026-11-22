@@ -1,0 +1,132 @@
+\section{The whole digital twin workflow}
+
+\begin{frame}[more-space]{The whole digital twin workflow}
+  \dataheading{Potential data streams: measurements in, decisions out}
+  {\footnotesize
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{@{}p{0.23\textwidth}p{0.32\textwidth}p{0.39\textwidth}@{}}
+    \toprule
+    \textbf{Stream} & \textbf{Information} & \textbf{Purpose}\\
+    \midrule
+    Environmental & Inlet-air temperature & Update the disturbance for each optimization decision.\\
+    Operating conditions & CPU power, fan signal and actual setpoints & Track load/cooling, check command response and enforce change limits.\\
+    Thermal monitoring & All 18 CPU temperatures; instantaneous maximum & Detect overheating and trigger an independent safety response.\\
+    Twin outputs & Recommended CPU/fan settings, predicted equilibrium temperature, stated uncertainty & Inform decisions and send supported control commands.\\
+    Learning archive & Time-stamped measurements, case/context, commands and model version & Extract new steady-state observations and improve the model.\\
+    \bottomrule
+  \end{tabular}
+  }
+  \medskip
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \footnotesize
+    \textbf{Two-way connectivity}\quad Measurements update estimates and decisions;
+    commands affect the servers and the resulting measurements return to the twin.
+    A fast operating stream and a slower learning stream serve different purposes.
+  \end{beamercolorbox}
+  \datasource{Conceptual streams from the project notes. Available archive: five-minute HEATWISE measurements;
+    these do not demonstrate a live connection or establish a suitable safety/control sampling rate.}
+\end{frame}
+
+\begin{frame}[more-space]{The whole digital twin workflow}
+  \dataheading{Fast operating loop, with independent thermal protection}
+  \begin{center}
+    \begin{tikzpicture}[
+      node distance=4mm,
+      stage/.style={fill=rwth-blue-100!6,inner sep=2mm,text width=38mm,
+        minimum height=20mm,align=left,font=\footnotesize},
+      >={Latex[length=2mm]}
+    ]
+      \node[stage] (measure) {\textbf{1. Measure}\\Inlet temperature\\Actual CPU/fan settings\\CPU temperatures};
+      \node[stage,right=of measure] (solve) {\textbf{2. Estimate + optimize}\\Validated equilibrium PCE\\Conditional uncertainty\\CPU/fan recommendation};
+      \node[stage,right=of solve] (act) {\textbf{3. Check + actuate}\\Domain/actuator checks\\Supported command interface\\Record the response};
+      \draw[->,thick,rwth-blue-100] (measure) -- (solve);
+      \draw[->,thick,rwth-blue-100] (solve) -- (act);
+      \draw[->,thick,rwth-blue-100] (act.south) -- ++(0,-5mm)
+        -| node[pos=0.25,below,font=\footnotesize]{repeat after an appropriate decision interval $\Delta t$} (measure.south);
+    \end{tikzpicture}
+  \end{center}
+  \medskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \dataheading{Keep the model's time scale clear}
+      \footnotesize
+      Fast evaluation does not mean instant thermal settling.
+      Choose decision timing and change limits using hardware dynamics;
+      five-minute archive spacing is not an online control-rate specification.
+    \column{0.49\textwidth}
+      \dataheading{Separate faster safety controller}
+      \footnotesize
+      Monitor measured temperatures. Near the limit, override recommendations,
+      reduce CPU power and use a validated fallback.
+      Prediction margins alone cannot prevent transient overshoots.
+  \end{columns}
+  \datasource{Proposed live architecture; not an implemented or experimentally demonstrated controller.
+    Temperature sensors remain active. Thermal response, command mapping and control rates require validation.}
+\end{frame}
+
+\begin{frame}[more-space]{The whole digital twin workflow}
+  \dataheading{Slower learning loop: collect, validate, then update}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \dataheading{From new readings to a candidate model}
+      \footnotesize
+      \textbf{1. Collect} measurements continuously; preserve timestamps and provenance.\par
+      \smallskip
+      \textbf{2. Select} stable input periods, discard settling and require complete,
+      stable CPU temperatures. Average each accepted interval into one observation.\par
+      \smallskip
+      \textbf{3. Fit} candidate degree-1/2 PCEs when sufficient new observations exist;
+      compare the physics-guided variant and optional GP.
+    \column{0.49\textwidth}
+      \dataheading{Refine the data, not just the polynomial}
+      \footnotesize
+      \textbf{4. Validate} on entire cases; inspect global errors and local behavior
+      near the thermal limit and proposed optimum.\par
+      \smallskip
+      \textbf{5. Refine} missing combinations if new experiments are possible.
+      An optimized Latin hypercube (LHS) is a future design option within feasible,
+      safe conditions; existing HEATWISE measurements were not generated by our LHS.\par
+      \smallskip
+      Confirm the final decision with an independent full-model or experimental check.
+  \end{columns}
+  \medskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data panel}
+    \footnotesize
+    \textbf{Deployment gate}\quad Replace the current model only after improved
+    held-out accuracy, physical plausibility and safety checks.
+    The fast loop continues using the existing validated model during retraining;
+    do not refit after every sensor reading.
+  \end{beamercolorbox}
+  \datasource{Proposed maintenance and experimental-design workflow from the notes.
+    Current implemented selection: configs/preprocessing\_config.py and results/preprocessing/report.md.
+    Updates, new experiments and model replacement remain future work.}
+\end{frame}
+
+\begin{frame}[more-space]{The whole digital twin workflow}
+  \dataheading{Infrastructure and deployment concept}
+  {\footnotesize
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabular}{@{}p{0.23\textwidth}p{0.73\textwidth}@{}}
+    \toprule
+    \textbf{Layer} & \textbf{Proposed implementation and responsibility}\\
+    \midrule
+    Acquisition & Server sensors/monitoring interfaces: inlet temperature, CPU temperatures/power and fan settings.\\
+    Communication & Data-center network; MQTT or OPC UA for telemetry/commands where hardware interfaces support them.\\
+    Storage & Time-series database, e.g.\ InfluxDB: measurements, commands and model versions for monitoring/retraining.\\
+    Offline modeling & Python, NumPy, SciPy, scikit-learn and ETH UQLab.py: fitting, validation, UQ, sensitivity and optimization.\\
+    Online execution & Validated PCE/optimizer on a local server or edge device; no GPU/HPC needed for this small surrogate.\\
+    Actuation + safety & Supported hardware-management commands; an independent faster safety controller can override settings.\\
+    Maintenance & Retrain from new steady intervals; validate/version before replacement and retain a fallback model.\\
+    \bottomrule
+  \end{tabular}
+  }
+  \medskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
+    \footnotesize
+    \textbf{Project boundary}\quad Implement the offline pipeline and demonstrate
+    optimization when validation permits. Network services, live actuation and
+    the deployment stack are conceptual; they are not connected in this project.
+  \end{beamercolorbox}
+  \datasource{Proposed architecture from the notes; protocols/products are examples, not installed services.
+    Completed work and reproducible tooling: repository README.}
+\end{frame}

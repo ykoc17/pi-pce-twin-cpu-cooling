@@ -1,0 +1,79 @@
+\begin{frame}[more-space]{Uncertainty Quantification}
+  \dataheading{What is actually uncertain in a control decision?}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \dataheading{Separate different sources}
+      \footnotesize
+      \textbf{Experimental sampling:} deliberately selected operating conditions;
+      our global uniform reference is not an uncertainty law for the plant.\par
+      \smallskip
+      \textbf{Aleatory variation:} fluctuations during operation, such as inlet-air
+      changes, if supported by an operating model.\par
+      \smallskip
+      \textbf{Epistemic uncertainty:} limited data, approximate physics and uncertain
+      model coefficients. Measurement error is another distinct source.
+    \column{0.49\textwidth}
+      \dataheading{Fix the controls; vary the disturbance}
+      \footnotesize
+      Let $\mathbf u=(P_{\mathrm{CPU}},F)$ be fixed during a decision,
+      with $F=P_{\mathrm{fan,raw}}$. Propose
+      \[
+        T_{\mathrm{inlet}}=T_{\mathrm{inlet}}^{\mathrm{meas}}+\varepsilon_T.
+      \]
+      The distribution and scale of $\varepsilon_T$ need separate operating evidence;
+      they are not taken from the full 25--45\,${}^\circ$C experimental span.\par
+      \smallskip
+      Keep sampled conditions inside the supported domain. No disturbance law
+      or numerical risk level has been calibrated yet.
+  \end{columns}
+  \medskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
+    \footnotesize
+    \textbf{Thermal inertia}\quad CPUs need time to settle. A steady-state surrogate
+    does not predict transient overshoots and must not replace the temperature sensors.
+  \end{beamercolorbox}
+  \datasource{Control-uncertainty proposal from the project notes. Global input reference:
+    results/inputs/assumptions.json. Steady-state limitations: data/raw/README.md and preprocessing report.}
+\end{frame}
+
+\begin{frame}[more-space]{Uncertainty Quantification}
+  \dataheading{Conditional temperature moments for each control setting}
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \footnotesize
+    For the chosen inlet-disturbance law, average only over $\varepsilon_T$:
+    \[
+      \mu_T(\mathbf u)=\mathbb E_{\varepsilon_T}
+        [\widehat T_{\max}(P_{\mathrm{CPU}},T_{\mathrm{inlet}}^{\mathrm{meas}}+\varepsilon_T,F)],
+    \]
+    \[
+      \sigma_T^2(\mathbf u)=\operatorname{Var}_{\varepsilon_T}
+        [\widehat T_{\max}(P_{\mathrm{CPU}},T_{\mathrm{inlet}}^{\mathrm{meas}}+\varepsilon_T,F)].
+    \]
+    A proposed thermal target is
+    $\mu_T(\mathbf u)+k\sigma_T(\mathbf u)\leq T_{\mathrm{limit}}-\Delta T_{\mathrm{safety}}$.
+  \end{beamercolorbox}
+  \medskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \dataheading{A risk interpretation needs a rule}
+      \footnotesize
+      One conservative option is Cantelli's bound, for $k>0$ and finite variance:
+      \[
+        \Pr(\widehat T-\mu_T\geq k\sigma_T)\leq\frac{1}{1+k^2}.
+      \]
+      Choosing $k=\sqrt{(1-\alpha)/\alpha}$ bounds modeled exceedance by $\alpha$
+      when the target holds and $\sigma_T>0$. It can be conservative.
+    \column{0.49\textwidth}
+      \dataheading{Different from global PCE variance}
+      \footnotesize
+      Fixing controls changes the probability measure. Recompute conditional
+      moments using that disturbance law; do not reuse variance over all three inputs.\par
+      \smallskip
+      A Gaussian output assumption would give a different $k$; a polynomial
+      response is not automatically Gaussian. Safety margins need validation
+      errors, operating variability and transient tests.
+  \end{columns}
+  \datasource{Proposed interpretation, not a certified plant guarantee. A positive soft-constraint slack removes the stated target bound;
+    prediction error remains separate. If variance is zero, check the deterministic prediction directly.
+    Theory: \href{https://dornsife.usc.edu/sergey-lototsky/wp-content/uploads/sites/211/2023/06/Inequalities-Probab-Basic-1.pdf}{S. Lototsky, Basic Inequalities in Probability, Cantelli bound}.}
+\end{frame}

@@ -98,6 +98,143 @@
 \end{frame}
 
 \begin{frame}[more-space]{Model\enspace|\enspace Polynomial Chaos Expansion}
+  \dataheading{Our digital twin: model, measurements and decision}
+  {\fontsize{7}{8.2}\selectfont
+  \renewcommand{\arraystretch}{1.0}
+  \setlength{\aboverulesep}{0.8pt}
+  \setlength{\belowrulesep}{0.8pt}
+  \begin{tabular}{@{}p{0.22\textwidth}p{0.74\textwidth}@{}}
+    \toprule
+    \textbf{Element} & \textbf{Meaning in our project}\\
+    \midrule
+    \textbf{Model $\mathcal{M}$}\newline Equation, solver, cost &
+      $\widehat{T}_{\max}^{\mathrm{ss}}(\mathbf{x})
+      =\sum_{|\boldsymbol{\alpha}|\leq p}c_{\boldsymbol{\alpha}}
+      \Psi_{\boldsymbol{\alpha}}(\boldsymbol{\xi})$.
+      Planned UQLab least-squares fit with 4/10 coefficients (degree 1/2).
+      Evaluation is very fast because it is a surrogate model.\\
+    \midrule
+    \textbf{Parameters $\mathbf{q}$}\newline Which, how many, ranges &
+      Three operating inputs, $\mathbf{q}=(P_{\mathrm{CPU}},P_{\mathrm{fan,raw}},T_{\mathrm{inlet}})$.
+      Model A assumes independent uniforms:
+      $P_{\mathrm{CPU}}\sim\mathcal{U}(384.74,1786.23)$ W;
+      $P_{\mathrm{fan,raw}}\sim\mathcal{U}(0.12164,0.73057)$ (unit unverified);
+      $T_{\mathrm{inlet}}\sim\mathcal{U}(25.00,45.06)$ ${}^\circ$C.\\
+    \midrule
+    \textbf{Input state $s_0$}\newline and forcing &
+      No initial state $s_0$ for this steady-state map.
+      CPU power is the heat load; fan power represents cooling effort.
+      CPU/fan are proposed controls; inlet temperature is a boundary condition.\\
+    \midrule
+    \textbf{Output state $s$}\newline Field and size &
+      One scalar: predicted steady-state maximum CPU temperature [${}^\circ$C];
+      no spatial field.\\
+    \midrule
+    \textbf{Measurement operator $\mathcal{H}$}\newline Sensors, location, frequency &
+      18 IPMI CPU channels (2 CPUs $\times$ 9 servers), every 5 minutes.
+      $\mathcal{H}=\max_{j=1,\ldots,18}\overline{T}_j$:
+      average each CPU over the selected interval, then take the maximum.
+      All 18 channels must be complete.\\
+    \midrule
+    \textbf{Observable $y$}\newline What we fit &
+      19 measured labels: maximum of the 18 CPU interval means,
+      one per accepted period. The surrogate predicts this directly.\\
+    \midrule
+    \textbf{Quantity of interest}\newline What the decision needs &
+      Temperature margin and limit-exceedance UQ guide the decision:
+      maximum thermally permissible CPU power and a suitable fan setting
+      (planned soft-constrained optimization).\\
+    \bottomrule
+  \end{tabular}
+  }
+  \datasource{Project definition: data/raw/DATA\_DICTIONARY.csv; data/raw/README.md;
+    results/preprocessing/report.md; results/inputs/reference\_model.json.
+    Input bounds shown rounded; independent uniforms are a reference assumption, not physical uncertainty.
+    Predictive fitting, UQ and control remain planned.}
+\end{frame}
+
+\begin{frame}[more-space]{Model\enspace|\enspace Polynomial Chaos Expansion}
+  \dataheading{Can we identify the three inputs from temperature?}
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \footnotesize
+    \textbf{Generally, no unique answer: three unknown inputs, one observable.}
+    \[
+      T_{\max}^{\mathrm{ss}}
+      = f(P_{\mathrm{CPU}},P_{\mathrm{fan,raw}},T_{\mathrm{inlet}})
+    \]
+    Higher CPU power can be compensated by stronger cooling or colder inlet air.
+    Different input combinations can produce the same maximum CPU temperature.
+  \end{beamercolorbox}
+  \medskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \dataheading{What we do in this project}
+      \footnotesize
+      All three inputs are \textbf{measured in the dataset}. We use them to predict
+      temperature; we do not infer them from temperature.\par
+      \smallskip
+      Training the polynomial coefficients uses our \textbf{19 observations}.
+      Those coefficients are distinct from the three operating inputs.
+
+    \column{0.49\textwidth}
+      \dataheading{If inverse calibration were needed}
+      \footnotesize
+      With two inputs known, estimating the third may be possible if its effect
+      gives a unique, sufficiently sensitive inverse over the allowed range.\par
+      \smallskip
+      There is \textbf{no fixed evaluation count}: it depends on the algorithm.
+      More evaluations alone cannot make three unknowns uniquely identifiable.
+  \end{columns}
+  \medskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
+    \footnotesize
+    \textbf{Optimization is a different task}\quad An objective and constraints
+    select CPU/fan settings among possible operating combinations.
+  \end{beamercolorbox}
+  \datasource{Project model: three operating inputs and one scalar temperature observable.
+    This concerns input identification, not identifiability of the fitted PCE coefficients.
+    No inverse-calibration algorithm is implemented.}
+\end{frame}
+
+\begin{frame}[more-space]{Model\enspace|\enspace Polynomial Chaos Expansion}
+  \dataheading{Do all three inputs influence the temperature?}
+  {\footnotesize
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{@{}p{0.20\textwidth}p{0.35\textwidth}p{0.39\textwidth}@{}}
+    \toprule
+    \textbf{Input} & \textbf{Expected effect, others fixed} & \textbf{Reason}\\
+    \midrule
+    CPU power & Higher power $\rightarrow$ hotter CPUs & More heat generation.\\
+    Inlet temperature & Warmer air $\rightarrow$ hotter CPUs & Less temperature difference available for cooling.\\
+    Fan signal & More cooling $\rightarrow$ cooler CPUs & Expected only if the signal reliably tracks effective airflow.\\
+    \bottomrule
+  \end{tabular}
+  }
+  \medskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \dataheading{Working hypotheses, not results}
+      \footnotesize
+      Moderate nonlinearity is plausible: cooling can saturate and the hottest
+      CPU can change. Sensor noise also affects the fit.\par
+      \smallskip
+      Check fitted response curves and local derivatives; use Sobol indices to
+      quantify importance under Model A. Keep all three inputs unless evidence supports removal.
+    \column{0.49\textwidth}
+      \dataheading{A small experimental budget}
+      \footnotesize
+      We have \textbf{19 aggregated observations}, not a simulator with unlimited runs.\par
+      \smallskip
+      A quadratic has 10 coefficients. Reliable calibration ideally needs
+      substantially more well-spread observations than coefficients.
+      Five cases do not establish independent random sampling.
+  \end{columns}
+  \datasource{Expected physical trends are hypotheses for this project, not fitted sensitivities.
+    Data constraints: results/preprocessing/report.md and results/inputs/report.md.
+    Baseline PCE is data-driven; thermal guidance is introduced separately.}
+\end{frame}
+
+\begin{frame}[more-space]{Model\enspace|\enspace Polynomial Chaos Expansion}
   \dataheading{Why we chose PCE for the thermal digital twin}
   \begin{columns}[T,onlytextwidth]
     \column{0.48\textwidth}
@@ -116,8 +253,8 @@
         \footnotesize
         Degrees 1 / 2 require only \textbf{4 / 10 polynomial weights}.\par
         \smallskip
-        Small regression problems, fast evaluations and simple derivatives make
-        PCE convenient inside an optimization loop.
+        \textbf{Model evaluation is very fast because it is a surrogate model.}
+        A prediction evaluates just 4 / 10 polynomial terms, with no iterative thermal solver.
       \end{beamercolorbox}
 
     \column{0.49\textwidth}
@@ -237,8 +374,9 @@
   \medskip
   \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data panel}
     \footnotesize
-    \textbf{Compare degrees 1 and 2}\quad Compare fold-wise and pooled held-out metrics,
-    residual patterns and worst errors; balance prediction accuracy and model complexity.
+    \textbf{Planned workload}\quad 5 folds $\times$ 2 degrees = \textbf{10 fits}
+    and \textbf{38 held-out predictions}. Compare errors and residuals;
+    then fit the selected degree once on all 19 observations. No new experiments.
   \end{beamercolorbox}
   \datasource{Protocol specified here; no fitted PCE or validation scores saved yet.
     Counts: results/preprocessing/case\_counts.csv.
@@ -246,7 +384,44 @@
     Held-out cases may require extrapolation; interpret $R^2$ cautiously with 2--5 points (undefined for constant targets).}
 \end{frame}
 
-\subsection{Adding Physics: Physics-Informed PCE}
-
-\begin{frame}[more-space]{Model\enspace|\enspace Adding Physics: Physics-Informed PCE}
+\begin{frame}[more-space]{Model\enspace|\enspace Polynomial Chaos Expansion}
+  \dataheading{Validation: global accuracy and local decision quality}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \dataheading{Use the same held-out cases}
+      \footnotesize
+      Compare standard PCE, physics-informed PCE and a possible GP baseline.\par
+      \smallskip
+      \textbf{Global:} pooled and per-case RMSE, MAE and $R^2$.\par
+      \smallskip
+      \textbf{Local:} maximum underprediction, residuals near the temperature limit
+      and errors near candidate optimal settings.\par
+      \smallskip
+      Also assess physical trends, uncertainty calibration and optimization performance.
+    \column{0.49\textwidth}
+      \dataheading{The fast pointwise LOO formula}
+      \footnotesize
+      For a fixed, full-rank ordinary least-squares basis,
+      \[
+        e_i^{\mathrm{LOO}}=\frac{y_i-\widehat y_i}{1-h_{ii}},
+        \qquad \widehat{\mathbf y}=\mathbf{H}_{\mathrm{hat}}\mathbf y.
+      \]
+      This removes \textbf{one observation}, not an entire case. It does not
+      replace our five case-level refits.\par
+      \smallskip
+      Reusing data for LOO or $k$-fold validation needs no new experiments,
+      but computation still has a cost. Joint physics calibration needs refitting.
+  \end{columns}
+  \medskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
+    \footnotesize
+    \textbf{Prevent leakage}\quad Fit physical parameters and tune degrees, kernels
+    and loss weights inside training cases only. Use grouped inner validation;
+    the held-out case remains untouched. Few cases limit how much tuning is defensible.
+  \end{beamercolorbox}
+  \datasource{Theory: \href{https://openturns.github.io/openturns/1.24/auto_numerical_methods/general_methods/plot_pce_design.html}{OpenTURNS analytical PCE LOO example}.
+    $\mathbf{H}_{\mathrm{hat}}$ is the regression projection, distinct from measurement operator $\mathcal H$.
+    Benchmark and local checks are proposed; no scores are available yet.}
 \end{frame}
+
+\input{sections/physics-informed}

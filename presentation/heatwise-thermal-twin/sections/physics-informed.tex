@@ -1,0 +1,118 @@
+\subsection{Adding Physics: Physics-Informed PCE}
+
+\begin{frame}[more-space]{Model\enspace|\enspace Adding Physics: Physics-Informed PCE}
+  \dataheading{A simple thermal-resistance model as physical guidance}
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \footnotesize
+    At equilibrium, temperature rise is approximated by heat generation
+    multiplied by an effective thermal resistance:
+    \[
+      T_{\mathrm{phys}}=T_{\mathrm{inlet}}+\Delta T_0
+        +P_{\mathrm{CPU}}R_{\mathrm{th}}(F),
+      \qquad F=P_{\mathrm{fan,raw}}>0,
+    \]
+    \[
+      R_{\mathrm{th}}(F)=R_0+K\left(\frac{F}{F_{\mathrm{ref}}}\right)^{-\gamma}.
+    \]
+  \end{beamercolorbox}
+  \medskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \dataheading{Meaning of the parameters}
+      \footnotesize
+      $R_0\geq0$: resistance remaining at strong cooling.\par
+      $K\geq0$: additional resistance at reference cooling.\par
+      $\gamma>0$: how resistance decreases with cooling.\par
+      $\Delta T_0$: fitted temperature offset.\par
+      \smallskip
+      $R_0,K$ have units of ${}^\circ$C/W.
+    \column{0.49\textwidth}
+      \dataheading{Why use a reference ratio?}
+      \footnotesize
+      Fix $F_{\mathrm{ref}}>0$ on the same raw scale so $F/F_{\mathrm{ref}}$
+      is dimensionless. It is not a conversion to watts.\par
+      \smallskip
+      Calibrate the remaining parameters using training cases only.
+      With 19 observations, check identifiability and simplify if needed.
+  \end{columns}
+  \datasource{Proposed effective thermal-resistance relationship from the project notes, not a validated heat-transfer law.
+    Raw fan unit and fan/airflow interpretation remain unverified. No physical parameters have been fitted yet.}
+\end{frame}
+
+\begin{frame}[more-space]{Model\enspace|\enspace Adding Physics: Physics-Informed PCE}
+  \dataheading{Keep the PCE; add physics to the training loss}
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \footnotesize
+    The prediction keeps the same orthonormal Legendre expansion.
+    Only the objective used to learn its coefficients changes:
+    \[
+      \mathcal L(\mathbf c)=
+      \underbrace{\frac{1}{N}\sum_{i=1}^{N}
+        \left[\widehat T_{\max}(\mathbf x_i)-y_i\right]^2}_{\mathcal L_{\mathrm{data}}}
+      +\lambda_{\mathrm{phys}}
+      \underbrace{\frac{1}{M}\sum_{j=1}^{M}
+        \left[\widehat T_{\max}(\mathbf z_j)-T_{\mathrm{phys}}(\mathbf z_j)\right]^2}
+        _{\mathcal L_{\mathrm{physics}}}.
+    \]
+  \end{beamercolorbox}
+  \medskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \dataheading{Fit measurements and encourage physics}
+      \footnotesize
+      $N$: training observations; $y_i$: measured targets.\par
+      $M$: physics-check operating points $\mathbf z_j$.\par
+      \smallskip
+      Restrict checks to supported, validated operating conditions; generated
+      points are not additional experimental evidence.
+    \column{0.49\textwidth}
+      \dataheading{Choose the physics influence carefully}
+      \footnotesize
+      $\lambda_{\mathrm{phys}}\geq0$ controls the compromise.
+      Zero gives the data-only baseline. Select it within training-case validation.\par
+      \smallskip
+      This is a loss-based idea similar to a PINN, using polynomials instead of a neural network.
+  \end{columns}
+  \datasource{Proposed project loss; no PI-PCE fit is implemented.
+    Standard PCE is data-driven. Physics guidance changes the fitted coefficients, not the orthonormal basis;
+    coefficient-based UQ/Sobol remain available under independent Model A.}
+\end{frame}
+
+\begin{frame}[more-space]{Model\enspace|\enspace Adding Physics: Physics-Informed PCE}
+  \dataheading{Potential benefits and limits of the physics guidance}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
+        \dataheading{What it could improve}
+        \footnotesize
+        Encourage reasonable heating and cooling trends.\par
+        \smallskip
+        Potentially improve generalization with sparse measurements.\par
+        \smallskip
+        Preserve the lightweight PCE and its analytical moments and Sobol calculations.
+      \end{beamercolorbox}
+    \column{0.49\textwidth}
+      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data warning}
+        \dataheading{What it cannot guarantee}
+        \footnotesize
+        Total power describes 18 CPUs; the response is their hottest interval mean.
+        Uneven loads and a changing hottest CPU limit a single resistance model.\par
+        \smallskip
+        Fan signal, airflow and electrical power are not interchangeable.\par
+        \smallskip
+        A penalty encourages physics; it does not enforce exact laws or fill missing experimental coverage.
+      \end{beamercolorbox}
+  \end{columns}
+  \medskip
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \dataheading{How we would decide whether it helps}
+    \footnotesize
+    Compare data-only PCE and PI-PCE on the same held-out cases.
+    Fit resistance parameters and tune the loss weight using training cases only.
+    Keep the simpler model if the physical term does not improve held-out accuracy
+    and plausibility. Additional tuning increases the baseline validation workload.
+  \end{beamercolorbox}
+  \datasource{Project proposal and limitations from the notes; sensor/coverage evidence:
+    data/raw/DATA\_DICTIONARY.csv; results/preprocessing/report.md; results/inputs/report.md.
+    These are expected benefits, not measured results.}
+\end{frame}

@@ -1,30 +1,137 @@
-% Empty placeholders for the remaining presentation topics.
+% Proposed UQ, sensitivity, optimization and deployment stages.
 \section{Uncertainty Quantification}
 
 \begin{frame}[more-space]{Uncertainty Quantification}
+  \dataheading{How many model evaluations do we need after fitting?}
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \footnotesize
+    With our orthonormal PCE and the independent uniform reference (Model A),
+    the output mean and variance follow directly from the coefficients:
+    \[
+      \mathbb{E}[\widehat{T}_{\max}^{\mathrm{ss}}]=c_{\mathbf{0}},
+      \qquad
+      \mathrm{Var}[\widehat{T}_{\max}^{\mathrm{ss}}]
+      =\sum_{\boldsymbol{\alpha}\neq\mathbf{0}}c_{\boldsymbol{\alpha}}^2.
+    \]
+  \end{beamercolorbox}
+  \medskip
+  {\footnotesize
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{@{}p{0.43\textwidth}p{0.53\textwidth}@{}}
+    \toprule
+    \textbf{Requested result} & \textbf{Additional PCE evaluations}\\
+    \midrule
+    Mean and variance & \textbf{0}: read and combine the fitted coefficients.\\
+    Distribution, quantiles or probability of exceeding a temperature limit &
+      Sample the surrogate: e.g.\ start with \textbf{10,000 predictions},
+      then increase until the desired statistics converge.\\
+    \bottomrule
+  \end{tabular}
+  }
+  \medskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
+    \footnotesize
+    This describes variation under the \textbf{assumed input distributions},
+    not automatically prediction error. The sample count is illustrative;
+    rare exceedances may need many more samples. More surrogate runs add no experimental evidence.
+  \end{beamercolorbox}
+  \datasource{Theory: \href{https://uploads-ssl.webflow.com/5f9818a73007a0ae56f4ee49/638f5915433726a0f2f46821_UserManual_PolynomialChaos.pdf}{ETH UQ[py]Lab PCE manual}, Sec. 1.6.
+    Planned calculations after predictive fitting and validation; no output-UQ results yet.}
 \end{frame}
+
+\input{sections/uncertainty-control}
 
 \section{Sobol Sensitivity Analysis}
 
 \begin{frame}[more-space]{Sobol Sensitivity Analysis}
+  \dataheading{Sensitivity directly from the fitted PCE coefficients}
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \footnotesize
+    For independent Model A inputs, each polynomial term belongs to an input
+    or an interaction. Group its squared coefficient to obtain Sobol indices.
+    \[
+      V=\sum_{\boldsymbol{\alpha}\neq\mathbf{0}}c_{\boldsymbol{\alpha}}^2,
+      \qquad
+      S_i=\frac{\sum_{\alpha_i>0,\,\alpha_{j\neq i}=0}c_{\boldsymbol{\alpha}}^2}{V},
+      \qquad
+      S_i^{\mathrm{T}}=\frac{\sum_{\alpha_i>0}c_{\boldsymbol{\alpha}}^2}{V}.
+    \]
+    These variance-based indices require $V>0$.
+  \end{beamercolorbox}
+  \medskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \dataheading{What do the indices mean?}
+      \footnotesize
+      \textbf{First-order $S_i$:} the fraction of output variance attributed to
+      input $i$ acting alone.\par
+      \smallskip
+      \textbf{Total $S_i^{\mathrm{T}}$:} the fraction involving input $i$,
+      including its interactions with the other inputs.
+
+    \column{0.49\textwidth}
+      \dataheading{How many runs?}
+      \footnotesize
+      \textbf{0 additional PCE evaluations after fitting.}\par
+      \smallskip
+      Only coefficient calculations are needed: no Monte Carlo evaluation of
+      the surrogate and no new physical experiments.\par
+      \smallskip
+      Input elimination is optional; keep all three unless evidence supports removal.
+  \end{columns}
+  \medskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
+    \footnotesize
+    These indices describe our \textbf{independent reference}, not the experimental
+    dependence between inlet temperature and fan power. Their accuracy also depends
+    on the fitted surrogate. With a dependence transformation, indices describe latent
+    variables, not automatically the original physical controls. They do not establish causal effects.
+  \end{beamercolorbox}
+  \datasource{Theory: \href{https://sudret.ibk.ethz.ch/publications/preprints-archive/2016-007.html}{Le Gratiet, Marelli and Sudret (2016), ETH Z\"urich}.
+    Model A: results/inputs/reference\_model.json. Sensitivity calculations remain planned.}
 \end{frame}
 
-\section{Optimization Problem: Soft-constrained optimal control}
-
-\begin{frame}[more-space]{Optimization Problem: Soft-constrained optimal control}
-\end{frame}
-
-\section{The whole digital twin workflow}
-
-\begin{frame}[more-space]{The whole digital twin workflow}
-\end{frame}
-
-\section{Other possible directions: GPs}
-
-\begin{frame}[more-space]{Other possible directions: GPs}
-\end{frame}
+\input{sections/optimization}
+\input{sections/workflow}
+\input{sections/alternatives}
 
 \section{Conclusion and Outlook}
 
 \begin{frame}[more-space]{Conclusion and Outlook}
+  \dataheading{A reproducible data foundation for the proposed thermal twin}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
+        \dataheading{Implemented and supported by results}
+        \footnotesize
+        Raw-data inspection and exploratory audit.\par
+        \smallskip
+        Steady-state selection: \textbf{19 observations}, complete CPU sensors,
+        documented thresholds and diagnostics.\par
+        \smallskip
+        Three assumed uniform input distributions with ETH UQLab.py;
+        explicit separation of independent reference A and optional scenario B.
+      \end{beamercolorbox}
+    \column{0.49\textwidth}
+      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data warning}
+        \dataheading{Next implementation and evidence}
+        \footnotesize
+        Fit/validate degree-1/2 PCE; compare physics-guided PCE and optionally GP.\par
+        \smallskip
+        Define operating disturbance uncertainty; compute UQ/Sobol;
+        demonstrate optimization within supported conditions.\par
+        \smallskip
+        Verify fan units, command mapping and missing combinations.
+        Live control requires transient tests and independent safety protection.
+      \end{beamercolorbox}
+  \end{columns}
+  \medskip
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \footnotesize
+    \textbf{Digital-twin concept}\quad Combine measured data, a physics-guided
+    surrogate and repeated UQ/sensitivity/optimization tasks with two-way data
+    exchange. The offline part is the implementation scope; infrastructure and live control remain conceptual.
+  \end{beamercolorbox}
+  \datasource{Completed work: repository README, results/audit/, results/preprocessing/ and results/inputs/.
+    Later sections describe the proposed design, not completed predictive models, control experiments or certified safety results.}
 \end{frame}

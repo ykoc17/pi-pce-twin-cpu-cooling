@@ -38,7 +38,7 @@ The PDF contains the template's blue title page followed by:
   **23**: inputs, output, distributions, dependencies, assumptions, completed work
   and the next step. No predictive model has been fitted yet.
 - **Model**, editable in `sections/model.tex`, starts on slide **24** with the
-  subsection **Polynomial Chaos Expansion** (five slides, **24--28**). It explains
+  subsection **Polynomial Chaos Expansion** (nine slides, **24--32**). It explains
   PCE as a weighted polynomial surrogate, the three inputs and temperature target,
   the independent uniform reference assumptions and their connection to a
   normalized Legendre basis. The planned scope is degrees 1 and 2: the full
@@ -47,30 +47,70 @@ The PDF contains the template's blue title page followed by:
   uniquely estimated by unrestricted ordinary least squares with 19 observations;
   20 is only the algebraic minimum with a full-rank design, not a validation
   guarantee. No model-fitting code is added by these presentation slides.
-  Slide **26** explains the advantages: efficient input-UQ calculations for the
+  Slide **26** maps the digital twin into a table: model equation, planned solver
+  and very fast surrogate evaluation; the three operating parameters with
+  uniform ranges and no initial state; scalar output; 18 CPU/IPMI measurement
+  channels, sampling frequency and aggregation operator; the 19 fitted targets;
+  and the thermal quantity of interest for the proposed control problem.
+  Slide **27** explains that three unknown inputs cannot generally be uniquely
+  identified from one maximum-temperature observable. Our inputs are measured;
+  inverse calibration is not part of the current workflow. It has no fixed run
+  count, and more evaluations do not resolve non-uniqueness. With two known
+  inputs, inversion for the third requires a unique, sufficiently sensitive
+  relationship. This is distinct from coefficient fitting and control optimization.
+  Slide **28** adds expected input sensitivities, possible nonlinearity/noise,
+  the experimental budget and the need for well-spread observations beyond the
+  algebraic coefficient count. Expected physical trends are hypotheses, not results.
+  Slide **29** explains the advantages: efficient input-UQ calculations for the
   planned soft-constraint control optimization, coefficient-based Sobol analysis,
   lightweight polynomial regression, and ETH UQLab.py as the selected PCE
   framework. Input models already use UQLab; predictive PCE fitting remains
   planned. Control margins require validated uncertainty, beyond global input
-  variability alone. Slide **27** covers the limited 19 observations, the
+  variability alone. Slide **30** covers the limited 19 observations, the
   independence assumption of classical Sobol formulas (not a universal PCE
   restriction), the observed inlet/fan dependence, and possible underfitting by
   degrees 1/2. Neural networks are presented as a potential alternative with much
   larger, well-covered data and validation, not as automatically superior.
-  Slide **28** specifies five-fold **leave-one-case-out** validation: train on four
+  Slide **31** specifies five-fold **leave-one-case-out** validation: train on four
   complete cases and predict the fifth for each degree. It gives train/validation
   counts, formulas for per-fold RMSE, MAE, R2 and maximum absolute error, and the
   held-out residual convention `observed - predicted`. Degrees 1 and 2 use the
   same folds and are compared with fold-wise/pooled held-out metrics and residuals.
+  The workload is 10 fits and 38 held-out predictions, followed by one final fit
+  of the selected degree on all 19 observations; no new experiments are needed.
   This is a validation protocol: no predictive PCE or validation results are
   currently implemented/saved. Small-fold R2 and possible case extrapolation are noted.
-  Slide **29** starts the subsection **Adding Physics: Physics-Informed PCE**
-  under Model; its content is intentionally empty.
-- **Remaining topics**, editable in `sections/remaining-topics.tex`, are empty
-  slides **30--35**, in order: **Uncertainty Quantification**; **Sobol Sensitivity
-  Analysis**; **Optimization Problem: Soft-constrained optimal control**;
-  **The whole digital twin workflow**; **Other possible directions: GPs**;
-  **Conclusion and Outlook**. Each topic starts its own section.
+  Slide **32** distinguishes fast pointwise OLS LOO from case-level validation,
+  adds global/local decision metrics, and specifies training-only/nested grouped
+  tuning for a fair model comparison.
+- **Adding Physics: Physics-Informed PCE**, under Model, is editable in
+  `sections/physics-informed.tex` (slides **33--35**): the proposed effective
+  thermal-resistance relationship, the data-plus-physics training loss and its
+  weights/check points, calibration, possible benefits and limitations.
+  The raw fan/reference ratio is dimensionless, not a conversion to watts.
+  No physical parameters or PI-PCE have been fitted.
+- **Uncertainty Quantification**, in `sections/remaining-topics.tex` and
+  `sections/uncertainty-control.tex` (slides **36--38**): zero extra predictions
+  for global mean/variance; illustrative 10,000-sample distribution estimates;
+  aleatory/epistemic distinctions; conditional inlet-disturbance moments with
+  controls fixed; and a proposed Cantelli-bound interpretation of a thermal target.
+  The operating disturbance law, risk level and safety margin are not calibrated.
+- **Sobol Sensitivity Analysis**, in `sections/remaining-topics.tex` (slide **39**):
+  first-order/total coefficient formulas, zero extra predictions after fitting,
+  independent-reference interpretation, latent-variable caveat and optional input removal.
+- **Optimization Problem: Soft-constrained optimal control**, in
+  `sections/optimization.tex` (slides **40--41**): CPU/cooling/slack tradeoff,
+  conditional thermal target, actuator bounds, change limits and supported-domain
+  restriction; solver, hardware mapping and independent confirmation requirements.
+- **The whole digital twin workflow**, in `sections/workflow.tex` (slides **42--45**):
+  potential data streams, two-way connectivity, fast operating/safety loop,
+  slower retraining and future LHS experiments, infrastructure and conceptual deployment.
+- **Other possible directions: GPs**, in `sections/alternatives.tex` (slides **46--47**):
+  small-data GP alternative, conditional predictive uncertainty and its limits,
+  and a common-case benchmark against standard/physics-informed PCE.
+- **Conclusion and Outlook**, in `sections/remaining-topics.tex` (slide **48**):
+  completed inspection/audit/preprocessing/input models versus proposed modeling,
+  UQ/sensitivity/optimization and conceptual live control. No predictive results are invented.
 
 The Introduction has the subsections **Motivation and Context** (three slides),
 **Why a Digital Twin?** (one slide), and **Why not Synthetic Data?** (one slide).
@@ -95,6 +135,31 @@ The dashed green line is the maximum of the period's 18 CPU averages.
 Selected panels are cropped using LaTeX `trim` and `clip`; the original figures
 remain unchanged. Sources are linked or named at the bottom of each slide.
 The institute and date fields remain blank and can be filled in in the preamble.
+
+## Coverage of the supplied project notes
+
+The presentation incorporates the supplied notes into the relevant chapters.
+Earlier alternatives in the notes are reconciled with the subsequent project decisions:
+
+| Notes topic | Presentation location and interpretation |
+| --- | --- |
+| Digital-twin objective: data, physics, data-driven methods, repeated analysis and deployment | Introduction; slides 33--48 distinguish the proposed concept from completed data work. |
+| Model map, input parameters, observable and decision quantity | Slide 26; the decision needs CPU/fan settings, guided by temperature and its thermal margin. |
+| Input sensitivity, identifiability, cost and run counts | Slides 27--31, 36 and 39. Evaluation remains described as very fast because it is a surrogate, with no invented timing. |
+| Nonlinearity, noise and experimental budget | Slide 28. More independent, well-spread periods are desirable; no universal sample-count guarantee is given. |
+| Experimental design, refinement and final full-model/experimental check | Slides 32, 41 and 44. Optimized LHS is a possible future design, not a claim about existing HEATWISE data. |
+| Reference marginals, sampling versus physical uncertainty, dependencies | Slides 16--22 and 37--39. Retain agreed independent uniforms rather than MLE/AIC/BIC fitting. Nataf assumes a Gaussian copula; Rosenblatt is mentioned as an unused alternative. |
+| Steady state, thermal inertia and data-only baseline | Preprocessing/PCE chapters; slides 37 and 43. No transient prediction is claimed. |
+| Physical resistance model, physics loss, calibration and validation | Slides 33--35; fit physical parameters and tune the loss only inside training cases. |
+| LOO/k-fold and global/local metrics | Slides 31--32. Analytic pointwise LOO is not the five-fold case protocol; validation is not computationally free. |
+| Control-specific UQ and risk interpretation | Slides 37--38. Conditional moments differ from global reference variance; Cantelli is a proposed valid bound, not an implemented plant guarantee. |
+| Sobol interpretation and input elimination | Slide 39. Latent-variable indices need care; removal is not a required outcome. |
+| Soft-constrained optimization and practical data limitations | Slides 40--41. Add penalized thermal slack to match the agreed soft-constraint concept; keep actuator/domain bounds hard. |
+| Previous settings and measurement operator | Previous settings constrain control changes (40), not the steady-state initial state. The scalar prediction is directly observed, but constructing its measured target requires 18-sensor averaging/max aggregation (26), rather than an identity on raw sensor data. |
+| Online/slower learning loops, streams and two-way connection | Slides 42--44; independent safety uses actual temperatures and the control rate is not inferred from five-minute archive spacing. |
+| Infrastructure and deployment | Slide 45: acquisition, MQTT/OPC UA examples, time-series storage, Python/UQLab, edge execution, actuation, safety and maintenance. No live stack is installed. |
+| GP/PCE/PI-PCE comparison | Slides 46--47; GP uncertainty is conditional on assumptions, and UQ/Sobol remain possible without the simple PCE coefficient formulas. |
+| Implementation status and outlook | Slides 23 and 48 retain the actual completed stages; later modeling/control sections are proposed work. |
 
 ## Build from the command line
 
