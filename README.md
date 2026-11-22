@@ -142,6 +142,20 @@ unmeasured combinations, and why case ranges or occupied coarse bins cannot
 justify extrapolation. Case membership alone does not establish steady state.
 No predictive models are fitted.
 
+## Presentation
+
+The RWTH-CI LaTeX presentation is in
+[`presentation/heatwise-thermal-twin/`](presentation/heatwise-thermal-twin/README.md).
+With Python and LuaLaTeX installed, build it from the repository root:
+
+```bash
+python presentation/heatwise-thermal-twin/build.py
+```
+
+The output is `presentation/heatwise-thermal-twin/pdf/heatwise-thermal-twin.pdf`.
+In VS Code, `Ctrl+Shift+B` runs the same build. See the presentation README for
+setup, editing, and image-path conventions.
+
 ## Tests
 
 ```bash
