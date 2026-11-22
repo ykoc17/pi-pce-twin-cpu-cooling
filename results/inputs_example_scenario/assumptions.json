@@ -1,0 +1,33 @@
+{
+  "experimental_sampling": "Each accepted period has equal descriptive weight; no weighting by duration or number of raw readings.",
+  "reference_A": "All three uniform marginals are assumed independent. This is a chosen mathematical reference measure, not an empirical independence conclusion.",
+  "bounds": "Exact extrema of the 19 period means, without rounding or padding. Data-dependent bounds are not physical or safety limits.",
+  "candidate_densities": "Uniform selected by instruction; symmetric triangular and Beta(2,2) are fixed illustrative alternatives, not fitted or ranked.",
+  "QQ_and_histograms": "Compare the experimental sampling pattern with a chosen reference; mismatches are expected. No iid GOF p-values, maximum likelihood, AIC or BIC.",
+  "joint_coverage": "The reference box includes untested combinations, including low inlet temperature with high fan signal. A Gaussian copula also assigns mass in untested gaps; it is not a coverage boundary.",
+  "physical_uncertainty": "Input variability, sensor uncertainty, surrogate error and uncertainty in fitted coefficients are different. No physical uncertainty law is inferred.",
+  "scenario_B": {
+    "estimation_status": "not_estimated_from_HEATWISE",
+    "n_observations": 19,
+    "case_counts": {
+      "1": 4,
+      "2": 4,
+      "3": 5,
+      "4": 4,
+      "5": 2
+    },
+    "reasons": [
+      "Only 19 selected periods from five controlled experimental cases; iid operational sampling is not established.",
+      "Inlet and fan settings were coupled by the case design; observed correlation describes that design.",
+      "Inlet values cluster near three setpoints, with ties and gaps; a smooth Gaussian copula is not established.",
+      "Unequal accepted counts per case are selection outcomes, not operating-scenario probabilities.",
+      "A nonsingular empirical correlation would not establish statistical reliability or Gaussian-copula adequacy."
+    ],
+    "scenario_policy": "Only an explicitly supplied latent-normal correlation matrix creates model B; no automatic fit or repair.",
+    "gaussian_copula_assumption": "Uniform marginal CDFs transformed to correlated Gaussian scores; Gaussian dependence is assumed, not demonstrated.",
+    "endpoint_policy": "Exact uniform endpoints have infinite normal scores; forward Nataf rejects endpoints rather than clipping them.",
+    "sobol_policy": "Classical coefficient-based Sobol decomposition applies to A's independent reference measure. Do not reuse it for B's physical inputs. Indices in B's independent latent coordinates describe those coordinates."
+  },
+  "fan_unit": "tunnel_fan_power_raw has unverified units; no W/kW conversion.",
+  "scope": "Input probability models and diagnostics only; no predictive PCE or temperature model, propagated output UQ or Sobol indices have been fitted/computed."
+}

@@ -1,0 +1,80 @@
+{
+  "total_cpu_power_W": {
+    "Uniform (selected)": {
+      "Type": "Uniform",
+      "Parameters": [
+        384.735294118,
+        1786.22580645
+      ]
+    },
+    "Triangular (illustrative)": {
+      "Type": "Triangular",
+      "Parameters": [
+        384.735294118,
+        1786.22580645,
+        1085.480550284
+      ]
+    },
+    "Beta(2,2) (illustrative)": {
+      "Type": "Beta",
+      "Parameters": [
+        2,
+        2,
+        384.735294118,
+        1786.22580645
+      ]
+    }
+  },
+  "server_inlet_air_temp_tunnel_C": {
+    "Uniform (selected)": {
+      "Type": "Uniform",
+      "Parameters": [
+        25.0,
+        45.0555555556
+      ]
+    },
+    "Triangular (illustrative)": {
+      "Type": "Triangular",
+      "Parameters": [
+        25.0,
+        45.0555555556,
+        35.0277777778
+      ]
+    },
+    "Beta(2,2) (illustrative)": {
+      "Type": "Beta",
+      "Parameters": [
+        2,
+        2,
+        25.0,
+        45.0555555556
+      ]
+    }
+  },
+  "tunnel_fan_power_raw": {
+    "Uniform (selected)": {
+      "Type": "Uniform",
+      "Parameters": [
+        0.121636363636,
+        0.730571428571
+      ]
+    },
+    "Triangular (illustrative)": {
+      "Type": "Triangular",
+      "Parameters": [
+        0.121636363636,
+        0.730571428571,
+        0.42610389610349997
+      ]
+    },
+    "Beta(2,2) (illustrative)": {
+      "Type": "Beta",
+      "Parameters": [
+        2,
+        2,
+        0.121636363636,
+        0.730571428571
+      ]
+    }
+  }
+}

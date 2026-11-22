@@ -1,0 +1,14 @@
+{
+  "name": "illustrative_inlet_fan_dependence",
+  "description": "Illustrative Gaussian-copula scenario, not fitted to HEATWISE and not a validated operating distribution. CPU power is independent of the inlet/fan pair; the pair has latent-normal correlation 0.75.",
+  "input_order": [
+    "total_cpu_power_W",
+    "server_inlet_air_temp_tunnel_C",
+    "tunnel_fan_power_raw"
+  ],
+  "gaussian_correlation": [
+    [1.0, 0.0, 0.0],
+    [0.0, 1.0, 0.75],
+    [0.0, 0.75, 1.0]
+  ]
+}

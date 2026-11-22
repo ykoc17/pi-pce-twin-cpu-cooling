@@ -1,0 +1,143 @@
+{
+  "concept": "B_optional_dependent_operating_scenario",
+  "status": "user_specified_not_fitted",
+  "estimation": {
+    "estimation_status": "not_estimated_from_HEATWISE",
+    "n_observations": 19,
+    "case_counts": {
+      "1": 4,
+      "2": 4,
+      "3": 5,
+      "4": 4,
+      "5": 2
+    },
+    "reasons": [
+      "Only 19 selected periods from five controlled experimental cases; iid operational sampling is not established.",
+      "Inlet and fan settings were coupled by the case design; observed correlation describes that design.",
+      "Inlet values cluster near three setpoints, with ties and gaps; a smooth Gaussian copula is not established.",
+      "Unequal accepted counts per case are selection outcomes, not operating-scenario probabilities.",
+      "A nonsingular empirical correlation would not establish statistical reliability or Gaussian-copula adequacy."
+    ],
+    "scenario_policy": "Only an explicitly supplied latent-normal correlation matrix creates model B; no automatic fit or repair.",
+    "gaussian_copula_assumption": "Uniform marginal CDFs transformed to correlated Gaussian scores; Gaussian dependence is assumed, not demonstrated.",
+    "endpoint_policy": "Exact uniform endpoints have infinite normal scores; forward Nataf rejects endpoints rather than clipping them.",
+    "sobol_policy": "Classical coefficient-based Sobol decomposition applies to A's independent reference measure. Do not reuse it for B's physical inputs. Indices in B's independent latent coordinates describe those coordinates."
+  },
+  "scenario": {
+    "name": "illustrative_inlet_fan_dependence",
+    "description": "Illustrative Gaussian-copula scenario, not fitted to HEATWISE and not a validated operating distribution. CPU power is independent of the inlet/fan pair; the pair has latent-normal correlation 0.75.",
+    "input_order": [
+      "total_cpu_power_W",
+      "server_inlet_air_temp_tunnel_C",
+      "tunnel_fan_power_raw"
+    ],
+    "gaussian_correlation": [
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.75
+      ],
+      [
+        0.0,
+        0.75,
+        1.0
+      ]
+    ]
+  },
+  "uqlab_options": {
+    "Name": "B_illustrative_inlet_fan_dependence",
+    "Marginals": [
+      {
+        "Name": "total_cpu_power_W",
+        "Type": "Uniform",
+        "Parameters": [
+          384.735294118,
+          1786.22580645
+        ]
+      },
+      {
+        "Name": "server_inlet_air_temp_tunnel_C",
+        "Type": "Uniform",
+        "Parameters": [
+          25.0,
+          45.0555555556
+        ]
+      },
+      {
+        "Name": "tunnel_fan_power_raw",
+        "Type": "Uniform",
+        "Parameters": [
+          0.121636363636,
+          0.730571428571
+        ]
+      }
+    ],
+    "Copula": {
+      "Type": "Gaussian",
+      "Parameters": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.75
+        ],
+        [
+          0.0,
+          0.75,
+          1.0
+        ]
+      ]
+    }
+  },
+  "matrix_eigenvalues": [
+    0.25,
+    1.0,
+    1.75
+  ],
+  "matrix_condition_number": 7.0,
+  "inverse_then_forward_max_abs_normal_error": 1.9059753775252375e-13,
+  "sample_physical_pearson": [
+    [
+      1.0,
+      0.00350729883811231,
+      0.011497993278688536
+    ],
+    [
+      0.00350729883811231,
+      1.0,
+      0.741914261474828
+    ],
+    [
+      0.011497993278688536,
+      0.741914261474828,
+      1.0
+    ]
+  ],
+  "implied_population_uniform_pearson_and_spearman": [
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0,
+      0.7341437612347388
+    ],
+    [
+      0.0,
+      0.7341437612347388,
+      1.0
+    ]
+  ],
+  "validation_status": "Numerical checks only; scenario probabilities and physical coverage are not validated."
+}

@@ -37,8 +37,26 @@ def main(argv: list[str] | None = None) -> int:
                             help="Initial interval to discard (default: preprocessing config)")
     preprocess.add_argument("--stability-window-minutes", type=float,
                             help="Sliding stability window (default: preprocessing config)")
+    from configs.input_config import DEFAULT_INPUTS_OUTPUT, DEFAULT_OBSERVATIONS_PATH
+    inputs = commands.add_parser("inputs", help="Specify reference input distributions and diagnose sampling/coverage")
+    inputs.add_argument("--data", type=Path, default=DEFAULT_OBSERVATIONS_PATH,
+                        help="Accepted operating-period CSV (default: %(default)s)")
+    inputs.add_argument("--output", type=Path, default=DEFAULT_INPUTS_OUTPUT,
+                        help="Results directory (default: %(default)s)")
+    inputs.add_argument("--scenario", type=Path,
+                        help="Optional JSON specifying a Gaussian-copula operating scenario; never fitted automatically")
     args = parser.parse_args(argv)
     try:
+        if args.command == "inputs":
+            from thermal_twin.inputs import run_inputs
+            result = run_inputs(args.data, args.output, args.scenario)
+            print(f"Input models and diagnostics: {args.output / 'report.md'}")
+            print(f"A: independent uniform reference; exact spans of {result['observations']} period means.")
+            for parameter in result["parameters"]:
+                print(f"  {parameter['input']}: Uniform({parameter['lower']:.12g}, {parameter['upper']:.12g})")
+            print(f"B: {result['scenario']['status']}; no operating distribution estimated from the controlled design.")
+            print("Experimental sampling is not physical uncertainty. Fan-signal unit is unverified.")
+            return 0
         if args.command == "preprocess":
             from configs.preprocessing_config import DEFAULT_PREPROCESSING_CONFIG
             from thermal_twin.preprocessing import run_preprocess

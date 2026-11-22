@@ -2,7 +2,8 @@
 
 A reproducible Python project for a steady-state thermal digital twin using the
 HEATWISE experimental dataset. The project provides dataset loading,
-validation, `thermal-twin inspect`, and descriptive exploration with `thermal-twin audit`.
+validation, `thermal-twin inspect`, descriptive exploration with `thermal-twin audit`,
+steady-state preprocessing, and input probability models with `thermal-twin inputs`.
 PCE, physics-informed PCE,
 uncertainty quantification, Sobol analysis, and constrained optimization are
 planned later steps and are not implemented here.
@@ -17,7 +18,7 @@ installations alongside the src-layout `thermal_twin` package.
 
 ## Installation
 
-Use Python 3.11 or newer. Run these commands from the repository root. All packages
+Use Python 3.12 or newer (required by the local ETH UQLab.py port). Run these commands from the repository root. All packages
 are installed with pip inside `.venv`.
 
 Windows PowerShell:
@@ -38,10 +39,13 @@ python -m pip install .
 python -m pip install '.[dev]'
 ```
 
-The second install adds pytest. NumPy, pandas, SciPy, scikit-learn, and matplotlib
-are declared runtime dependencies; the inspection step uses pandas and the
-standard library. No additional runtime dependencies are required.
-The audit also uses NumPy, SciPy (rank correlations), and matplotlib.
+The second install adds pytest. Runtime dependencies include NumPy, pandas, SciPy,
+scikit-learn, matplotlib and the official ETH **UQLab.py 0.800** (`uqlab` on PyPI).
+UQLab.py requires pandas >=3.0.3 and installs its core dependencies, including
+seaborn and quadprog. Its optional PyTorch/GPyTorch extras are not installed.
+This is the local Python implementation, not the older cloud client `uqpylab`;
+no account, authentication token, MATLAB installation or data upload is needed.
+See the [official package](https://pypi.org/project/uqlab/0.800/).
 
 `requirements-lock.txt` records the exact runtime and test dependency versions
 used for verification on Windows with Python 3.13.13. To reproduce those package
@@ -204,6 +208,75 @@ establish observed stability at five-minute resolution, not physical proof of
 equilibrium. Nonoverlapping operating periods are not necessarily statistically
 independent replicates; later validation must still respect time and case grouping.
 
+## Input distributions
+
+After preprocessing and reinstalling the package:
+
+```bash
+thermal-twin inputs
+thermal-twin inputs --data data/processed/steady_state.csv --output results/inputs
+```
+
+The command requires the current **19 accepted operating observations**, with all
+five cases, finite inputs, unique period IDs and ordered, nonoverlapping intervals.
+It never uses the original 1,333 time rows to estimate an input distribution and
+never weights a period by duration or raw sample count. If preprocessing changes
+the count, explicitly review `configs/input_config.py` and the modeling domain.
+
+Two probability-model concepts stay separate:
+
+- **A: assumed independent reference.** Each of the three inputs is uniform
+  between its exact minimum and maximum among the 19 period means, without
+  rounding or padding. UQLab.py creates an input object with an explicitly
+  independent copula. Scaling to [-1,1] gives the normalized Legendre basis
+  convention for later PCE/global UQ/classical Sobol studies. Independence is a
+  chosen reference assumption, not a result of the experimental dependence tests.
+- **B: optional dependent operating scenario.** A named JSON file specifies a
+  Gaussian-copula **latent-normal** correlation matrix; it does not replace A.
+  The same uniform marginals are retained. The forward/inverse Nataf transforms
+  use UQLab.py public APIs. Matrices must be symmetric, unit-diagonal, positive
+  definite and well conditioned; invalid matrices are rejected without repair.
+  Exact uniform endpoints have infinite normal scores and are rejected by the
+  forward transform rather than silently clipped. The 19 observations from five
+  controlled cases do not establish a reliable operating distribution or a
+  Gaussian copula, so **no copula is automatically fitted**.
+
+An illustrative, explicitly assumed scenario can be run separately:
+
+```bash
+thermal-twin inputs --scenario configs/input_scenario_example.json --output results/inputs_example_scenario
+```
+
+The example assumes latent inlet/fan correlation 0.75 and independence of CPU
+power from that pair. This number is illustrative, not estimated from HEATWISE;
+it differs from the physical Pearson correlation after transformation.
+Replace the description and matrix only with an explicitly justified scenario.
+The required input order is CPU power, inlet temperature, raw fan signal.
+
+Results under `results/inputs/` include:
+
+- `reference_model.json`, `scenario_model.json`, `candidate_densities.json`,
+  `assumptions.json`, a source-hashed/versioned `manifest.json`, and `report.md`.
+- CSV tables with full-precision bounds, marginal diagnostics, QQ points,
+  pooled/within-case/leave-one-case-out dependencies, case spans and reproducible
+  synthetic input samples. These synthetic samples are not new training data.
+- Histograms, candidate densities, uniform QQ plots, observed dependence matrices
+  and joint-coverage comparisons, each in 300-dpi PNG and vector PDF formats.
+
+Uniform is selected by assumption. Symmetric triangular and Beta(2,2) densities
+have fixed illustrative shapes on the same bounds; no likelihood fitting,
+AIC/BIC ranking or iid goodness-of-fit p-values are used. QQ departures describe
+the controlled experimental sampling pattern, not a physical uncertainty law.
+The density histograms give each accepted period equal descriptive weight.
+
+Both the independent reference box and a Gaussian copula can assign probability
+to untested input combinations. Neither validates extrapolation or safe operation.
+Classical Sobol formulas for A must not be applied unchanged to B's dependent
+physical inputs. Operating variability also differs from sensor uncertainty,
+coefficient uncertainty and surrogate prediction error. The fan-signal unit stays
+**unverified**. No predictive model, propagated output UQ or Sobol indices are
+implemented in this step. Source and raw data are preserved.
+
 ## Presentation
 
 The RWTH-CI LaTeX presentation is in
@@ -238,6 +311,10 @@ transients, noise, drift, missing sensors, and gaps. They check the aggregation
 target, minimum dwell, global versus local stability, and reproducible output.
 They also cover gradual transitions, isolated spikes, optional workload markers,
 and segmentation that does not depend on temperatures or a desired period count.
+Input-model tests check exact unweighted bounds, UQLab uniform densities and
+candidate normalization, the Legendre normalization convention, Gaussian-copula
+covariance, both Nataf round-trip directions, endpoint/numerical guards, invalid
+matrix rejection, separate A/B artifacts, source preservation and reproducibility.
 
 ## Project layout
 
@@ -255,6 +332,8 @@ and segmentation that does not depend on temperatures or a desired period count.
 ├── results/
 │   ├── audit/               # Generated report, figures, tables, and provenance
 │   ├── preprocessing/       # Selection diagnostics and plots
+│   ├── inputs/              # Independent reference and distribution diagnostics
+│   ├── inputs_example_scenario/ # Explicitly assumed dependent-scenario example
 │   ├── figures/
 │   ├── tables/
 │   └── models/

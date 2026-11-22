@@ -1,0 +1,252 @@
+\section{Model}
+\subsection{Polynomial Chaos Expansion}
+
+\begin{frame}[more-space]{Model\enspace|\enspace Polynomial Chaos Expansion}
+  \dataheading{A fast polynomial surrogate for steady-state CPU temperature}
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \footnotesize
+    A \textbf{Polynomial Chaos Expansion (PCE)} approximates a response as a
+    weighted sum of polynomial terms. We will learn the weights from the
+    \textbf{19 accepted operating observations}.
+    \[
+      \widehat{T}_{\max}^{\mathrm{ss}}(\mathbf{x})
+      = \sum_{|\boldsymbol{\alpha}|\leq p}
+        c_{\boldsymbol{\alpha}}\,\Psi_{\boldsymbol{\alpha}}(\boldsymbol{\xi})
+    \]
+    $c_{\boldsymbol{\alpha}}$: fitted weights; $\Psi_{\boldsymbol{\alpha}}$: polynomial terms;
+    $p$: maximum total degree; $\boldsymbol{\xi}$: scaled inputs.
+  \end{beamercolorbox}
+  \medskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \dataheading{Our three inputs and one output}
+      \footnotesize
+      \textbf{Inputs}\par
+      Total CPU power [W]\par
+      Inlet air temperature [${}^\circ$C]\par
+      Raw fan signal [unit unverified]
+      \par\medskip
+      \textbf{Output}\par
+      Maximum of the \textbf{18 CPU temperature averages} over the same
+      selected steady interval [${}^\circ$C].
+
+    \column{0.49\textwidth}
+      \dataheading{Why a Legendre basis?}
+      \footnotesize
+      \textbf{Model A: independent uniform inputs} over their observed ranges.\par
+      \smallskip
+      Scale each input to $[-1,1]$. Legendre polynomials are orthogonal under
+      a uniform distribution; normalized products form our orthonormal basis.\par
+      \smallskip
+      Independence is a reference assumption. Experimental dependencies and
+      untested combinations still matter for validation.
+  \end{columns}
+  \datasource{Sources: results/inputs/reference\_model.json; results/preprocessing/report.md.
+    UQLab, ETH Z\"urich: \href{https://www.uqlab.com/}{www.uqlab.com}.
+    Planned surrogate; no predictive PCE fitted yet. Observed stability approximates steady state.}
+\end{frame}
+
+\begin{frame}[more-space]{Model\enspace|\enspace Polynomial Chaos Expansion}
+  \dataheading{We will support degrees 1 and 2 with our 19 observations}
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \footnotesize
+    For a \textbf{full total-degree PCE} with $d$ inputs and maximum degree $p$,
+    the number of coefficients, including the constant term, is
+    \[
+      M(d,p)=\binom{d+p}{p}=\frac{(d+p)!}{d!\,p!},
+      \qquad d=3\ \text{in our project}.
+    \]
+  \end{beamercolorbox}
+  \medskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.44\textwidth}
+      \dataheading{Coefficient count}
+      {\footnotesize
+      \renewcommand{\arraystretch}{1.3}
+      \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrl@{}}
+        \toprule
+        \textbf{Degree $p$} & \textbf{Coefficients} & \textbf{Our scope}\\
+        \midrule
+        1: linear & $\binom{4}{1}=4$ & Supported\\
+        2: quadratic & $\binom{5}{2}=10$ & Supported\\
+        3: cubic & $\binom{6}{3}=20$ & Excluded\\
+        \bottomrule
+      \end{tabular*}
+      }
+
+    \column{0.53\textwidth}
+      \dataheading{Why stop at degree 2?}
+      \footnotesize
+      A full cubic needs \textbf{at least 20 observations} to identify its
+      20 coefficients by ordinary least squares, with a full-rank design.\par
+      \smallskip
+      We have \textbf{19}: a unique unrestricted cubic fit is not possible.\par
+      \smallskip
+      Even 20 is only the algebraic minimum; a stable fit and validation need
+      additional evidence.
+  \end{columns}
+  \medskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
+    \footnotesize
+    \textbf{Planned comparison}\quad Fit degrees 1 and 2; check regression rank,
+    conditioning and case-aware validation errors. Ten coefficients being fewer
+    than 19 observations does not guarantee a reliable quadratic model.
+  \end{beamercolorbox}
+  \datasource{Theory: \href{https://assets-global.website-files.com/5f9818a73007a0ae56f4ee49/638f5915433726a0f2f46821_UserManual_PolynomialChaos.pdf}{ETH UQ[py]Lab PCE manual},
+    Secs. 1.3.1 and 1.3.3, Eq. (1.12).
+    Sparse or regularized cubic alternatives are outside this project's chosen degree-1/2 scope.}
+\end{frame}
+
+\begin{frame}[more-space]{Model\enspace|\enspace Polynomial Chaos Expansion}
+  \dataheading{Why we chose PCE for the thermal digital twin}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
+        \dataheading{1. Efficient UQ for control optimization}
+        \footnotesize
+        Response mean and variance follow directly from orthonormal PCE coefficients;
+        other response statistics are cheap to estimate.\par
+        \smallskip
+        The twin's planned control optimization will use \textbf{validated UQ margins}
+        to guide thermal \textbf{soft constraints}, with violations penalized in the objective.
+      \end{beamercolorbox}
+      \medskip
+      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
+        \dataheading{3. Lightweight and easy to implement}
+        \footnotesize
+        Degrees 1 / 2 require only \textbf{4 / 10 polynomial weights}.\par
+        \smallskip
+        Small regression problems, fast evaluations and simple derivatives make
+        PCE convenient inside an optimization loop.
+      \end{beamercolorbox}
+
+    \column{0.49\textwidth}
+      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
+        \dataheading{2. Simple Sobol sensitivity analysis}
+        \footnotesize
+        Under our \textbf{independent reference inputs}, Sobol indices follow
+        directly from groups of squared PCE coefficients.\par
+        \smallskip
+        This quickly shows which inputs drive predicted temperature variability,
+        without costly model reruns.
+      \end{beamercolorbox}
+      \medskip
+      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
+        \dataheading{4. UQLab from ETH Z\"urich}
+        \footnotesize
+        We use \textbf{UQLab.py} for the input models and as our chosen
+        \textbf{PCE framework}.\par
+        \smallskip
+        It provides polynomial bases, regression, UQ and Sobol tools:
+        \href{https://www.uqlab.com/}{www.uqlab.com}.
+      \end{beamercolorbox}
+  \end{columns}
+  \medskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
+    \footnotesize
+    \textbf{UQ interpretation}\quad Variation across assumed inputs is not automatically
+    sensor or prediction uncertainty. Control margins need validation; PCE fitting
+    and control optimization are planned next steps.
+  \end{beamercolorbox}
+  \datasource{Theory: \href{https://ethz.ch/content/dam/ethz/special-interest/baug/ibk/risk-safety-and-uncertainty-dam/publications/reports/RSUQ-2016-007.pdf}{Le Gratiet, Marelli and Sudret (2016), PCE sensitivity analysis}.
+    Software: \href{https://www.uqlab.com/}{UQLab, ETH Z\"urich}. Soft-constraint control is the proposed project use.}
+\end{frame}
+
+\begin{frame}[more-space]{Model\enspace|\enspace Polynomial Chaos Expansion}
+  \dataheading{Limitations of our PCE approach}
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \dataheading{1. Only 19 observations after cleaning and steady-state selection}
+    \footnotesize
+    Few observations limit coverage and leave little data for validation.
+    A quadratic already has \textbf{10 coefficients}; a full cubic needs 20,
+    more than our available observations.
+  \end{beamercolorbox}
+  \medskip
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \dataheading{2. The simple Sobol formulas require independent inputs}
+    \footnotesize
+    PCE in general can handle dependent inputs with a suitable basis or transformation.
+    The usual coefficient-based \textbf{Sobol formulas assume independence}.\par
+    \smallskip
+    Our inlet temperature / fan signal show strong dependence:
+    \textbf{Pearson 0.826; Spearman 0.774}. Model A's Sobol results therefore describe
+    our chosen independent reference, not the observed joint sampling pattern.
+  \end{beamercolorbox}
+  \medskip
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \dataheading{3. Low-degree polynomials can miss complex relationships}
+    \footnotesize
+    Linear or quadratic models may be too simple for strong nonlinearities or
+    changes between operating regimes.\par
+    \smallskip
+    With \textbf{much more data covering the operating domain}, a neural network
+    could learn these relationships better. This requires validation; 19 observations
+    provide little evidence for training a flexible network.
+  \end{beamercolorbox}
+  \datasource{Data: results/preprocessing/report.md; results/inputs/tables/input\_dependencies.csv.
+    Dependence: \href{https://sudret.ibk.ethz.ch/content/dam/ethz/special-interest/baug/ibk/risk-safety-and-uncertainty-dam/publications/international-conferences/2013-ICOSSAR-Sudret-Caniou.pdf}{Sudret and Caniou (2013)}.
+    Data-size discussion: \href{https://sudret.ibk.ethz.ch/research/past-projects/machineLearningRegression.html}{ETH research on PCE and machine-learning regression}.}
+\end{frame}
+
+\begin{frame}[more-space]{Model\enspace|\enspace Polynomial Chaos Expansion}
+  \dataheading{Validation protocol: leave one experimental case out}
+  {\footnotesize
+  \textbf{Five case-level LOO folds:} train on four cases and predict every observation
+  in the complete held-out case.
+  }
+  \medskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.44\textwidth}
+      \dataheading{Same splits for degrees 1 and 2}
+      {\footnotesize
+      \renewcommand{\arraystretch}{1.2}
+      \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrr@{}}
+        \toprule
+        \textbf{Held-out case} & \textbf{Train} & \textbf{Validate}\\
+        \midrule
+        1 & 15 & 4\\
+        2 & 15 & 4\\
+        3 & 14 & 5\\
+        4 & 15 & 4\\
+        5 & 17 & 2\\
+        \bottomrule
+      \end{tabular*}
+      \par\medskip
+      Counts are operating observations. Each of the 19 observations receives
+      one held-out prediction \textbf{per degree}.\par
+      }
+
+    \column{0.53\textwidth}
+      \dataheading{Calculate for every fold and degree}
+      \footnotesize
+      For $n$ held-out observations, define the prediction residual
+      $e_i=y_i-\widehat{y}_i$:
+      \[
+        \mathrm{RMSE}=\sqrt{\frac{1}{n}\sum_i e_i^2},
+        \qquad \mathrm{MAE}=\frac{1}{n}\sum_i |e_i|
+      \]
+      \[
+        R^2=1-\frac{\sum_i e_i^2}{\sum_i(y_i-\overline{y})^2},
+        \qquad E_{\max}=\max_i |e_i|
+      \]
+      Save the observed temperature, prediction and \textbf{residual for each
+      held-out observation}. Positive residuals mean the CPU was hotter than predicted.\par
+      \smallskip
+      RMSE, MAE and maximum absolute error are in ${}^\circ$C; $R^2$ is dimensionless.
+  \end{columns}
+  \medskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data panel}
+    \footnotesize
+    \textbf{Compare degrees 1 and 2}\quad Compare fold-wise and pooled held-out metrics,
+    residual patterns and worst errors; balance prediction accuracy and model complexity.
+  \end{beamercolorbox}
+  \datasource{Protocol specified here; no fitted PCE or validation scores saved yet.
+    Counts: results/preprocessing/case\_counts.csv.
+    Method: \href{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.LeaveOneGroupOut.html}{leave-one-group-out validation}.
+    Held-out cases may require extrapolation; interpret $R^2$ cautiously with 2--5 points (undefined for constant targets).}
+\end{frame}
+
+\subsection{Adding Physics: Physics-Informed PCE}
+
+\begin{frame}[more-space]{Model\enspace|\enspace Adding Physics: Physics-Informed PCE}
+\end{frame}

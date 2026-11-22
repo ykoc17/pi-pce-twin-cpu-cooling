@@ -493,7 +493,7 @@ def run_audit(data_path: str | Path = DEFAULT_DATA_PATH, *, cases_path: str | Pa
         "timestamp_intervals": pd.DataFrame({"delta_seconds": data["time_local"].diff()
                                              .iloc[1:].dt.total_seconds()})
         .value_counts(dropna=False).rename("count").reset_index(),
-        "duplicate_rows": raw.loc[raw.duplicated(keep=False)].assign(
+        "duplicate_rows": raw.loc[raw.duplicated(keep=False)].copy(deep=True).assign(
             csv_record=lambda frame: frame.index + 2),
         "grouped_statistics": statistics, "input_dependencies": dependencies,
         "coverage_grid": coverage, "variable_metadata": dictionary,

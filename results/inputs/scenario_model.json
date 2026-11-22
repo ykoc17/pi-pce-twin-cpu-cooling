@@ -1,0 +1,26 @@
+{
+  "concept": "B_optional_dependent_operating_scenario",
+  "status": "not_requested",
+  "estimation": {
+    "estimation_status": "not_estimated_from_HEATWISE",
+    "n_observations": 19,
+    "case_counts": {
+      "1": 4,
+      "2": 4,
+      "3": 5,
+      "4": 4,
+      "5": 2
+    },
+    "reasons": [
+      "Only 19 selected periods from five controlled experimental cases; iid operational sampling is not established.",
+      "Inlet and fan settings were coupled by the case design; observed correlation describes that design.",
+      "Inlet values cluster near three setpoints, with ties and gaps; a smooth Gaussian copula is not established.",
+      "Unequal accepted counts per case are selection outcomes, not operating-scenario probabilities.",
+      "A nonsingular empirical correlation would not establish statistical reliability or Gaussian-copula adequacy."
+    ],
+    "scenario_policy": "Only an explicitly supplied latent-normal correlation matrix creates model B; no automatic fit or repair.",
+    "gaussian_copula_assumption": "Uniform marginal CDFs transformed to correlated Gaussian scores; Gaussian dependence is assumed, not demonstrated.",
+    "endpoint_policy": "Exact uniform endpoints have infinite normal scores; forward Nataf rejects endpoints rather than clipping them.",
+    "sobol_policy": "Classical coefficient-based Sobol decomposition applies to A's independent reference measure. Do not reuse it for B's physical inputs. Indices in B's independent latent coordinates describe those coordinates."
+  }
+}

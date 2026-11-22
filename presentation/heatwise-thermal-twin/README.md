@@ -20,6 +20,57 @@ The PDF contains the template's blue title page followed by:
   (19 accepted observations from 25 candidate periods). The target is the maximum
   of the 18 CPU means over the same selected timestamps, not the average of
   instantaneous maxima. No predictive model has been fitted.
+- **Input distributions**, another subsection under Input Data, editable in
+  `sections/input-distributions.tex` (seven slides): exact-span uniform assumptions;
+  experimental histograms; illustrative candidate densities; uniform QQ plots;
+  observed versus assumed joint coverage; and the dependent-scenario limitations
+  and Nataf transformation. Concept A is an independent reference for a Legendre
+  basis and later hypothetical UQ/Sobol analysis. Concept B is an optional,
+  explicitly specified Gaussian-copula scenario, not an estimated operating law.
+  The first slide explicitly credits **UQLab from ETH Zürich**, briefly defines it
+  as a framework for uncertainty quantification, states that its Python version
+  UQLab.py 0.800 created the input distributions, and links to
+  [www.uqlab.com](https://www.uqlab.com/).
+  Slide **22** records the decision to use **model A**, the independent uniform
+  reference, while acknowledging the experimental dependencies and untested
+  combinations. Model B remains an optional scenario tool.
+- **Project summary**, editable in `sections/project-summary.tex`, is slide
+  **23**: inputs, output, distributions, dependencies, assumptions, completed work
+  and the next step. No predictive model has been fitted yet.
+- **Model**, editable in `sections/model.tex`, starts on slide **24** with the
+  subsection **Polynomial Chaos Expansion** (five slides, **24--28**). It explains
+  PCE as a weighted polynomial surrogate, the three inputs and temperature target,
+  the independent uniform reference assumptions and their connection to a
+  normalized Legendre basis. The planned scope is degrees 1 and 2: the full
+  total-degree coefficient formula `M(d,p) = binomial(d+p,p)` gives 4, 10 and 20
+  coefficients for degrees 1, 2 and 3 with three inputs. A full cubic cannot be
+  uniquely estimated by unrestricted ordinary least squares with 19 observations;
+  20 is only the algebraic minimum with a full-rank design, not a validation
+  guarantee. No model-fitting code is added by these presentation slides.
+  Slide **26** explains the advantages: efficient input-UQ calculations for the
+  planned soft-constraint control optimization, coefficient-based Sobol analysis,
+  lightweight polynomial regression, and ETH UQLab.py as the selected PCE
+  framework. Input models already use UQLab; predictive PCE fitting remains
+  planned. Control margins require validated uncertainty, beyond global input
+  variability alone. Slide **27** covers the limited 19 observations, the
+  independence assumption of classical Sobol formulas (not a universal PCE
+  restriction), the observed inlet/fan dependence, and possible underfitting by
+  degrees 1/2. Neural networks are presented as a potential alternative with much
+  larger, well-covered data and validation, not as automatically superior.
+  Slide **28** specifies five-fold **leave-one-case-out** validation: train on four
+  complete cases and predict the fifth for each degree. It gives train/validation
+  counts, formulas for per-fold RMSE, MAE, R2 and maximum absolute error, and the
+  held-out residual convention `observed - predicted`. Degrees 1 and 2 use the
+  same folds and are compared with fold-wise/pooled held-out metrics and residuals.
+  This is a validation protocol: no predictive PCE or validation results are
+  currently implemented/saved. Small-fold R2 and possible case extrapolation are noted.
+  Slide **29** starts the subsection **Adding Physics: Physics-Informed PCE**
+  under Model; its content is intentionally empty.
+- **Remaining topics**, editable in `sections/remaining-topics.tex`, are empty
+  slides **30--35**, in order: **Uncertainty Quantification**; **Sobol Sensitivity
+  Analysis**; **Optimization Problem: Soft-constrained optimal control**;
+  **The whole digital twin workflow**; **Other possible directions: GPs**;
+  **Conclusion and Outlook**. Each topic starts its own section.
 
 The Introduction has the subsections **Motivation and Context** (three slides),
 **Why a Digital Twin?** (one slide), and **Why not Synthetic Data?** (one slide).
@@ -31,7 +82,12 @@ RISE source article. The proposed control and safety architecture is explicitly
 conceptual; the project scope is offline development and evaluation.
 
 Figures reference the existing vector PDFs in `../../results/audit/figures/`
-and `../../results/preprocessing/figures/`. The selection overview is shown in
+and `../../results/preprocessing/figures/`, plus `../../results/inputs/figures/`
+and `../../results/inputs_example_scenario/figures/`. Recreate the input figures
+before building with `thermal-twin inputs` and
+`thermal-twin inputs --scenario configs/input_scenario_example.json --output results/inputs_example_scenario`.
+The example scenario is explicitly illustrative, not fitted from the 19 periods.
+The selection overview is shown in
 full; the case 4 example enlarges its power and temperature panels. Green bands
 denote accepted intervals, orange points are rejected or unselected, yellow
 points are discarded settling readings, and gray points/crosses are excluded.
@@ -42,7 +98,7 @@ The institute and date fields remain blank and can be filled in in the preamble.
 
 ## Build from the command line
 
-Prerequisites: Python 3.11+ (already required by the project) and a current
+Prerequisites: Python 3.12+ (already required by the project) and a current
 MiKTeX or TeX Live installation with LuaLaTeX. No Python packages, Perl, or
 `latexmk` are needed. The build also detects the usual Windows MiKTeX installation
 locations if LuaLaTeX is not on PATH.

@@ -1,0 +1,37 @@
+{
+  "source": "data\\processed\\steady_state.csv",
+  "source_sha256": "c7e97366301e21139c4d1859d09d0c5be132042db7c30d6ebf8615a3ac91661d",
+  "observations": 19,
+  "input_order": [
+    "total_cpu_power_W",
+    "server_inlet_air_temp_tunnel_C",
+    "tunnel_fan_power_raw"
+  ],
+  "config": {
+    "expected_observations": 19,
+    "histogram_bins": 6,
+    "density_grid_points": 301,
+    "diagnostic_samples": 2048,
+    "seed": 20261122,
+    "matrix_tolerance": 1e-10,
+    "minimum_eigenvalue": 1e-08,
+    "maximum_condition_number": 100000000.0
+  },
+  "scenario_source": null,
+  "scenario_sha256": null,
+  "python": "3.13.13",
+  "versions": {
+    "thermal-twin": "0.1.0",
+    "uqlab": "0.800",
+    "numpy": "2.5.5",
+    "pandas": "3.1.1",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.2"
+  },
+  "backend": "Official ETH UQLab.py, local execution; no cloud credentials or uploads",
+  "sources": {
+    "package": "https://pypi.org/project/uqlab/0.800/",
+    "documentation": "https://www.uqlab.com/#documentation",
+    "citation": "Marelli and Sudret (2014), UQLab: A framework for uncertainty quantification in MATLAB."
+  }
+}

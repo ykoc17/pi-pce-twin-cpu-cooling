@@ -1,0 +1,4 @@
+input,distribution,lower,upper,unit,observations,unique_values,reference_mean,reference_std,bound_origin
+total_cpu_power_W,Uniform,384.73529411800001,1786.2258064499999,W,19,19,1085.4805502839999,404.57546228079337,exact min/max of accepted operating-period means
+server_inlet_air_temp_tunnel_C,Uniform,25,45.055555555600002,degC,19,13,35.027777777799997,5.789540199386578,exact min/max of accepted operating-period means
+tunnel_fan_power_raw,Uniform,0.121636363636,0.73057142857099999,unverified raw signal,19,19,0.42610389610349997,0.17578441182961227,exact min/max of accepted operating-period means

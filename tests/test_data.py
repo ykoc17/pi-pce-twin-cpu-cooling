@@ -47,7 +47,7 @@ def test_individual_cpu_columns_required(valid_frame, replacement):
 
 
 def test_extra_cpu_column(valid_frame):
-    valid_frame.rename(columns={"other_0": "cpu_temp_C__srv10_cpu1"}, inplace=True)
+    valid_frame = valid_frame.rename(columns={"other_0": "cpu_temp_C__srv10_cpu1"})
     with pytest.raises(DatasetValidationError, match="found 19"):
         validate_dataset(valid_frame)
 
