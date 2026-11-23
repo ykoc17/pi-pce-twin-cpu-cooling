@@ -12,10 +12,10 @@
       Steady-state PCE; degree 1 or 2; fast evaluation\\
     \midrule
     \textbf{Parameters} & \mdseries
-      Three assumed independent uniforms; observed bounds\\
+      CPU power [W], fan signal [unit unverified], inlet air temperature [${}^\circ$C]\\
     \midrule
     \textbf{Inputs} & \mdseries
-      CPU power [W], fan signal [unit unverified], inlet temperature [${}^\circ$C]\\
+      Inlet air temperature [${}^\circ$C]\\
     \midrule
     \textbf{Outputs} & \mdseries
       Maximum steady-state CPU temperature [${}^\circ$C]\\
@@ -24,7 +24,7 @@
       18 CPU sensors, every 5 min; $\mathcal H=\max_{j=1,\ldots,18}\overline{T}_j$ over a steady-state period\\
     \midrule
     \textbf{Observables} & \mdseries
-      \textbf{19 steady-state temperature targets}\\
+      19 steady-state temperature targets\\
     \midrule
     \textbf{Quantity of interest} & \mdseries
       Optimal CPU power and fan settings, s.t. the maximum steady-state CPU temperature does not exceed the limit\\

@@ -20,20 +20,22 @@
     \column{0.48\textwidth}
       \dataheading{Meaning of the parameters}
       \footnotesize
-      $R_0\geq0$: resistance remaining at strong cooling.\par
-      $K\geq0$: additional resistance at reference cooling.\par
-      $\gamma>0$: how resistance decreases with cooling.\par
-      $\Delta T_0$: fitted temperature offset.\par
-      \smallskip
-      $R_0,K$ have units of ${}^\circ$C/W.
+      \begin{itemize}
+        \item $R_0\geq0$: resistance at strong cooling.
+        \item $K\geq0$: added resistance at reference cooling.
+        \item $\gamma>0$: decrease in resistance with cooling.
+        \item $\Delta T_0$: fitted temperature offset.
+        \item $R_0,K$: units of ${}^\circ$C/W.
+      \end{itemize}
     \column{0.49\textwidth}
       \dataheading{Calibration}
       \footnotesize
-      Fix $F_{\mathrm{ref}}>0$ on the same raw scale so $F/F_{\mathrm{ref}}$
-      is dimensionless. It is not a conversion to watts.\par
-      \smallskip
-      Calibrate the remaining parameters using training cases only.
-      With 19 observations, check identifiability and simplify if needed.
+      \begin{itemize}
+        \item Fix $F_{\mathrm{ref}}>0$ on the same raw scale.
+        \item $F/F_{\mathrm{ref}}$ is dimensionless; no conversion to watts.
+        \item Fit parameters using training cases only.
+        \item With 19 observations: check identifiability; simplify if needed.
+      \end{itemize}
   \end{columns}
 \end{frame}
 
@@ -57,18 +59,21 @@
     \column{0.48\textwidth}
       \dataheading{Fit measurements and encourage physics}
       \footnotesize
-      $N$: training observations; $y_i$: measured targets.\par
-      $M$: physics-check operating points $\mathbf z_j$.\par
-      \smallskip
-      Restrict checks to supported, validated operating conditions; generated
-      points are not additional experimental evidence.
+      \begin{itemize}
+        \item $N$: training observations; $y_i$: measured targets.
+        \item $M$: physics-check points $\mathbf z_j$.
+        \item Use supported, validated operating conditions.
+        \item Generated points are not new experiments.
+      \end{itemize}
     \column{0.49\textwidth}
       \dataheading{Choose the physics influence}
       \footnotesize
-      $\lambda_{\mathrm{phys}}\geq0$ controls the compromise.
-      Zero gives the data-only baseline. Select it within training-case validation.\par
-      \smallskip
-      This is a loss-based idea similar to a PINN, using polynomials instead of a neural network.
+      \begin{itemize}
+        \item $\lambda_{\mathrm{phys}}\geq0$: strength of physics guidance.
+        \item Zero gives the data-only PCE.
+        \item Tune using training-case validation.
+        \item Similar to a PINN loss, using polynomials.
+      \end{itemize}
   \end{columns}
 \end{frame}
 
