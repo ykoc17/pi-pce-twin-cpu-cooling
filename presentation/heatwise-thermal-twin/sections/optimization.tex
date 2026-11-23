@@ -1,78 +1,35 @@
-\section{Optimization Problem: Soft-constrained optimal control}
+\section{Optimization Problem: Constrained optimal control}
 
-\begin{frame}[more-space]{Optimization Problem: Soft-constrained optimal control}
-  \dataheading{Trade computing capacity against cooling effort}
-  {\footnotesize
-  At measured inlet temperature, choose CPU power $P$, fan signal $F$ and
-  thermal slack $s_T\geq0$. Proposed formulation:
-  \[
-    \begin{aligned}
-      \max_{P,F,s_T}\quad & P-\lambda_F F-\rho s_T^2\\
-      \text{subject to}\quad
-      &\mu_T(P,F)+k\sigma_T(P,F)
-          \leq T_{\mathrm{limit}}-\Delta T_{\mathrm{safety}}+s_T,\\
-      &P_{\min}\leq P\leq P_{\max},\qquad F_{\min}\leq F\leq F_{\max},\\
-      &|P-P_{\mathrm{before}}|\leq\Delta P_{\max},\qquad
-        |F-F_{\mathrm{before}}|\leq\Delta F_{\max},\\
-      &(P,T_{\mathrm{inlet}}^{\mathrm{meas}},F)\in\mathcal D_{\mathrm{supported}},
-        \qquad s_T\geq0.
-    \end{aligned}
-  \]
-  }
-  \begin{columns}[T,onlytextwidth]
-    \column{0.48\textwidth}
-      \dataheading{Meaning of the objective}
-      \footnotesize
-      Reward CPU power as a computing-capacity proxy; penalize cooling effort
-      and thermal-target violations.\par
-      \smallskip
-      $\lambda_F\geq0$ sets the cooling compromise; $\rho>0$ penalizes slack.
-      Weight units/scales must match the objective.
-    \column{0.49\textwidth}
-      \dataheading{Why this is soft-constrained}
-      \footnotesize
-      Positive $s_T$ allows a penalized violation of the modeled thermal target.
-      Actuator limits, step limits and domain restrictions remain hard.\par
-      \smallskip
-      Previous CPU/fan settings appear in step constraints, not as an initial thermal state of the PCE.
-  \end{columns}
-  \datasource{Proposed adaptation of the notes to the agreed soft-constraint objective.
-    $F=P_{\mathrm{fan,raw}}$, unit unverified; $\lambda_F F$ is not a calibrated electrical-energy cost.
-    Limits, weights, disturbance law and domain rule require specification; optimization is not implemented.}
-\end{frame}
-
-\begin{frame}[more-space]{Optimization Problem: Soft-constrained optimal control}
-  \dataheading{Keep the optimizer inside conditions we can defend}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.48\textwidth}
-      \dataheading{A small, fast numerical problem}
-      \footnotesize
-      Evaluate the surrogate repeatedly for candidate CPU/fan settings.
-      Use a small constrained solver; an explicit solution is optional only
-      if the final formulation permits one.\par
-      \smallskip
-      The nonlinear surrogate and risk term may create local optima.
-      Check candidate solutions, feasibility and sensitivity to starting points.
-    \column{0.49\textwidth}
-      \dataheading{Data and actuation limits}
-      \footnotesize
-      Observed ranges are an outer boundary, not proof that every combination
-      inside the box was tested. Restrict $\mathcal D_{\mathrm{supported}}$
-      using coverage and validation evidence.\par
-      \smallskip
-      Electrical fan power may not be directly commanded. A verified map from
-      a supported fan setpoint to measured signal/airflow is needed for actuation.
-  \end{columns}
+\begin{frame}[more-space]{Optimization Problem: Constrained optimal control}
+  {\small Choose CPU power $P$ and fan signal $F$ at the measured inlet temperature.}
   \medskip
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
-    \dataheading{A surrogate optimum is a recommendation, not a hardware guarantee}
-    \footnotesize
-    An optimizer can exploit unrealistic predictions. Check physical trends and
-    local prediction errors, then confirm the proposed setting with a validated
-    full model or controlled experiment. Neither is currently available for this check.
-    If evidence remains limited, present an offline demonstration rather than a validated controller.
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \small
+    \[
+      \begin{aligned}
+        \max_{P,F}\quad &
+          \underbrace{P}_{\text{CPU power}}
+          -\lambda_F\underbrace{F}_{\text{fan effort}}\\[2mm]
+        \text{subject to}\quad
+        &\mu_T(P,F)+k\sigma_T(P,F)
+          \leq T_{\mathrm{limit}}-\Delta T_{\mathrm{safety}},\\[1mm]
+        &P_{\min}\leq P\leq P_{\max},\qquad
+          F_{\min}\leq F\leq F_{\max},\\[1mm]
+        &|P-P_{\mathrm{prev}}|\leq\Delta P_{\max},\qquad
+          |F-F_{\mathrm{prev}}|\leq\Delta F_{\max},\\[1mm]
+        &(P,T_{\mathrm{inlet}}^{\mathrm{meas}},F)\in\mathcal D_{\mathrm{supported}}.
+      \end{aligned}
+    \]
   \end{beamercolorbox}
-  \datasource{Project deployment/validation requirements from the notes.
-    Coverage and fan-unit limitations: results/audit/report.md; results/inputs/report.md;
-    data/raw/DATA\_DICTIONARY.csv. No optimal settings or solver results are claimed.}
+  \medskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.485\textwidth}
+      \small
+      \textbf{Temperature target}\par
+      $\mu_T,\sigma_T$: mean and spread from inlet variation, with CPU/fan settings fixed.
+    \column{0.485\textwidth}
+      \small
+      \textbf{All constraints must hold}\par
+      Respect thermal, setting, step-size and supported-domain limits.
+  \end{columns}
 \end{frame}

@@ -1,16 +1,12 @@
-% Generated input diagnostics are referenced in place. No predictive model yet.
+% Assumed reference distributions; experimental data are unchanged.
 \subsection{Input distributions}
 
 \begin{frame}[more-space]{Input Data\enspace|\enspace Input distributions}
-  \dataheading{Input distributions with UQLab from ETH Z\"urich}
-  {\footnotesize
-  We used \textbf{UQLab.py 0.800}, the Python version of \textbf{UQLab from ETH Z\"urich},
-  to create our input distributions.\par
-  UQLab is a software framework for \textbf{uncertainty quantification}: it helps define
-  input probabilities and study their effects on model outputs.\par
-  Here, we assume \textbf{uniform} inputs with bounds from the \textbf{19 accepted period means}.
-  \par\smallskip
-  \renewcommand{\arraystretch}{1.2}
+  \dataheading{Uniform inputs: equal weight across each observed range}
+  \small
+  Bounds come from the \textbf{19 processed observations}.
+  \par\medskip
+  {\renewcommand{\arraystretch}{1.35}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrl@{}}
     \toprule
     \textbf{Input} & \textbf{Lower bound} & \textbf{Upper bound} & \textbf{Unit}\\
@@ -19,188 +15,33 @@
     Inlet air temperature & 25.000 & 45.056 & ${}^\circ$C\\
     Raw fan signal & 0.121636 & 0.730571 & unverified\\
     \bottomrule
-  \end{tabular*}
-  }
+  \end{tabular*}}
   \medskip
-  \begin{columns}[T,onlytextwidth]
-    \column{0.48\textwidth}
-      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{A. Independent reference}
-        \footnotesize
-        Assume the three inputs are independent.\par
-        Uniforms give a convenient \textbf{Legendre PCE basis}.\par
-        Later UQ / Sobol results describe this chosen reference.
-      \end{beamercolorbox}
-    \column{0.49\textwidth}
-      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{B. Optional dependent scenario}
-        \footnotesize
-        Keep the same uniform ranges, but specify dependence separately.\par
-        A \textbf{Gaussian copula} describes an assumed scenario; it does not replace A.
-      \end{beamercolorbox}
-  \end{columns}
-  \datasource{UQLab, ETH Z\"urich: \href{https://www.uqlab.com/}{www.uqlab.com}.
-    Sources: results/inputs/reference\_model.json and assumptions.json.
-    Displayed bounds rounded; saved parameters keep full precision. These are study assumptions, not physical uncertainty or safety limits.}
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
+    \textbf{We assume the inputs are independent of each other,}\par
+    although there is good evidence that they are not.
+  \end{beamercolorbox}
 \end{frame}
 
 \begin{frame}[more-space]{Input Data\enspace|\enspace Input distributions}
-  \dataheading{The experiment's sampling pattern is different from our reference}
   \centering
   \includegraphics[width=\textwidth,height=39mm,keepaspectratio]
     {../../results/inputs/figures/experimental_histograms.pdf}
-  \par\medskip
+  \par\smallskip
   \begin{columns}[T,onlytextwidth]
     \column{0.48\textwidth}
-      \footnotesize
-      \textbf{Blue bars:} the 19 accepted observations.\par
-      Clusters reflect the chosen loads, inlet settings and preprocessing selection.
+      \small
+      \textbf{\textcolor{rwth-blue-100}{Blue} bars: experimental observations}\par
+      Their pattern reflects the chosen test settings.
     \column{0.49\textwidth}
-      \footnotesize
-      \textbf{Orange line:} our assumed uniform reference.\par
-      Each period counts once; a long period gets no extra weight.
-  \end{columns}
-  \datasource{Figure: results/inputs/figures/experimental\_histograms.pdf.
-    Normalized histogram heights are descriptive densities, not measured operating probabilities or sensor uncertainty.}
-\end{frame}
-
-\begin{frame}[more-space]{Input Data\enspace|\enspace Input distributions}
-  \dataheading{Uniform is selected by assumption; other curves illustrate different choices}
-  \centering
-  \includegraphics[width=\textwidth,height=39mm,keepaspectratio]
-    {../../results/inputs/figures/candidate_densities.pdf}
-  \par\medskip
-  \begin{columns}[T,onlytextwidth]
-    \column{0.48\textwidth}
-      \footnotesize
-      \textbf{Uniform:} equal weight across each range.\par
-      \textbf{Triangular / beta:} more weight near the middle, shown only as examples.
-    \column{0.49\textwidth}
-      \footnotesize
-      All curves use the same bounds and fixed shapes.\par
-      We do not fit or rank them using likelihood, AIC or BIC: the data describe a controlled experiment.
-  \end{columns}
-  \datasource{Figure: results/inputs/figures/candidate\_densities.pdf; parameters: candidate\_densities.json.
-    Densities evaluated using UQLab.py. Triangular peak at midpoint; symmetric beta shape parameters (2,2).}
-\end{frame}
-
-\begin{frame}[more-space]{Input Data\enspace|\enspace Input distributions}
-  \dataheading{QQ plots compare the observed values with the uniform reference}
-  \centering
-  \includegraphics[width=\textwidth,height=39mm,keepaspectratio]
-    {../../results/inputs/figures/uniform_qq.pdf}
-  \par\medskip
-  \begin{columns}[T,onlytextwidth]
-    \column{0.48\textwidth}
-      \footnotesize
-      \textbf{Blue dots:} the 19 values, sorted from small to large.\par
-      Points close to the dashed line would have a similar pattern to the uniform reference.
-    \column{0.49\textwidth}
-      \footnotesize
-      Inlet temperatures form steps around \textbf{25 / 35 / 45\,${}^\circ$C}.\par
-      This shows the experiment's design. A difference from uniform does not invalidate a deliberately chosen study reference.
-  \end{columns}
-  \datasource{Figure: results/inputs/figures/uniform\_qq.pdf; points: tables/qq\_quantiles.csv.
-    Descriptive comparison only; no independent-random-sample goodness-of-fit p-values are reported.}
-\end{frame}
-
-\begin{frame}[more-space]{Input Data\enspace|\enspace Input distributions}
-  \dataheading{A reference or scenario can include combinations that were never tested}
-  \centering
-  \includegraphics[width=\textwidth,height=39mm,keepaspectratio]
-    {../../results/inputs_example_scenario/figures/joint_input_concepts.pdf}
-  \par\medskip
-  \begin{columns}[T,onlytextwidth]
-    \column{0.48\textwidth}
-      \footnotesize
-      \textbf{Colored points:} actual accepted periods.\par
-      \textbf{Gray points:} generated inputs, not new measurements or extra training data.
-    \column{0.49\textwidth}
-      \footnotesize
-      A fills the reference box; B changes how combinations are weighted.\par
-      \textbf{Both still include untested regions.} Dependence alone does not make predictions there reliable.
-  \end{columns}
-  \datasource{Figure: results/inputs\_example\_scenario/figures/joint\_input\_concepts.pdf.
-    B is an illustrative scenario with specified latent inlet/fan correlation 0.75, not fitted to HEATWISE; CPU power is independent of that pair.}
-\end{frame}
-
-\begin{frame}[more-space]{Input Data\enspace|\enspace Input distributions}
-  \dataheading{Dependence is observed, but an operating probability law is not established}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.48\textwidth}
-      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{What the 19 observations tell us}
-        \footnotesize
-        Inlet / fan: \textbf{Pearson 0.826; Spearman 0.774}.\par
-        \smallskip
-        Five controlled cases with clustered inlet settings; these are not random samples of future operation.\par
-        \smallskip
-        \textbf{No dependent distribution is automatically fitted.}
-      \end{beamercolorbox}
-      \medskip
-      {\footnotesize
-      A Rosenblatt transformation is another option if conditional joint laws
-      are known; it is not used here. Neither transformation creates missing coverage.
-      }
-
-    \column{0.49\textwidth}
-      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{What optional model B does}
-        \footnotesize
-        A scenario file supplies the assumed correlation.\par
-        \smallskip
-        \textbf{Nataf transformation:} map inputs to normal scores, then remove the assumed correlation.
-        The inverse maps back to the original units.\par
-        \smallskip
-        Matrix validity and forward / inverse round trips are tested. This checks the calculation, not the scenario's physical truth.
-      \end{beamercolorbox}
-      \medskip
-      {\footnotesize
-      Standard independent-input Sobol formulas apply to \textbf{A}; they cannot be reused unchanged for \textbf{B}'s physical inputs.
-      }
-  \end{columns}
-  \datasource{Sources: results/inputs/report.md, assumptions.json and tables/input\_dependencies.csv; tests/test\_inputs.py.
-    B assumes a Gaussian copula; exact uniform endpoints map to infinite normal scores and are rejected rather than clipped. No predictive model fitted yet.}
-\end{frame}
-
-\begin{frame}[more-space]{Input Data\enspace|\enspace Input distributions}
-  \dataheading{Decision: follow model A with independent uniform inputs}
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
-    \footnotesize
-    For the first PCE, we choose \textbf{model A}: CPU power, inlet temperature and
-    raw fan signal are \textbf{assumed mutually independent}, each with a uniform
-    distribution over its observed range.
-  \end{beamercolorbox}
-  \medskip
-  \begin{columns}[T,onlytextwidth]
-    \column{0.48\textwidth}
-      \dataheading{Why we chose this path}
-      \footnotesize
-      A clear, reproducible reference for studying the three inputs.\par
-      \medskip
-      Uniform distributions give a \textbf{Legendre PCE basis} and a standard
-      independent-input Sobol analysis.\par
-      \medskip
-      The 19 controlled operating observations do not establish a reliable
-      probability law for future operation.
-
-    \column{0.49\textwidth}
-      \dataheading{How we interpret this choice}
-      \footnotesize
-      The observed inlet / fan dependence \textbf{still exists in the experiment}.\par
-      \medskip
-      Independence is our \textbf{reference assumption}; it is not a finding
-      about the measured data.\par
-      \medskip
-      Model B remains available for optional scenario studies, outside the
-      chosen baseline.
+      \small
+      \textbf{\textcolor{orange}{Orange} line: assumed uniform density}\par
+      Our reference for the PCE and later UQ/Sobol analysis.
   \end{columns}
   \medskip
-  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
-    \footnotesize
-    \textbf{Interpretation}\quad Later global UQ / Sobol results refer to model A's assumed domain.
-    Predictions at untested input combinations still need validation.
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data panel}
+    \small
+    These distributions do not describe sensor error or real operating uncertainty. \\
+    They describe the controlled spread of the experiment conditions.
   \end{beamercolorbox}
-  \datasource{Project decision. Reference: results/inputs/reference\_model.json and assumptions.json.
-    Input distributions created with UQLab.py, ETH Z\"urich: \href{https://www.uqlab.com/}{www.uqlab.com}.}
 \end{frame}

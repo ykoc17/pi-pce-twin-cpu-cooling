@@ -38,6 +38,9 @@
 % Reference template assets in ../rwth-ci/; do not copy them into images/.
 \graphicspath{{images/}{../../}{../rwth-ci/}{../rwth-ci/tex/}}
 
+% Native RWTH title image: preserve aspect ratio and crop to the reserved area.
+\titlegraphic*{\includegraphics{images/datacenter.jpeg}}
+
 % The optional short title keeps the content-slide footer compact.
 \title[Physics-Informed PCE]{Physics-Informed Polynomial Chaos Expansion for a Thermal Digital Twin of a Data Center}
 \subtitle{}
@@ -47,12 +50,25 @@
 
 \begin{document}
 
-% RWTH cover with the project title and contributors.
-\maketitle
+% Native RWTH photo cover; the local overlay credits the image on the cover itself.
+\begingroup
+\addtobeamertemplate{title page}{}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south east,fill=white,fill opacity=0.9,text opacity=1,
+      inner sep=0.6mm,font=\fontsize{4}{5}\selectfont,text=black!80]
+      at ([xshift=-2mm,yshift=\dimexpr-2\paperheight/3+2mm\relax]current page.north east)
+      {\href{https://www.ri.se/en/news/from-idea-to-an-internationally-recognised-innovation-environment-ice-datacenter-celebrates}
+        {Photo: RISE / ICE Datacenter (17 June 2026)}};
+  \end{tikzpicture}%
+}
+\maketitle[titlegraphic=2:3]
+\endgroup
 
 \input{sections/introduction}
+\input{sections/pce-introduction}
 \input{sections/input-data}
 \input{sections/model}
 \input{sections/remaining-topics}
+\input{sections/closing}
 
 \end{document}

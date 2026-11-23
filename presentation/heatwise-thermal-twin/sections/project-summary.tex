@@ -1,39 +1,34 @@
-\subsection{Project summary}
+\subsection{Digital Twin Definition}
 
-\begin{frame}[more-space]{Summary until now}
-  \dataheading{Current state: 19 operating observations, three inputs and one temperature target}
-  {\footnotesize
-  \renewcommand{\arraystretch}{1.2}
+\begin{frame}[more-space]{Summary: Digital Twin Definition}
+  {\normalfont\small
+  \renewcommand{\arraystretch}{1.35}
   \setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}p{0.17\textwidth}p{0.79\textwidth}@{}}
+  \begin{tabular}{@{}p{0.23\textwidth}p{0.73\textwidth}@{}}
     \toprule
-    \textbf{Inputs} & Total CPU power [W], inlet air temperature [${}^\circ$C]
-      and raw fan signal [unit unverified].\\
+    \textbf{Element} & \textbf{Our thermal digital twin}\\
     \midrule
-    \textbf{Output} & Maximum of the \textbf{18 CPU temperature averages}
-      over the same selected steady interval [${}^\circ$C].\\
+    \textbf{Model} & \mdseries
+      Steady-state PCE; degree 1 or 2; fast evaluation\\
     \midrule
-    \textbf{Input distributions} & \textbf{Model A: three independent uniforms.}
-      Bounds from the 19 period means: CPU 384.735--1,786.226 W;
-      inlet 25--45.056\,${}^\circ$C; fan 0.121636--0.730571 (raw).\\
+    \textbf{Parameters} & \mdseries
+      Three assumed independent uniforms; observed bounds\\
     \midrule
-    \textbf{Dependencies} & Observed inlet / fan association: Pearson 0.826,
-      Spearman 0.774. Independence is a \textbf{chosen reference assumption};
-      the experimental sampling remains dependent.\\
+    \textbf{Inputs} & \mdseries
+      CPU power [W], fan signal [unit unverified], inlet temperature [${}^\circ$C]\\
     \midrule
-    \textbf{Assumptions} & Observed stability approximates steady state; all 18
-      sensors are required, with no missing-value imputation. Sampling patterns
-      are not physical uncertainty. Untested joint input combinations remain unvalidated.\\
+    \textbf{Outputs} & \mdseries
+      Maximum steady-state CPU temperature [${}^\circ$C]\\
+    \midrule
+    \textbf{Measurement operator} & \mdseries
+      18 CPU sensors, every 5 min; $\mathcal H=\max_{j=1,\ldots,18}\overline{T}_j$ over a steady-state period\\
+    \midrule
+    \textbf{Observables} & \mdseries
+      \textbf{19 steady-state temperature targets}\\
+    \midrule
+    \textbf{Quantity of interest} & \mdseries
+      Optimal CPU power and fan settings, s.t. the maximum steady-state CPU temperature does not exceed the limit\\
     \bottomrule
   \end{tabular}
   }
-  \medskip
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
-    \footnotesize
-    \textbf{Completed}\quad Inspection, audit, steady-state preprocessing and input models with ETH UQLab.py.\par
-    \textbf{Data ready}\quad 19 accepted periods across air-cooling cases 1--5; raw data preserved.\par
-    \textbf{Next}\quad Fit and validate the first PCE. No predictive model has been fitted yet.
-  \end{beamercolorbox}
-  \datasource{Sources: data/processed/steady\_state.csv; results/preprocessing/report.md; results/inputs/report.md and reference\_model.json.
-    Displayed bounds rounded; full precision retained in saved parameters. UQLab: \href{https://www.uqlab.com/}{www.uqlab.com}.}
 \end{frame}

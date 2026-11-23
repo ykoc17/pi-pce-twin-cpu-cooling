@@ -1,0 +1,56 @@
+% Standalone PCE introduction; the remaining Model chapter stays in model.tex.
+\begin{frame}[more-space]{Model\enspace|\enspace Polynomial Chaos Expansion}
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \footnotesize
+    A \textbf{Polynomial Chaos Expansion (PCE)} approximates a response as a
+    weighted sum of polynomial terms.
+    \[
+      \widehat{T}_{\max}^{\mathrm{ss}}(\mathbf{x})
+      = \sum_{|\boldsymbol{\alpha}|\leq p}
+        c_{\boldsymbol{\alpha}}\,\Psi_{\boldsymbol{\alpha}}(\boldsymbol{\xi})
+    \]
+    $c_{\boldsymbol{\alpha}}$: fitted weights; $\Psi_{\boldsymbol{\alpha}}$: polynomial terms;
+    $p$: maximum total polynomialdegree; $\boldsymbol{\xi}$: scaled inputs.
+  \end{beamercolorbox}
+  \smallskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \footnotesize
+      \textbf{Inputs}\par
+      Total CPU power [W]\par
+      Inlet air temperature [${}^\circ$C]\par
+      Raw fan signal [unit unverified]
+
+    \column{0.49\textwidth}
+      \footnotesize
+      \textbf{Outputs}\par
+      Maximum of the \textbf{18 CPU temperature averages} over the same
+      selected steady interval [${}^\circ$C].
+  \end{columns}
+  \smallskip
+  \begin{columns}[c,onlytextwidth]
+    \column{0.78\textwidth}
+      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
+        \footnotesize
+        We use \textbf{UQLab} library of ETH Z\"urich for the input models and as our chosen
+        PCE framework.\par
+        \smallskip
+        It provides polynomial bases, regression, UQ and Sobol sensitivity tools
+      \end{beamercolorbox}
+    \column{0.18\textwidth}
+      \centering
+      \href{https://www.uqlab.com/}{\includegraphics[width=16mm,height=16mm,keepaspectratio]{images/uqlab.png}}
+  \end{columns}
+  \smallskip
+  \begin{beamercolorbox}[sep=1.2mm,wd=\textwidth]{data panel}
+    \begin{minipage}{\dimexpr\linewidth-2.4mm\relax}
+    \footnotesize\raggedright
+    \textbf{1. Efficient UQ:} Mean and variance follow from the coefficients.\par
+    \textbf{2. Simple Sobol sensitivity analysis:} Under \textbf{independent inputs}, the coefficients and their
+    indices give sensitivities without costly model reruns.\par
+    \textbf{3. Lightweightness:} Evaluation is very fast because it is a surrogate model;
+    no iterative thermal solver is needed. The polynomial basis is easy to implement and evaluate.
+    \end{minipage}
+  \end{beamercolorbox}
+  \datasource{Sources: \href{https://www.uqlab.com/}{UQLab, ETH Z\"urich}}
+\end{frame}

@@ -1,208 +1,39 @@
-% Existing preprocessing figures are included directly, without changing data.
+% Existing selection figure is included directly, without changing data.
 \subsection{Preprocessing results}
 \definecolor{selectiongreen}{HTML}{009E73}
-\definecolor{selectionorange}{HTML}{D55E00}
-\definecolor{selectionyellow}{HTML}{E69F00}
-\definecolor{selectiongray}{HTML}{888888}
-\definecolor{selectiontarget}{HTML}{004D3A}
 
 \begin{frame}[more-space]{Input Data\enspace|\enspace Preprocessing results}
-  \dataheading{Keep periods where the operating conditions and temperatures have settled}
   \begin{columns}[T,onlytextwidth]
-    \column{0.49\textwidth}
-      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{1. Find each operating period}
-        \footnotesize
-        Use cases 1--5; leave out unlabeled transitions.\par
-        \smallskip
-        Look for sustained changes in CPU power, inlet temperature or fan signal.
-        Workload changes also help mark a new period.
-      \end{beamercolorbox}
-      \medskip
-      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{2. Allow time to settle}
-        \footnotesize
-        Discard the first \textbf{20 minutes} of each period.\par
-        \smallskip
-        Then find at least \textbf{30 continuous minutes} of suitable data:
-        at least seven five-minute readings.
-      \end{beamercolorbox}
-
-    \column{0.48\textwidth}
-      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{3. Check all inputs and all 18 CPUs}
-        \footnotesize
-        Inputs must stay approximately constant.\par
-        Temperatures must fluctuate little, with no large rising or falling trend.\par
-        \smallskip
-        Check every 30-minute window \textbf{and} the whole selected interval.
-        Missing CPU readings break the usable interval.
-      \end{beamercolorbox}
-      \medskip
-      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{4. Keep one interval per period}
-        \footnotesize
-        Select the \textbf{longest interval} that passes every check.
-        If none passes, reject the period.\par
-        \smallskip
-        The 20-minute wait alone does not prove stability.
-      \end{beamercolorbox}
-  \end{columns}
-  \datasource{Source: results/preprocessing/report.md; all thresholds: configs/preprocessing\_config.py.
-    Workload is only a boundary marker, not a PCE input. DP is not used. Fan-signal unit remains unverified.}
-\end{frame}
-
-\begin{frame}[more-space]{Input Data\enspace|\enspace Preprocessing results}
-  \dataheading{Selection overview: all original measurements}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.57\textwidth}
+    \column{0.56\textwidth}
+      \dataheading{Selected steady-state intervals}
       \centering
-      \includegraphics[width=\linewidth,height=51mm,keepaspectratio]
+      \includegraphics[width=\linewidth,height=50mm,keepaspectratio]
         {../../results/preprocessing/figures/selection_overview.pdf}
+      \par\smallskip
+      {\small\color{selectiongreen}\textbf{One green band = one processed observation.}}
 
-    \column{0.40\textwidth}
-      \dataheading{What do the colors mean?}
-      \footnotesize
-      \casekey{selectiongreen}{\textbf{Green dots + shaded bands}}\par
-      Accepted readings. Each band is one selected time interval, shared by all four panels.
-      \par\smallskip
-      \casekey{selectionorange}{\textbf{Orange dots}}\par
-      Rejected or unselected readings; some lie outside the chosen longest interval.
-      \par\smallskip
-      \casekey{selectionyellow}{\textbf{Yellow dots}}\par
-      First 20 minutes: settling time, discarded.
-      \par\smallskip
-      \casekey{selectiongray}{\textbf{Gray dots / crosses}}\par
-      Excluded readings. Crosses show a maximum from incomplete sensors; it is not used.
-      \par\smallskip
-      {\color{selectiontarget}\textbf{Dashed green line}}\par
-      Selected period's temperature target.
-  \end{columns}
-  \datasource{Figure: results/preprocessing/figures/selection\_overview.pdf, unchanged.
-    Top to bottom: CPU power, inlet temperature, raw fan signal and instantaneous CPU maximum.}
-\end{frame}
-
-\begin{frame}[more-space]{Input Data\enspace|\enspace Preprocessing results}
-  \dataheading{Case 4: five operating periods, four selected intervals}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.70\textwidth}
-      % Enlarge the CPU-power and temperature panels from the existing PDF.
-      % The shared time axis is retained below; inlet/fan panels and legend are
-      % omitted here only. Selection colors are explained on the previous slide.
-      \includegraphics[width=\linewidth,trim=0bp 493bp 0bp 25bp,clip]
-        {../../results/preprocessing/figures/case_4_selection.pdf}
-      \par\vspace{2mm}
-      \includegraphics[width=\linewidth,trim=0bp 40bp 0bp 450bp,clip]
-        {../../results/preprocessing/figures/case_4_selection.pdf}
-      \par\smallskip
-      {\footnotesize Green bands line up across both panels: the \textbf{same timestamps}
-        provide the input averages and the temperature target.}
-
-    \column{0.27\textwidth}
-      \dataheading{Why only four?}
-      \footnotesize
-      CPU power changes in steps. Temperature needs time to respond.
-      \par\medskip
-      Green bands mark the parts that pass \textbf{every} check.
-      \par\medskip
-      The period near \textbf{1,600 W} has no accepted interval.
-      \par\medskip
-      A flat maximum alone is insufficient: the fan signal and \textbf{all 18 CPUs}
-      must also pass.
-  \end{columns}
-  \datasource{Source: results/preprocessing/period\_diagnostics.csv (case 4).
-    Figure: case\_4\_selection.pdf, enlarged panels (a) and (d); inlet/fan panels omitted only for readability.
-    The 1,600 W period fails the combined full-interval stability checks.}
-\end{frame}
-
-\begin{frame}[more-space]{Input Data\enspace|\enspace Preprocessing results}
-  \dataheading{One green area becomes one row for the PCE}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.48\textwidth}
+    \column{0.41\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{Three inputs: averages over the selected interval}
-        \footnotesize
-        Mean total CPU power\par
-        Mean inlet air temperature\par
-        Mean raw fan signal
+        {\color{rwth-blue-100}\fontsize{22}{25}\selectfont\bfseries 19}\par
+        \textbf{operating observations}\par
       \end{beamercolorbox}
       \medskip
-      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{One target: hottest CPU on average}
+      \dataheading{Each observation contains}
+      \small
+      \textbf{Three averaged inputs}\par
+      CPU power, inlet temperature and raw fan signal.
+      \par\medskip
+      \textbf{One temperature target}\par
+      Largest of the 18 CPU temperature averages.
+      \par\smallskip
+      \begin{beamercolorbox}[sep=1.5mm,wd=\linewidth]{data panel}
+        \dataheading{Only polynomial degrees 1 and 2 are feasible}
         \footnotesize
-        First average each of the 18 CPU temperatures.\par
-        Then take the \textbf{largest of those 18 averages}.
-        \[
-          T_{\mathrm{target}}=\max_{i=1,\ldots,18}\overline{T_i}
-        \]
+        \begin{itemize}
+          \item \textbf{Degrees 1 and 2}: 4 and 10 coefficients (feasible).
+          \item \textbf{Degrees 3 and 4}: 20 and 35 coefficients ($>19$).
+          \item Low degrees may miss complex behavior.
+        \end{itemize}
       \end{beamercolorbox}
-
-    \column{0.49\textwidth}
-      \dataheading{Use exactly the same timestamps for everything}
-      \footnotesize
-      Every accepted reading contains all 18 CPU temperatures. Missing sensors are
-      not filled in.
-      \par\medskip
-      \textbf{Example}\par
-      If the 18 CPU averages are $78, 80, 79,\ldots\,{}^\circ$C
-      and the largest is $80\,{}^\circ$C, the target is $80\,{}^\circ$C.
-      \par\medskip
-      This differs from taking the hottest CPU at each timestamp and then
-      averaging those maxima; the hottest CPU can change.
-      \par\medskip
-      Also save case, start/end time, duration, sample count and temperature variability.
   \end{columns}
-  \datasource{Source: results/preprocessing/report.md, Aggregation and target.
-    Output: data/processed/steady\_state.csv; target column: equilibrium\_max\_cpu\_temp\_C.
-    Overlapping check windows do not become extra training rows.}
-\end{frame}
-
-\begin{frame}[more-space]{Input Data\enspace|\enspace Preprocessing results}
-  \dataheading{19 accepted observations from 25 candidate periods}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.45\textwidth}
-      {\footnotesize
-      \renewcommand{\arraystretch}{1.3}
-      \setlength{\tabcolsep}{4pt}
-      \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrr@{}}
-        \toprule
-        \textbf{Case} & \textbf{Candidate} & \textbf{Accepted} & \textbf{Rejected}\\
-        \midrule
-        1 & 5 & 4 & 1\\
-        2 & 5 & 4 & 1\\
-        3 & 5 & 5 & 0\\
-        4 & 5 & 4 & 1\\
-        5 & 5 & 2 & 3\\
-        \midrule
-        \textbf{Total} & \textbf{25} & \textbf{19} & \textbf{6}\\
-        \bottomrule
-      \end{tabular*}
-      }
-      \medskip
-      \datametric{421 readings $\longrightarrow$ 19 rows}{Accepted five-minute readings are averaged within each selected interval.}
-
-    \column{0.52\textwidth}
-      \dataheading{Why were six periods rejected?}
-      \footnotesize
-      \textbf{Five:} no interval passed all stability checks.\par
-      \smallskip
-      \textbf{One:} too little continuous data with all sensors present
-      (case 5, idle period).
-      \par\medskip
-      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{What this means for the PCE}
-        \footnotesize
-        There are \textbf{19 operating observations} available before splitting data
-        for training and validation.\par
-        \smallskip
-        We keep the stability requirements; a target of 25 points is not a reason
-        to accept unsettled data.
-      \end{beamercolorbox}
-      \medskip
-      Stable at five-minute resolution is evidence of settling, not proof of exact
-      equilibrium. Periods share the same experiment; they are not guaranteed
-      independent. Validation must respect case/time groups.
-  \end{columns}
-  \datasource{Sources: results/preprocessing/case\_counts.csv, period\_diagnostics.csv and report.md.
-    Reproduce with: thermal-twin preprocess. No predictive model has been fitted.}
 \end{frame}
