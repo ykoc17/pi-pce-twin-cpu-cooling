@@ -1,0 +1,56 @@
+% Standalone overview, placed immediately after the PCE introduction.
+\begin{frame}[more-space]{Model\enspace|\enspace Polynomial Chaos Expansion: Advantages}
+  \begin{beamercolorbox}[sep=1.2mm,wd=\textwidth]{data panel}
+    \begin{minipage}{\dimexpr\linewidth-2.4mm\relax}
+    \footnotesize\raggedright
+    \textbf{1. Efficient UQ:} Mean and variance follow from the coefficients.\par
+    \textbf{2. Simple Sobol sensitivity analysis:} Under \textbf{independent inputs}, the coefficients and their
+    indices give sensitivities without costly model reruns.\par
+    \textbf{3. Lightweightness:} Evaluation is very fast because it is a surrogate model;
+    no iterative thermal solver is needed. The polynomial basis is easy to implement and evaluate.
+    \end{minipage}
+  \end{beamercolorbox}
+  \smallskip
+  \setlength{\fboxsep}{2mm}
+  \setlength{\fboxrule}{0.5pt}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.485\textwidth}
+      \fcolorbox{rwth-blue-100}{rwth-blue-100!6}{%
+        \begin{minipage}[t][40mm][t]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+          \dataheading{Uncertainty Quantification (UQ)}
+          \small
+          \textbf{How much can temperature vary?}
+          \[
+            \mu=c_{\mathbf 0},\qquad
+            \sigma^2=\sum_{\boldsymbol\alpha\ne\mathbf 0}c_{\boldsymbol\alpha}^{2}
+          \]
+          \begin{itemize}
+            \setlength{\itemsep}{1pt}
+            \item Mean $\mu$ and variance $\sigma^2$ follow directly from the PCE coefficients.
+            \item \textbf{For control: use conditional moments (shown later).}
+          \end{itemize}
+        \end{minipage}%
+      }
+    \column{0.485\textwidth}
+      \fcolorbox{rwth-blue-100}{rwth-blue-100!6}{%
+        \begin{minipage}[t][40mm][t]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+          \dataheading{Sobol Sensitivity Analysis}
+          \small
+          \textbf{Which inputs drive the variation?}
+          \[
+            S_i=\frac{\sum_{\alpha_i>0,\,\alpha_{j\ne i}=0}c_{\boldsymbol\alpha}^{2}}{\sigma^2},
+            \qquad
+            S_i^{\mathrm T}=\frac{\sum_{\alpha_i>0}c_{\boldsymbol\alpha}^{2}}{\sigma^2}
+          \]
+          \begin{itemize}
+            \setlength{\itemsep}{1pt}
+            \item First-order index: one input's contribution.
+            \item Total index: includes interactions.
+            \item Independent inputs; $\sigma^2>0$.
+            \item \textbf{Can be used to prioritize which inputs to control or monitor.}
+          \end{itemize}
+        \end{minipage}%
+      }
+  \end{columns}
+  \medskip
+\end{frame}

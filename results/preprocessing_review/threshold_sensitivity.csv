@@ -1,0 +1,7 @@
+scenario,1,2,3,4,5,total
+default,4,4,5,4,2,19
+global_drift_0.02_C_per_min,1,4,4,3,2,14
+initial_discard_40_min,3,4,5,4,2,18
+local_drift_0.04_C_per_min,2,3,4,4,2,15
+retained_dwell_60_min,1,4,4,3,2,14
+std_0.75_C,2,3,3,4,2,14

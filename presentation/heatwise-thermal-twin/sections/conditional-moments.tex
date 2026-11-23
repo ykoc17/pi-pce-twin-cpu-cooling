@@ -1,0 +1,55 @@
+\begin{frame}[more-space]{UQ\enspace|\enspace Rearranging the PCE to find uncertainties w.r.t inlet air temperature}
+  \footnotesize
+  \setlength{\abovedisplayskip}{2pt}
+  \setlength{\belowdisplayskip}{2pt}
+  \setlength{\abovedisplayshortskip}{1pt}
+  \setlength{\belowdisplayshortskip}{1pt}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.51\textwidth}
+      \begin{beamercolorbox}[sep=1.5mm,wd=\linewidth]{data panel}
+        \dataheading{1. Insert one CPU / fan setting}
+        $P=1000\,\mathrm W$, $F=0.4$. Suppose the model becomes:
+        \[
+          \widehat T=80+2(T_{\mathrm{inlet}}-35)
+            +0.3(T_{\mathrm{inlet}}-35)^2.
+        \]
+      \end{beamercolorbox}
+    \column{0.46\textwidth}
+      \begin{beamercolorbox}[sep=1.5mm,wd=\linewidth]{data panel}
+        \dataheading{2. Choose an inlet variation $\delta$}
+        $\delta>0$: assumed half-width [${}^\circ$C]; range $[35-\delta,35+\delta]$.
+        \[
+          T_{\mathrm{inlet}}=35+\delta\xi,\qquad \xi\sim\mathcal U(-1,1)
+        \]
+        \[
+          \Longrightarrow\quad\widehat T=80+2\delta\xi+0.3\delta^2\xi^2.
+        \]
+      \end{beamercolorbox}
+  \end{columns}
+  \smallskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data panel}
+    \dataheading{3. Rewrite the same curve using normalized Legendre terms}
+    \[
+      \phi_1=\sqrt3\,\xi,\qquad
+      \phi_2=\frac{\sqrt5}{2}(3\xi^2-1)
+      \quad\Longrightarrow\quad
+      \xi=\frac{\phi_1}{\sqrt3},\qquad
+      \xi^2=\frac13+\frac{2\phi_2}{3\sqrt5}.
+    \]
+    \[
+      \widehat T
+        =\underbrace{80+0.1\delta^2}_{b_0}
+             +\underbrace{2\delta/\sqrt3}_{b_1}\phi_1
+             +\underbrace{0.2\delta^2/\sqrt5}_{b_2}\phi_2.
+    \]
+  \end{beamercolorbox}
+  \smallskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
+    \dataheading{4. Read the mean and spread for this setting}
+    \[
+      \mu_T=b_0=80+0.1\delta^2,\qquad
+      \sigma_T=\sqrt{b_1^2+b_2^2}
+        =\sqrt{4\delta^2/3+0.008\delta^4}.
+    \]
+  \end{beamercolorbox}
+\end{frame}

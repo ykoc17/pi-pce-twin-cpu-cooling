@@ -1,0 +1,7 @@
+case_id,operating_period_id,reason,post_discard_windows,windows_failing_inputs,windows_failing_std,windows_failing_range,windows_failing_local_drift
+1,2,no_stable_window,39,3,39,25,8
+2,7,no_stable_window,38,3,38,38,24
+4,17,no_interval_meeting_full_stability,38,5,36,29,22
+5,22,no_stable_window,38,12,38,36,24
+5,23,no_interval_meeting_full_stability,38,5,33,16,12
+5,25,no_contiguous_complete_sensor_dwell,3,3,3,3,3

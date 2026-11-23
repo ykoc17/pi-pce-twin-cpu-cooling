@@ -47,11 +47,15 @@
   \par\smallskip
   \begin{beamercolorbox}[sep=1.2mm,wd=\textwidth]{data panel}
     \footnotesize
-    \dataheading{Project Goal:}
-    Design a digital twin to support \textbf{energy-efficient data centers}:\\
-    1) More available CPU power within a thermal budget\\
-    2) Avoid unnecessary cooling effort (fan power)\\
-    3) Account for predictive uncertainties and thermal physics
+    \begin{minipage}[t]{0.35\linewidth}
+      \dataheading{Project Goal:}
+      Design a digital twin to support \textbf{energy-efficient data centers}:
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.62\linewidth}
+      1) More available CPU power within a thermal budget\\
+      2) Avoid unnecessary cooling effort (fan power)\\
+      3) Account for predictive uncertainties and thermal physics
+    \end{minipage}
   \end{beamercolorbox}
 
   \datasource{Source: \href{https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai}{IEA, Energy and AI (2025), Energy demand from AI}:}
@@ -75,7 +79,7 @@
       \medskip
       \textbf{Original purpose}\\
       Air vs. two-phase chip cooling\\
-      Thermal performance, energy etc.
+      Assessment of thermal performance
 
   \end{columns}
 
@@ -93,15 +97,12 @@
       node distance=5mm,
       stage/.style={draw=rwth-blue-100!45,rounded corners=1.5mm,
         fill=rwth-blue-100!6,inner sep=2mm,text width=39mm,
-        minimum height=17mm,align=left,font=\footnotesize},
+        minimum height=17mm,align=center,font=\footnotesize},
       >={Latex[length=2mm]}
     ]
       \node[stage] (measurements) {\textbf{Server measurements}};
       \node[stage,right=of measurements] (surrogate) {\textbf{Surrogate model}};
-      \node[stage,right=of surrogate] (decisions) {\textbf{Constrained decisions}\\
-        CPU power vs. cooling effort\\
-        Thermal + actuator limits\\
-        Uncertainty-aware optimization};
+      \node[stage,right=of surrogate] (decisions) {\textbf{Constrained decisions}};
       \draw[->,thick,rwth-blue-100] (measurements) -- (surrogate);
       \draw[->,thick,rwth-blue-100] (surrogate) -- (decisions);
     \end{tikzpicture}
@@ -113,7 +114,7 @@
     \renewcommand{\arraystretch}{1.25}
     \begin{tabular}{@{}l@{\hspace{9mm}}l@{}}
       \toprule
-      \textbf{Target controls} & CPU power $P_{\mathrm{CPU}}$ / fan power $P_{\mathrm{fan}}$\\
+      \textbf{Target controls} & CPU power $P_{\mathrm{CPU}}$ and fan power $P_{\mathrm{fan}}$\\
       \textbf{Given condition} & Cooling-air inlet temperature $T_{\mathrm{in}}$\\
       \textbf{Twin prediction} & Maximum steady-state CPU temperature\\
       \bottomrule
@@ -161,12 +162,12 @@
         \begin{itemize}
           \item Fewer available data points.
           \item Capture real heating and cooling physics.
-          \item \textbf{Our choice: HEATWISE measurements.}
+          \item \textbf{Our choice: Using the measurements.}
         \end{itemize}
       \end{beamercolorbox}
   \end{columns}
   \medskip
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
     \dataheading{A foundation for more data}
     \small
     \begin{itemize}

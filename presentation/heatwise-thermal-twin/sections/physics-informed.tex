@@ -1,113 +1,70 @@
 \subsection{Adding Physics: Physics-Informed PCE}
 
 \begin{frame}[more-space]{Model\enspace|\enspace Adding Physics: Physics-Informed PCE}
-  \dataheading{A simple thermal-resistance model as physical guidance}
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
-    \footnotesize
-    At equilibrium, temperature rise is approximated by heat generation
-    multiplied by an effective thermal resistance:
-    \[
-      T_{\mathrm{phys}}=T_{\mathrm{inlet}}+\Delta T_0
-        +P_{\mathrm{CPU}}R_{\mathrm{th}}(F),
-      \qquad F=P_{\mathrm{fan,raw}}>0,
-    \]
-    \[
-      R_{\mathrm{th}}(F)=R_0+K\left(\frac{F}{F_{\mathrm{ref}}}\right)^{-\gamma}.
-    \]
-  \end{beamercolorbox}
-  \medskip
   \begin{columns}[T,onlytextwidth]
-    \column{0.48\textwidth}
-      \dataheading{Meaning of the parameters}
-      \footnotesize
-      \begin{itemize}
-        \item $R_0\geq0$: resistance at strong cooling.
-        \item $K\geq0$: added resistance at reference cooling.
-        \item $\gamma>0$: decrease in resistance with cooling.
-        \item $\Delta T_0$: fitted temperature offset.
-        \item $R_0,K$: units of ${}^\circ$C/W.
-      \end{itemize}
     \column{0.49\textwidth}
-      \dataheading{Calibration}
-      \footnotesize
-      \begin{itemize}
-        \item Fix $F_{\mathrm{ref}}>0$ on the same raw scale.
-        \item $F/F_{\mathrm{ref}}$ is dimensionless; no conversion to watts.
-        \item Fit parameters using training cases only.
-        \item With 19 observations: check identifiability; simplify if needed.
-      \end{itemize}
-  \end{columns}
-\end{frame}
-
-\begin{frame}[more-space]{Model\enspace|\enspace Adding Physics: Physics-Informed PCE}
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
-    \footnotesize
-    The prediction keeps the same orthonormal Legendre expansion.
-    Only the objective used to learn its coefficients changes:
-    \[
-      \mathcal L(\mathbf c)=
-      \underbrace{\frac{1}{N}\sum_{i=1}^{N}
-        \left[\widehat T_{\max}(\mathbf x_i)-y_i\right]^2}_{\mathcal L_{\mathrm{data}}}
-      +\lambda_{\mathrm{phys}}
-      \underbrace{\frac{1}{M}\sum_{j=1}^{M}
-        \left[\widehat T_{\max}(\mathbf z_j)-T_{\mathrm{phys}}(\mathbf z_j)\right]^2}
-        _{\mathcal L_{\mathrm{physics}}}.
-    \]
-  \end{beamercolorbox}
-  \medskip
-  \begin{columns}[T,onlytextwidth]
-    \column{0.48\textwidth}
-      \dataheading{Fit measurements and encourage physics}
-      \footnotesize
-      \begin{itemize}
-        \item $N$: training observations; $y_i$: measured targets.
-        \item $M$: physics-check points $\mathbf z_j$.
-        \item Use supported, validated operating conditions.
-        \item Generated points are not new experiments.
-      \end{itemize}
-    \column{0.49\textwidth}
-      \dataheading{Choose the physics influence}
-      \footnotesize
-      \begin{itemize}
-        \item $\lambda_{\mathrm{phys}}\geq0$: strength of physics guidance.
-        \item Zero gives the data-only PCE.
-        \item Tune using training-case validation.
-        \item Similar to a PINN loss, using polynomials.
-      \end{itemize}
-  \end{columns}
-\end{frame}
-
-\begin{frame}[more-space]{Model\enspace|\enspace Adding Physics: Physics-Informed PCE}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.48\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{What it could improve}
+        \begin{minipage}[t][46mm][t]{\dimexpr\linewidth-4mm\relax}
+        \dataheading{1. A simple heating / cooling rule}
         \footnotesize
+        \setlength{\abovedisplayskip}{3pt}
+        \setlength{\belowdisplayskip}{3pt}
+        \begingroup
+        \setlength{\fboxsep}{1mm}
+        \setlength{\fboxrule}{0.5pt}
+        \noindent\fcolorbox{rwth-blue-100!60}{white}{%
+        \begin{minipage}[c][16mm][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+        \[
+          T_{\mathrm{phys}}=T_{\mathrm{inlet}}+\Delta T_0
+            +P_{\mathrm{CPU}}R_{\mathrm{th}}(F)
+        \]
+        \[
+          R_{\mathrm{th}}(F)=R_0+K
+            \left(\frac{F}{F_{\mathrm{ref}}}\right)^{-\gamma}
+        \]
+        \end{minipage}%
+        }
+        \endgroup
         \begin{itemize}
-          \item Encourage realistic heating and cooling trends.
-          \item Potentially improve predictions with sparse data.
-          \item Keep fast PCE, UQ and Sobol calculations.
+          \setlength{\itemsep}{2pt}
+          \item $R_0,K\geq0$: resistance [${}^\circ$C/W].
+          \item $\gamma>0$: how cooling lowers resistance.
+          \item $\Delta T_0$: temperature offset.
         \end{itemize}
+        \smallskip
+        \textbf{How to fit:} Fix $F_{\mathrm{ref}}>0$. Fit $R_0,K,\gamma,\Delta T_0$
+        to the measured steady-state targets using constrained least squares:
+        minimize squared errors, using training cases only and the bounds above.
+        \end{minipage}
       \end{beamercolorbox}
     \column{0.49\textwidth}
-      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data warning}
-        \dataheading{What it cannot guarantee}
+      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
+        \begin{minipage}[t][46mm][t]{\dimexpr\linewidth-4mm\relax}
+        \dataheading{2. Fit data and encourage physics}
         \footnotesize
+        \setlength{\abovedisplayskip}{3pt}
+        \setlength{\belowdisplayskip}{3pt}
+        \begingroup
+        \setlength{\fboxsep}{1mm}
+        \setlength{\fboxrule}{0.5pt}
+        \noindent\fcolorbox{rwth-blue-100!60}{white}{%
+        \begin{minipage}[c][16mm][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+        \[
+          \mathcal L(\mathbf c)=\mathcal L_{\mathrm{data}}
+            +\lambda_{\mathrm{phys}}\mathcal L_{\mathrm{physics}}
+        \]
+        \end{minipage}%
+        }
+        \endgroup
         \begin{itemize}
-          \item A penalty does not enforce exact physics.
-          \item Missing input combinations remain untested.
+          \setlength{\itemsep}{2pt}
+          \item $\mathcal L_{\mathrm{data}}$: squared error to measurements.
+          \item $\mathcal L_{\mathrm{physics}}$: squared error to the thermal rule at check points.
+          \item $\lambda_{\mathrm{phys}}\geq0$: physics strength; zero gives the data-only PCE.
+          \item Fit / tune on training cases only.
         \end{itemize}
+        Same Legendre PCE with a new fitting objective, similar to PINNs
+        \end{minipage}
       \end{beamercolorbox}
   \end{columns}
-  \medskip
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
-    \dataheading{How we would decide whether it helps}
-    \footnotesize
-    \begin{itemize}
-      \item Compare PCE and PI-PCE on the same held-out cases.
-      \item Fit physics parameters and tune the loss weight using training cases only.
-      \item Keep the simpler model unless accuracy and physical behavior improve.
-      \item Extra tuning requires more validation.
-    \end{itemize}
-  \end{beamercolorbox}
 \end{frame}

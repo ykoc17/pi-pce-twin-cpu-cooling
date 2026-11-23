@@ -16,32 +16,17 @@
     Raw fan signal & 0.121636 & 0.730571 & unverified\\
     \bottomrule
   \end{tabular*}}
-  \medskip
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
-    \textbf{We assume the inputs are independent of each other,}\par
-    although there is good evidence that they are not.
-  \end{beamercolorbox}
-\end{frame}
-
-\begin{frame}[more-space]{Input Data\enspace|\enspace Input distributions}
-  \centering
-  \includegraphics[width=\textwidth,height=39mm,keepaspectratio]
-    {../../results/inputs/figures/experimental_histograms.pdf}
-  \par\smallskip
-  \begin{columns}[T,onlytextwidth]
-    \column{0.48\textwidth}
-      \small
-      \textbf{\textcolor{rwth-blue-100}{Blue} bars: experimental observations}\par
-      Their pattern reflects the chosen test settings.
-    \column{0.49\textwidth}
-      \small
-      \textbf{\textcolor{orange}{Orange} line: assumed uniform density}\par
-      Our reference for the PCE and later UQ/Sobol analysis.
-  \end{columns}
-  \medskip
+  \smallskip
   \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data panel}
-    \small
-    These distributions do not describe sensor error or real operating uncertainty. \\
-    They describe the controlled spread of the experiment conditions.
+    \dataheading{Scale each parameter to $[-1,1]$}
+    \footnotesize
+    \setlength{\abovedisplayskip}{2pt}
+    \setlength{\belowdisplayskip}{2pt}
+    \[
+      x_i\in[a_i,b_i]\quad\Longrightarrow\quad
+      \xi_i=2\frac{x_i-a_i}{b_i-a_i}-1
+    \]
+    Lower bound $\mapsto-1$; midpoint $\mapsto0$; upper bound $\mapsto1$.\par
+    Uniform reference inputs become $\mathcal U(-1,1)$: Use a normalized \textbf{Legendre} basis as the orthonormal polynomial family for the PCE.
   \end{beamercolorbox}
 \end{frame}

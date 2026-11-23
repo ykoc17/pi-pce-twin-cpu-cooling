@@ -1,75 +1,54 @@
 \section{The whole digital twin workflow}
 
-\begin{frame}[more-space]{The Digital Twin Workflow\enspace|\enspace Control loop}
-  \medskip
-  \begin{center}
+\begin{frame}[more-space]{The Digital Twin Workflow}
+  \dataheading{Control loop}
+  \noindent\makebox[\textwidth][c]{%
     \begin{tikzpicture}[
       node distance=6mm,
       stage/.style={draw=rwth-blue-100!55,fill=rwth-blue-100!6,
         rounded corners=1.5mm,inner sep=2mm,text width=36mm,
-        minimum height=23mm,align=left,font=\small},
+        minimum height=17mm,align=left,font=\footnotesize},
       flow/.style={->,thick,rwth-blue-100,>={Latex[length=2.2mm]}}
     ]
-      \node[stage] (measure) {\textbf{1. Measure}\par\smallskip
+      \node[stage] (measure) {\textbf{1. Measure}\\[0.5mm]
         Inlet temperature\\CPU / fan settings\\18 CPU temperatures};
-      \node[stage,right=of measure] (choose) {\textbf{2. Predict + choose}\par\smallskip
+      \node[stage,right=of measure] (choose) {\textbf{2. Predict + choose}\\[0.5mm]
         PCE temperature\\Uncertainty margin\\Best CPU / fan setting};
-      \node[stage,right=of choose] (act) {\textbf{3. Apply + repeat}\par\smallskip
+      \node[stage,right=of choose] (act) {\textbf{3. Apply + repeat}\\[0.5mm]
         Check limits\\Send commands\\Measure again};
       \draw[flow] (measure) -- (choose);
       \draw[flow] (choose) -- (act);
-      \draw[flow,rounded corners=2mm] (act.south) -- ++(0,-7mm)
+      \draw[flow,rounded corners=2mm] (act.south) -- ++(0,-5mm)
         -| (measure.south);
-      \node[fill=white,inner sep=1mm,font=\small,text=rwth-blue-100]
-        at ([yshift=-7mm]choose.south) {new measurements};
+      \node[fill=white,inner sep=0.7mm,font=\footnotesize,text=rwth-blue-100]
+        at ([yshift=-5mm]choose.south) {new measurements};
     \end{tikzpicture}
-  \end{center}
-  \medskip
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
-    \small
-    \textbf{Safety in parallel}\quad Monitor actual CPU temperatures;
-    override the recommendation if too hot.
-  \end{beamercolorbox}
-  \medskip
-  {\small Choose the control interval to allow thermal settling.}
-\end{frame}
-
-\begin{frame}[more-space]{The Digital Twin Workflow\enspace|\enspace Learning loop}
-  \medskip
-  \begin{center}
+  }
+  \par\smallskip
+  \dataheading{Learning loop}
+  \noindent\makebox[\textwidth][c]{%
     \begin{tikzpicture}[
       node distance=4mm,
       stage/.style={draw=rwth-blue-100!55,fill=rwth-blue-100!6,
         rounded corners=1.5mm,inner sep=2mm,text width=25mm,
-        minimum height=22mm,align=left,font=\small},
+        minimum height=15mm,align=left,font=\footnotesize},
       flow/.style={->,thick,rwth-blue-100,>={Latex[length=2.2mm]}}
     ]
-      \node[stage] (store) {\textbf{1. Store}\par\smallskip
+      \node[stage] (store) {\textbf{1. Store}\\[0.5mm]
         Readings + time\\Settings + version};
-      \node[stage,right=of store] (select) {\textbf{2. Select}\par\smallskip
+      \node[stage,right=of store] (select) {\textbf{2. Select}\\[0.5mm]
         Settled periods\\Complete sensors};
-      \node[stage,right=of select] (fit) {\textbf{3. Fit}\par\smallskip
+      \node[stage,right=of select] (fit) {\textbf{3. Fit}\\[0.5mm]
         PCE / PI-PCE\\Updated data};
-      \node[stage,right=of fit] (check) {\textbf{4. Check}\par\smallskip
+      \node[stage,right=of fit] (check) {\textbf{4. Check}\\[0.5mm]
         Test predictions\\Approve version};
       \draw[flow] (store) -- (select);
       \draw[flow] (select) -- (fit);
       \draw[flow] (fit) -- (check);
     \end{tikzpicture}
-  \end{center}
-  \medskip
-  \begin{columns}[T,onlytextwidth]
-    \column{0.485\textwidth}
-      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{Fill data gaps}
-        \small Test missing input combinations.
-      \end{beamercolorbox}
-    \column{0.485\textwidth}
-      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{Update carefully}
-        \small Replace only after checks; keep a fallback.
-      \end{beamercolorbox}
-  \end{columns}
-  \medskip
-  \par
+  }
+  \par\smallskip
+  \noindent{\color{rwth-blue-100}\bfseries Safety loop:}\enspace
+  {\footnotesize Monitor actual CPU temperatures;
+    override the recommendation if too hot.}\par
 \end{frame}

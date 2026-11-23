@@ -18,15 +18,17 @@
         \textbf{operating observations}\par
       \end{beamercolorbox}
       \medskip
-      \dataheading{Each observation contains}
-      \small
-      \textbf{Three averaged inputs}\par
-      CPU power, inlet temperature and raw fan signal.
-      \par\medskip
-      \textbf{One temperature target}\par
-      Largest of the 18 CPU temperature averages.
+      \dataheading{Each observation contains:}
+      \footnotesize
+      \[
+        \Bigl(
+          \underbrace{\bar P_{\mathrm{CPU}},\,\bar T_{\mathrm{inlet}},\,\bar F}_{\text{three inputs}},\;
+          \underbrace{\max_{j=1,\ldots,18}\bar T_j}_{\text{temperature target}}
+        \Bigr)
+      \]
+      Bars denote averages over the same selected interval; $j$ indexes the 18 CPUs.
       \par\smallskip
-      \begin{beamercolorbox}[sep=1.5mm,wd=\linewidth]{data panel}
+      \begin{beamercolorbox}[sep=1.5mm,wd=\linewidth]{data warning}
         \dataheading{Only polynomial degrees 1 and 2 are feasible}
         \footnotesize
         \begin{itemize}

@@ -16,8 +16,7 @@
         &P_{\min}\leq P\leq P_{\max},\qquad
           F_{\min}\leq F\leq F_{\max},\\[1mm]
         &|P-P_{\mathrm{prev}}|\leq\Delta P_{\max},\qquad
-          |F-F_{\mathrm{prev}}|\leq\Delta F_{\max},\\[1mm]
-        &(P,T_{\mathrm{inlet}}^{\mathrm{meas}},F)\in\mathcal D_{\mathrm{supported}}.
+          |F-F_{\mathrm{prev}}|\leq\Delta F_{\max}.
       \end{aligned}
     \]
   \end{beamercolorbox}
@@ -29,7 +28,7 @@
       $\mu_T,\sigma_T$: mean and spread from inlet variation, with CPU/fan settings fixed.
     \column{0.485\textwidth}
       \small
-      \textbf{All constraints must hold}\par
-      Respect thermal, setting, step-size and supported-domain limits.
+      \textbf{Use a constrained optimizer}\par
+      For example, \texttt{scipy.optimize.minimize} with the SLSQP method. Use the PCE to evaluate $\mu_T$ and $\sigma_T$ at each candidate $(P,F)$.
   \end{columns}
 \end{frame}

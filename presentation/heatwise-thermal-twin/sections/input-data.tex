@@ -4,9 +4,6 @@
 \section{Input Data}
 
 \begin{frame}[more-space]{Input Data\enspace|\enspace Operating cases and model variables}
-  \begin{tikzpicture}[remember picture,overlay]
-    \node[anchor=center,inner sep=0pt] at (current page.center) {%
-      \begin{minipage}{\textwidth}
   \begin{columns}[T,onlytextwidth]
     \column{0.47\textwidth}
       \dataheading{Measured variables}
@@ -47,9 +44,14 @@
       \smallskip
       CPU stress tests for every case: \textbf{100 / 75 / 50 / 25\,\% / idle}      }
   \end{columns}
-      \end{minipage}%
-    };
-  \end{tikzpicture}
+  \par\vspace{4mm}
+  % Center the load panel from the preprocessing slide beneath both tables.
+  \noindent\makebox[\textwidth][c]{%
+    \includegraphics[width=0.65\textwidth,trim=0bp 478bp 0bp 22bp,clip]
+      {../../results/audit/figures/inputs_and_max_temperature_timeseries.pdf}%
+  }
+  \par\vspace{1mm}
+  \noindent\makebox[\textwidth][c]{\footnotesize Total CPU power over elapsed time}
 \end{frame}
 
 \subsection{Problems with the dataset}
@@ -97,15 +99,11 @@
       \includegraphics[width=\linewidth,trim=0bp 0bp 0bp 35bp,clip]
         {../../results/audit/figures/input_correlation_matrix.pdf}
       \par\smallskip
-      {\footnotesize
-        Pearson: linear / Spearman: rank correlation\\
-        Labeled cases 1--5; pairwise-complete observations ($n=1{,}308$)
-      }
 
     \column{0.31\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data warning}
         \dataheading{3. Input Dependence}
-        \textbf{Fan signal / inlet temperature}\par
+        \textbf{Fan signal - Inlet temperature}\par
         \smallskip
         {\large\color{rwth-blue-100}\bfseries $r=0.84$\quad $\rho=0.81$}\par
       \end{beamercolorbox}
@@ -113,16 +111,11 @@
       \medskip
       \dataheading{Implications for PCE / UQ}
       \footnotesize
-      Independent marginal sampling\\
-      $\rightarrow$ untested input combinations
-
+      Easy Sobol sensitivity analysis\\
+      not possible with dependent inputs\\
       \medskip
-      Review independence assumptions\\
-      before classical PCE / Sobol analysis
-
-      \medskip
-      \textbf{Near-zero correlation}\\
-      $\ne$ statistical independence
+      \textbf{However, we assumed independence} for the PCE and Sobol analysis.\\
+      Copula modeling or transformations needed.
   \end{columns}
 \end{frame}
 

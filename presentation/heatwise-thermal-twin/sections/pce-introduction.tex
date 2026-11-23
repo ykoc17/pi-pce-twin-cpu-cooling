@@ -3,14 +3,14 @@
   \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
     \footnotesize
     A \textbf{Polynomial Chaos Expansion (PCE)} approximates a response as a
-    weighted sum of polynomial terms.
+    weighted sum of orthonormal polynomial terms.
     \[
       \widehat{T}_{\max}^{\mathrm{ss}}(\mathbf{x})
       = \sum_{|\boldsymbol{\alpha}|\leq p}
         c_{\boldsymbol{\alpha}}\,\Psi_{\boldsymbol{\alpha}}(\boldsymbol{\xi})
     \]
     $c_{\boldsymbol{\alpha}}$: fitted weights; $\Psi_{\boldsymbol{\alpha}}$: polynomial terms;
-    $p$: maximum total polynomialdegree; $\boldsymbol{\xi}$: scaled inputs.
+    $p$: maximum total polynomial degree; $\boldsymbol{\xi}$: scaled inputs.
   \end{beamercolorbox}
   \smallskip
   \begin{columns}[T,onlytextwidth]
@@ -41,16 +41,5 @@
       \centering
       \href{https://www.uqlab.com/}{\includegraphics[width=16mm,height=16mm,keepaspectratio]{images/uqlab.png}}
   \end{columns}
-  \smallskip
-  \begin{beamercolorbox}[sep=1.2mm,wd=\textwidth]{data panel}
-    \begin{minipage}{\dimexpr\linewidth-2.4mm\relax}
-    \footnotesize\raggedright
-    \textbf{1. Efficient UQ:} Mean and variance follow from the coefficients.\par
-    \textbf{2. Simple Sobol sensitivity analysis:} Under \textbf{independent inputs}, the coefficients and their
-    indices give sensitivities without costly model reruns.\par
-    \textbf{3. Lightweightness:} Evaluation is very fast because it is a surrogate model;
-    no iterative thermal solver is needed. The polynomial basis is easy to implement and evaluate.
-    \end{minipage}
-  \end{beamercolorbox}
   \datasource{Sources: \href{https://www.uqlab.com/}{UQLab, ETH Z\"urich}}
 \end{frame}

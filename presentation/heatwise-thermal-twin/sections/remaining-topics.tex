@@ -1,49 +1,8 @@
 % Proposed UQ, sensitivity, optimization and deployment stages.
 \section{Uncertainty Quantification and Sensitivity Analysis}
 
-\begin{frame}[more-space]{UQ and Sobol Sensitivity Analysis}
-  \setlength{\fboxsep}{2mm}
-  \setlength{\fboxrule}{0.5pt}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.485\textwidth}
-      \fcolorbox{rwth-blue-100}{rwth-blue-100!6}{%
-        \begin{minipage}[t][42mm][t]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
-          \dataheading{Uncertainty Quantification (UQ)}
-          \small
-          \textbf{How much can temperature vary?}
-          \[
-            \mu=c_{\mathbf 0},\qquad
-            \sigma^2=\sum_{\boldsymbol\alpha\ne\mathbf 0}c_{\boldsymbol\alpha}^{2}
-          \]
-          \begin{itemize}
-            \item Mean $\mu$ and variance $\sigma^2$ follow directly from the PCE coefficients.
-            \item \textbf{Can be used to define soft temperature constraints in optimization.}
-          \end{itemize}
-        \end{minipage}%
-      }
-    \column{0.485\textwidth}
-      \fcolorbox{rwth-blue-100}{rwth-blue-100!6}{%
-        \begin{minipage}[t][42mm][t]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
-          \dataheading{Sobol Sensitivity Analysis}
-          \small
-          \textbf{Which inputs drive the variation?}
-          \[
-            S_i=\frac{\sum_{\alpha_i>0,\,\alpha_{j\ne i}=0}c_{\boldsymbol\alpha}^{2}}{\sigma^2},
-            \qquad
-            S_i^{\mathrm T}=\frac{\sum_{\alpha_i>0}c_{\boldsymbol\alpha}^{2}}{\sigma^2}
-          \]
-          \begin{itemize}
-            \item First-order index: one input's contribution.
-            \item Total index: includes interactions.
-            \item Independent inputs; $\sigma^2>0$.
-            \item \textbf{Can be used to prioritize which inputs to control or monitor.}
-          \end{itemize}
-        \end{minipage}%
-      }
-  \end{columns}
-  \medskip
-\end{frame}
-
+\input{sections/conditional-moments}
+\input{sections/conditional-sensitivity}
 \input{sections/optimization}
 \input{sections/project-summary}
 \input{sections/workflow}
@@ -68,9 +27,8 @@
         \small
         \begin{itemize}
           \item Fit and test PCE / physics-informed PCE.
-          \item Study uncertainty and sensitivity; optimize settings.
+          \item Study uncertainty and sensitivity.
           \item Account for input dependencies.
-          \item Confirm fan units; test new conditions before live use.
         \end{itemize}
       \end{beamercolorbox}
   \end{columns}

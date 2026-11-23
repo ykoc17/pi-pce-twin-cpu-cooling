@@ -1,0 +1,24 @@
+\begin{frame}[more-space]{Sensitivity Analysis}
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=center,inner sep=0pt] at (current page.center) {%
+      \begin{minipage}{\textwidth}
+  {\normalfont\small
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{@{}p{0.19\textwidth}p{0.77\textwidth}@{}}
+    \toprule
+    \textbf{Coefficient} & \textbf{At a fixed CPU / fan setting}\\
+    \midrule
+    $b_0(P,F)$ & Average predicted CPU temperature\\
+    $b_1(P,F)$ & Strength and direction of the linear response to air inlet temperature changes\\
+    $b_2(P,F)$ & Strength and direction of the curvature in the air inlet temperature response\\
+    \bottomrule
+  \end{tabular}}
+  \medskip
+  \begin{itemize}
+    \small
+    \item These coefficients can be compared across CPU/fan settings to understand which settings respond more strongly to inlet fluctuations
+  \end{itemize}
+      \end{minipage}%
+    };
+  \end{tikzpicture}
+\end{frame}
