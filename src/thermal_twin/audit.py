@@ -262,7 +262,7 @@ def write_report(output: Path, quality: dict, cases: pd.DataFrame, missing: pd.D
                           "tunnel_fan_power_raw__min", "tunnel_fan_power_raw__max",
                           "total_cpu_power_W__min", "total_cpu_power_W__max"]]
     case_display = case_display.rename(columns={
-        "inlet_setpoint_C": "Inlet setpoint (C)", "dp_setpoint_kPa": "DP setpoint (kPa)",
+        "inlet_setpoint_C": "Inlet setpoint (C)", "dp_setpoint_kPa": "DP setpoint (Pa)",
         "observed_samples": "Rows", "tunnel_fan_power_raw__min": "Fan raw min",
         "tunnel_fan_power_raw__max": "Fan raw max", "total_cpu_power_W__min": "CPU W min",
         "total_cpu_power_W__max": "CPU W max",
@@ -345,9 +345,12 @@ hybrid cases 6–8 are excluded. Windows are inclusive and checked against exist
 
 {_markdown_table(case_display)}
 
-The designed regimes are (inlet setpoint C, differential-pressure setpoint kPa):
-(25, 2), (35, 4), (45, 6), (45, 8), and (45, 10). **Differential pressure is not
-fan power.** Each case has a narrow observed raw fan-signal band and a broad CPU
+The designed regimes are (inlet setpoint C, differential-pressure setpoint Pa):
+(25, 2), (35, 4), (45, 6), (45, 8), and (45, 10). CASES.csv and the source README label
+this setpoint kPa, but the measured `tunnel_diff_pressure_WT3_SA3_Pa` is documented in Pa
+with high confidence and follows the same 2-10 values, so Pa is used here. The source
+column name `dp_setpoint_kPa` is kept unchanged; confirm the unit with the data owners.
+**Differential pressure is not fan power.** Each case has a narrow observed raw fan-signal band and a broad CPU
 load range. Dataset notes describe 100%, 75%, 50%, 25%, and idle stress-ng steps;
 the audit does not infer exact load plateaus or equate CPU watts to those percentages.
 Measured inlet temperatures vary within cases, including adjustment transients.

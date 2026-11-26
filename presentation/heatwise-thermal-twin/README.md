@@ -94,11 +94,12 @@ The cover is followed by:
   adds global/local decision metrics, and specifies training-only/nested grouped
   tuning for a fair model comparison.
 - **Adding Physics: Physics-Informed PCE**, under Model, is editable in
-  `sections/physics-informed.tex` (slides **32--34**): the proposed effective
-  thermal-resistance relationship, the data-plus-physics training loss and its
-  weights/check points, calibration, possible benefits and limitations.
-  The raw fan/reference ratio is dimensionless, not a conversion to watts.
-  No physical parameters or PI-PCE have been fitted.
+  `sections/physics-informed.tex` (slides **15--16**): the three-constant thermal
+  rule with its fitted constants and held-out error, the data-plus-physics loss,
+  and how extra points are sampled and given thermal-rule targets. Values and the
+  figure come from `thermal-twin fit-physics` (`results/physics/`); rerun it before
+  building. The raw fan/reference ratio is dimensionless, not a conversion to watts.
+  No PI-PCE has been fitted; the extra points are not measurements.
 - **Uncertainty Quantification**, in `sections/remaining-topics.tex` and
   `sections/uncertainty-control.tex` (slides **35--37**): zero extra predictions
   for global mean/variance; illustrative 10,000-sample distribution estimates;

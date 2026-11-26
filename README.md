@@ -3,7 +3,8 @@
 A reproducible Python project for a steady-state thermal digital twin using the
 HEATWISE experimental dataset. The project provides dataset loading,
 validation, `thermal-twin inspect`, descriptive exploration with `thermal-twin audit`,
-steady-state preprocessing, and input probability models with `thermal-twin inputs`.
+steady-state preprocessing, input probability models with `thermal-twin inputs`, and a
+three-constant thermal rule with physics check points (`thermal-twin fit-physics`).
 PCE, physics-informed PCE,
 uncertainty quantification, Sobol analysis, and constrained optimization are
 planned later steps and are not implemented here.
@@ -137,8 +138,9 @@ Transitions remain in descriptive time-series and scatter figures and are exclud
 from case-domain coverage and the input correlation matrices. Correlations also
 have separate all-row, transition, and within-case summaries.
 
-The experimental regimes combine inlet/pressure setpoints (25 C, 2 kPa),
-(35 C, 4 kPa), and (45 C, 6/8/10 kPa), with CPU loads stepped within each case.
+The experimental regimes combine inlet/pressure setpoints (25 C, 2 Pa),
+(35 C, 4 Pa), and (45 C, 6/8/10 Pa), with CPU loads stepped within each case.
+The source CASES.csv labels the pressure setpoint kPa; the measured pressure column is in Pa.
 Pressure setpoints are not fan-power values. These trajectories do not fill the
 three-input domain: combining separately observed marginal extremes can create an
 untested operating condition. The report explains joint input dependence,
@@ -277,6 +279,31 @@ coefficient uncertainty and surrogate prediction error. The fan-signal unit stay
 **unverified**. No predictive model, propagated output UQ or Sobol indices are
 implemented in this step. Source and raw data are preserved.
 
+## Thermal-resistance rule and check points
+
+```bash
+thermal-twin fit-physics
+thermal-twin fit-physics --data data/processed/steady_state.csv --output results/physics
+```
+
+The command fits three constants to the accepted operating observations with bounded
+nonlinear least squares:
+
+    T_phys = T_inlet + offset + P_CPU * K * (F / F_ref)**(-gamma)
+
+F_ref is the median training fan signal; only the dimensionless ratio is used because
+the fan unit is unverified. Validation leaves out one whole experimental case at a time
+and refits every constant and F_ref on the other four. A fourth constant R0 is compared
+in the report and not used: the data cannot separate it from K and gamma.
+
+All accepted observations are kept, including those affected by CPU throttling near
+94 C. The report adds a sensitivity comparison without targets of at least 93.5 C.
+
+`results/physics/tables/check_points.csv` contains 128 Sobol input combinations over the
+reference ranges with T_phys. They are targets for the physics part of a later
+physics-informed PCE loss, **not measurements**; untested regions rest on the rule alone.
+Settings are in `configs/physics_config.py`. No PCE is fitted in this step.
+
 ## Presentation
 
 The RWTH-CI LaTeX presentation is in
@@ -315,6 +342,8 @@ Input-model tests check exact unweighted bounds, UQLab uniform densities and
 candidate normalization, the Legendre normalization convention, Gaussian-copula
 covariance, both Nataf round-trip directions, endpoint/numerical guards, invalid
 matrix rejection, separate A/B artifacts, source preservation and reproducibility.
+Physics tests check recovery of known constants, bounds, analytic derivatives, held-out-case
+separation, identifiability of the fourth constant, and reproducible, balanced check points.
 
 ## Project layout
 
@@ -334,6 +363,7 @@ matrix rejection, separate A/B artifacts, source preservation and reproducibilit
 │   ├── preprocessing/       # Selection diagnostics and plots
 │   ├── inputs/              # Independent reference and distribution diagnostics
 │   ├── inputs_example_scenario/ # Explicitly assumed dependent-scenario example
+│   ├── physics/             # Thermal-rule constants, validation, and check points
 │   ├── figures/
 │   ├── tables/
 │   └── models/

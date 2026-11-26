@@ -88,7 +88,7 @@ all CPU sensors, both maxima, input values, airflow, and the valid-sensor count.
 Only air-cooling entries for `ocp_air_cooling_5min.csv` are selected from CASES.csv;
 hybrid cases 6–8 are excluded. Windows are inclusive and checked against existing labels.
 
-| case_id | Inlet setpoint (C) | DP setpoint (kPa) | Rows | Fan raw min | Fan raw max | CPU W min | CPU W max |
+| case_id | Inlet setpoint (C) | DP setpoint (Pa) | Rows | Fan raw min | Fan raw max | CPU W min | CPU W max |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | 25 | 2 | 249 | 0.12 | 0.145 | 359 | 1904 |
 | 2 | 35 | 4 | 304 | 0.213 | 0.266 | 360 | 1923 |
@@ -96,9 +96,12 @@ hybrid cases 6–8 are excluded. Windows are inclusive and checked against exist
 | 4 | 45 | 8 | 309 | 0.481 | 0.581 | 363 | 1995 |
 | 5 | 45 | 10 | 209 | 0.677 | 0.766 | 329 | 2218 |
 
-The designed regimes are (inlet setpoint C, differential-pressure setpoint kPa):
-(25, 2), (35, 4), (45, 6), (45, 8), and (45, 10). **Differential pressure is not
-fan power.** Each case has a narrow observed raw fan-signal band and a broad CPU
+The designed regimes are (inlet setpoint C, differential-pressure setpoint Pa):
+(25, 2), (35, 4), (45, 6), (45, 8), and (45, 10). CASES.csv and the source README label
+this setpoint kPa, but the measured `tunnel_diff_pressure_WT3_SA3_Pa` is documented in Pa
+with high confidence and follows the same 2-10 values, so Pa is used here. The source
+column name `dp_setpoint_kPa` is kept unchanged; confirm the unit with the data owners.
+**Differential pressure is not fan power.** Each case has a narrow observed raw fan-signal band and a broad CPU
 load range. Dataset notes describe 100%, 75%, 50%, 25%, and idle stress-ng steps;
 the audit does not infer exact load plateaus or equate CPU watts to those percentages.
 Measured inlet temperatures vary within cases, including adjustment transients.

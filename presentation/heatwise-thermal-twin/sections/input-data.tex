@@ -32,7 +32,7 @@
       \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrr@{}}
         \toprule
         \textbf{Case} & \textbf{Inlet} & \textbf{DP}\\
-        & $[{}^\circ\mathrm{C}]$ & $[\mathrm{kPa}]$\\
+        & $[{}^\circ\mathrm{C}]$ & $[\mathrm{Pa}]$\\
         \midrule
         \casekey{caseone}{1}   & 25 &  2\\
         \casekey{casetwo}{2}   & 35 &  4 \\
@@ -87,6 +87,13 @@
         \dataheading{2. Unverified unit of fan signal}
         \textbf{Needed:} confirmation from data owners
       \end{beamercolorbox}
+
+      \medskip
+      \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data warning}
+        \dataheading{3. CPU throttling}
+        Hot CPUs hold about $94\,{}^\circ$C by reducing their power\\
+        \textbf{Affects 6 of the 19 observations}; all are kept
+      \end{beamercolorbox}
       \end{columns}
 \end{frame}
 
@@ -102,7 +109,7 @@
 
     \column{0.31\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data warning}
-        \dataheading{3. Input Dependence}
+        \dataheading{4. Input Dependence}
         \textbf{Fan signal - Inlet temperature}\par
         \smallskip
         {\large\color{rwth-blue-100}\bfseries $r=0.84$\quad $\rho=0.81$}\par

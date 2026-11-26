@@ -45,8 +45,25 @@ def main(argv: list[str] | None = None) -> int:
                         help="Results directory (default: %(default)s)")
     inputs.add_argument("--scenario", type=Path,
                         help="Optional JSON specifying a Gaussian-copula operating scenario; never fitted automatically")
+    from configs.physics_config import DEFAULT_PHYSICS_OUTPUT
+    physics = commands.add_parser("fit-physics", help="Fit the three-constant thermal rule and generate check points")
+    physics.add_argument("--data", type=Path, default=DEFAULT_OBSERVATIONS_PATH,
+                         help="Accepted operating-period CSV (default: %(default)s)")
+    physics.add_argument("--output", type=Path, default=DEFAULT_PHYSICS_OUTPUT,
+                         help="Results directory (default: %(default)s)")
     args = parser.parse_args(argv)
     try:
+        if args.command == "fit-physics":
+            from thermal_twin.physics import run_physics
+            result = run_physics(args.data, args.output)
+            model = result["model"]
+            print(f"Thermal-resistance rule fitted to {result['observations']} observations: {args.output / 'report.md'}")
+            print(f"  offset={model.offset_C:.3f} C, K={model.K_C_per_W:.5f} C/W, gamma={model.gamma:.4f}, "
+                  f"F_ref={model.fan_reference:.6f} (raw, unverified unit)")
+            print(f"  RMSE: training {result['training']['RMSE_C']:.2f} C, "
+                  f"held-out cases {result['held_out']['RMSE_C']:.2f} C")
+            print(f"{result['check_points']} check points saved. They are not measurements; no PCE is fitted.")
+            return 0
         if args.command == "inputs":
             from thermal_twin.inputs import run_inputs
             result = run_inputs(args.data, args.output, args.scenario)

@@ -1,0 +1,60 @@
+{
+  "equation": "T_phys = T_inlet + offset + P_CPU * K * (F / F_ref)**(-gamma)",
+  "constants": {
+    "offset_C": 3.584141924468717,
+    "K_C_per_W": 0.03207422199579523,
+    "gamma": 0.32524675858939944,
+    "fan_reference": 0.356111111111
+  },
+  "uncertainty": {
+    "names": [
+      "offset_C",
+      "K_C_per_W",
+      "gamma"
+    ],
+    "standard_errors": {
+      "offset_C": 2.2836458766060264,
+      "K_C_per_W": 0.0018817268499052,
+      "gamma": 0.03626843312050621
+    },
+    "correlation": [
+      [
+        1.0,
+        -0.9228869272098852,
+        0.3723189475151306
+      ],
+      [
+        -0.9228869272098845,
+        0.9999999999999998,
+        -0.5114856729844005
+      ],
+      [
+        0.3723189475151302,
+        -0.5114856729844004,
+        1.0000000000000002
+      ]
+    ],
+    "max_abs_parameter_correlation": 0.9228869272098852,
+    "scaled_condition_number": 5.858141933557611
+  },
+  "training": {
+    "n": 19,
+    "RMSE_C": 3.3539116179532664,
+    "MAE_C": 3.0992763800667515,
+    "max_abs_error_C": 5.194685283094742,
+    "R2": 0.9587656490476861
+  },
+  "held_out": {
+    "n": 19,
+    "RMSE_C": 3.4488966738977034,
+    "MAE_C": 3.1384836465669443,
+    "max_abs_error_C": 5.761063049173288,
+    "R2": 0.9563970069136408
+  },
+  "monotonicity": {
+    "temperature_rises_with_power": true,
+    "temperature_falls_with_fan_signal": true,
+    "scope": "all observations and all check points"
+  },
+  "fan_unit": "unverified; only the ratio F/F_ref is used"
+}
