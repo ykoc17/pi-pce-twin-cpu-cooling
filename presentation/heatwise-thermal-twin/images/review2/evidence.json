@@ -1,0 +1,82 @@
+{
+  "observations": 19,
+  "generated": 128,
+  "excluded": 10,
+  "withheld": 118,
+  "current_training_points": 0,
+  "measured_max_C": 94.4545454545,
+  "synthetic_max_C": 116.944309878,
+  "validation_rmse_C": 3.448896673870231,
+  "validation_metrics_scope": "early fixed-three-constant check reused for model choice",
+  "separate_model_choice_check": {
+    "source_sha256": "c7e97366301e21139c4d1859d09d0c5be132042db7c30d6ebf8615a3ac91661d",
+    "config": {
+      "starts": [
+        [
+          5.0,
+          0.01,
+          0.02,
+          0.5
+        ],
+        [
+          0.0,
+          0.03,
+          0.01,
+          1.0
+        ],
+        [
+          10.0,
+          0.001,
+          0.04,
+          0.2
+        ]
+      ],
+      "max_abs_offset_C": 50.0,
+      "max_resistance_C_per_W": 1.0,
+      "min_gamma": 0.001,
+      "max_gamma": 5.0,
+      "check_point_power": 7,
+      "check_point_seed": 20261125,
+      "throttling_sensitivity_target_C": 93.5
+    },
+    "outer_metrics": {
+      "n": 19,
+      "RMSE_C": 4.489269035981534,
+      "MAE_C": 3.4961737080013595,
+      "max_abs_error_C": 13.264327555392143,
+      "R2": 0.9261233487907384
+    },
+    "selection": "inner pooled case-wise RMSE, 3 vs 4 constants; ties choose 3",
+    "status": "early internal check; dataset already informed model development",
+    "synthetic_points_used_in_training": 0
+  },
+  "generated_point_scope": "full-data diagnostic illustration only; never reused in a training fold",
+  "validation_max_abs_C": 5.761063048700009,
+  "designs": {
+    "1": {
+      "columns": 4,
+      "rank": 4,
+      "condition_number": 4.3782626244506995
+    },
+    "2": {
+      "columns": 10,
+      "rank": 10,
+      "condition_number": 701.967968949923
+    },
+    "3": {
+      "columns": 20,
+      "rank": 19,
+      "condition_number": 6262.526250046874
+    }
+  },
+  "source_sha256": {
+    "data/processed/steady_state.csv": "c7e97366301e21139c4d1859d09d0c5be132042db7c30d6ebf8615a3ac91661d",
+    "results/physics/tables/check_points.csv": "0b4a43845ea1cbce69138834667c7c33fa9a4f3e10c1d721c7fdeb98d1d91034",
+    "results/physics/tables/held_out_predictions.csv": "cc0bfcd384bb65563cc728478f1f4dc39ed9a5c6070ede498b1f82d10991108f",
+    "results/preprocessing_review/threshold_sensitivity.csv": "e96b8f800ca94096a5fd0c3f439fd15079b28a0494e511e8cce4a97e8358bff8",
+    "data/raw/CASES.csv": "814a806918a52941158afdda375b7e4841c4ef42ac973d7c37abcfb718859659",
+    "results/physics_training_review/manifest.json": "cb336746abc1eaf607f5614a4f5c9453592b31ec5f7eccafc545465c561fb42b",
+    "results/physics_training_review/predictions.csv": "5526f73218f29d003b3ab8d90fd13b08e875b8974080cb68ee4ed13295ce3f70",
+    "results/physics_training_review/check_points.csv": "e2667dc467f980ae39b61fee326455c3bb9975c82db7691b6e9b77340edcef1c"
+  }
+}

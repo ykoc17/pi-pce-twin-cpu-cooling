@@ -1,115 +1,92 @@
-% Constants, errors and figure: results/physics/ (thermal-twin fit-physics).
-\subsection{Adding Physics: Physics-Informed PCE}
+% Proposed PI-PCE: monotonicity constraints, measured targets only.
+\subsection{Physics-Informed PCE}
 
-\begin{frame}[more-space]{Model\enspace|\enspace Adding Physics: Physics-Informed PCE}
-  {\footnotesize Only \textbf{19 experimental data points} $\longrightarrow$
-    {\color{rwth-blue-100}\textbf{Idea 1:} Use physics to reduce solution space.}}\par\vspace{0.3mm}
+\begin{frame}[more-space]{Model\enspace|\enspace Physics-Informed PCE (PI-PCE)}
+  {\small We will fit \textbf{PCE and PI-PCE} using the same \textbf{19 measured observations}.}
+  \medskip
   \begin{columns}[T,onlytextwidth]
     \column{0.49\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \begin{minipage}[t][50mm][t]{\dimexpr\linewidth-4mm\relax}
-        \dataheading{1. Rule for maximum CPU temperature}
-        \footnotesize
-        \setlength{\abovedisplayskip}{3pt}
-        \setlength{\belowdisplayskip}{3pt}
-        \begingroup
-        \setlength{\fboxsep}{1mm}
-        \setlength{\fboxrule}{0.5pt}
-        \noindent\fcolorbox{rwth-blue-100!60}{white}{%
-        \begin{minipage}[c][12mm][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
-        \[
-          T_{\max,\mathrm{phys}}^{\mathrm{ss}}=T_{\mathrm{inlet}}+\Delta T_0
-            +P_{\mathrm{CPU}}\,K\left(\frac{F}{F_{\mathrm{ref}}}\right)^{-\gamma}
-        \]
-        \end{minipage}%
-        }
-        \endgroup
-        \begin{itemize}
-          \setlength{\itemsep}{1pt}
-          \item $K\geq0$: effective system resistance [${}^\circ$C/W].
-          \item $\gamma>0$: cooling effect; $\Delta T_0$: temperature offset.
-          \item $F_{\mathrm{ref}}$: median training fan signal (fixed).
-        \end{itemize}
-        \smallskip
-        \textbf{Direct prediction:} one output, the largest of the 18 CPU interval
-        averages. Fit to 19 observations by constrained nonlinear least squares.
-        \par\smallskip
-        \begingroup\raggedright
-        \textbf{Result:} $\Delta T_0=3.6\,{}^\circ$C, $K=0.032\,{}^\circ$C/W,
-        $\gamma=0.33$, $F_{\mathrm{ref}}=0.356$.\par\endgroup
-        Error on held-out cases: RMSE $3.5\,{}^\circ$C.
+        \begin{minipage}[t][40mm][t]{\dimexpr\linewidth-4mm\relax}
+          \dataheading{Monotonicity constraints}
+          \small
+          With the other inputs fixed:
+          \[
+            \frac{\partial\widehat T_{\max}^{\mathrm{ss}}}{\partial P}\geq0,
+            \qquad
+            \frac{\partial\widehat T_{\max}^{\mathrm{ss}}}{\partial T_{\mathrm{inlet}}}\geq0,
+            \qquad
+            \frac{\partial\widehat T_{\max}^{\mathrm{ss}}}{\partial F}\leq0.
+          \]
+          \begin{itemize}
+            \item More CPU power: no lower temperature.
+            \item Warmer inlet: no lower temperature.
+            \item Stronger cooling: no higher temperature.
+          \end{itemize}
+          \footnotesize Flat responses are allowed.
         \end{minipage}
       \end{beamercolorbox}
     \column{0.49\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \begin{minipage}[t][50mm][t]{\dimexpr\linewidth-4mm\relax}
-        \dataheading{2. Fit data and encourage physics}
-        \footnotesize
-        \setlength{\abovedisplayskip}{2pt}
-        \setlength{\belowdisplayskip}{2pt}
-        \begingroup
-        \setlength{\fboxsep}{1mm}
-        \setlength{\fboxrule}{0.5pt}
-        \noindent\fcolorbox{rwth-blue-100!60}{white}{%
-        \begin{minipage}[c][22mm][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
-        \[
-          \mathcal L(\mathbf c)=\mathcal L_{\mathrm{data}}
-            +\lambda_{\mathrm{phys}}\mathcal L_{\mathrm{physics}}
-        \]
-        \[
-          \mathcal L_{\mathrm{data}}=\frac1N\sum_{i=1}^{N}
-            \bigl[\widehat{T}_{\max}^{\mathrm{ss}}(\mathbf x_i)-y_i\bigr]^2
-        \]
-        \[
-          \mathcal L_{\mathrm{physics}}=\frac1M\sum_{j=1}^{M}
-            \bigl[\widehat{T}_{\max}^{\mathrm{ss}}(\mathbf z_j)-T_{\max,\mathrm{phys}}^{\mathrm{ss}}(\mathbf z_j)\bigr]^2
-        \]
-        \end{minipage}%
-        }
-        \endgroup
-        \begin{itemize}
-          \setlength{\itemsep}{1pt}
-          \item $\mathbf x_i$: measured points; $\mathbf z_j$: extra points.
-          \item $\lambda_{\mathrm{phys}}\geq0$: physics strength; zero gives the data-only PCE.
-          \item Fit / tune on training cases only.
-          \item Same Legendre PCE, similar to PINNs; still \textbf{linear} least squares.
-        \end{itemize}
+        \begin{minipage}[t][40mm][t]{\dimexpr\linewidth-4mm\relax}
+          \dataheading{PI-PCE: fit data with restricted shape}
+          \small
+          \[
+            \min_{\mathbf c}\ \frac1N\sum_{i=1}^{N}
+              \bigl[\widehat T_{\max}^{\mathrm{ss}}(\mathbf x_i;\mathbf c)-y_i\bigr]^2
+          \]
+          \centering{\footnotesize subject to the monotonicity constraints}\par
+          \raggedright
+          \begin{itemize}
+            \item PCE: measured-data fit only.
+            \item PI-PCE: add monotonicity constraints.
+            \item $N$: observations in the training split.
+          \end{itemize}
+          \footnotesize Eight box corners check derivative signs; they need \textbf{no temperature labels}.
         \end{minipage}
       \end{beamercolorbox}
   \end{columns}
+  \smallskip
+  \begin{beamercolorbox}[sep=1.3mm,wd=\textwidth]{data warning}
+    \footnotesize \textbf{Working assumptions:} larger fan signal must mean stronger cooling.
+    The constrained input box can include untested settings: sensible shape is \textbf{not proof of accuracy or safety}.
+  \end{beamercolorbox}
 \end{frame}
 
-\begin{frame}[more-space]{Model\enspace|\enspace Physics-Informed PCE: Generating more points}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.57\textwidth}
-      \dataheading{Idea 2: Extra points cover the untested combinations}
-      \centering
-      \includegraphics[width=\linewidth]{../../results/physics/figures/check_points.pdf}
-    \column{0.40\textwidth}
-      \dataheading{How the points are generated}
-      \footnotesize
-      \begin{enumerate}
-        \setlength{\itemsep}{1pt}
-        \item Fit the thermal rule to the measurements.
-        \item Spread \textbf{128 points} evenly over the three input ranges (Sobol sequence).
-        \item Compute $T_{\max,\mathrm{phys}}^{\mathrm{ss}}$ at every point.
-        \item Fit the PCE to both sets together (planned).
-      \end{enumerate}
-      \medskip
-      {\footnotesize
-      \renewcommand{\arraystretch}{1.15}
-      \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lll@{}}
-        \toprule
-        \textbf{Points} & \textbf{Target} & \textbf{Loss}\\
-        \midrule
-        Measured: 19 & Measurement & $\mathcal L_{\mathrm{data}}$\\
-        Extra: 128 & $T_{\max,\mathrm{phys}}^{\mathrm{ss}}$ & $\lambda_{\mathrm{phys}}\mathcal L_{\mathrm{physics}}$\\
-        \bottomrule
-      \end{tabular*}}
-  \end{columns}
+\begin{frame}[more-space]{Model\enspace|\enspace Planned comparison: PCE vs PI-PCE}
+  \dataheading{Same measurements, same polynomial basis, same test cases}
+  \small We will compare total degrees 1 and 2 using normalized Legendre polynomials.
   \par\medskip
-  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
-    \footnotesize
-    \textbf{Not new measurements:} untested regions rest on the thermal rule and cannot be validated with our data.
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \begin{beamercolorbox}[sep=2.5mm,wd=\linewidth]{data panel}
+        \dataheading{PCE: baseline}
+        \small
+        \begin{itemize}
+          \item Fit measured temperatures.
+          \item No monotonicity constraints.
+        \end{itemize}
+      \end{beamercolorbox}
+    \column{0.49\textwidth}
+      \begin{beamercolorbox}[sep=2.5mm,wd=\linewidth]{data panel}
+        \dataheading{PI-PCE: physics-informed fit}
+        \small
+        \begin{itemize}
+          \item Fit the same measured temperatures.
+          \item Add monotonicity constraints.
+        \end{itemize}
+      \end{beamercolorbox}
+  \end{columns}
+  \medskip
+  \dataheading{How we will compare them}
+  \small
+  \begin{enumerate}
+    \item Keep one full operating case for testing; train on the other four.
+    \item Choose degree using training cases only. Repeat for all five test cases.
+    \item Compare prediction errors and heating / cooling trends.
+  \end{enumerate}
+  \smallskip
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
+    \small \textbf{Question:} Do monotonicity constraints improve predictions on unseen cases?
   \end{beamercolorbox}
 \end{frame}

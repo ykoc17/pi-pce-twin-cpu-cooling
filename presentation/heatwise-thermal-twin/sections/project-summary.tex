@@ -9,25 +9,25 @@
     \textbf{Element} & \textbf{Our thermal digital twin}\\
     \midrule
     \textbf{Model} & \mdseries
-      Steady-state PCE; degree 1 or 2; fast evaluation\\
+      Planned: PCE vs PI-PCE with monotonicity constraints; degrees 1 / 2\\
     \midrule
     \textbf{Parameters} & \mdseries
-      CPU power [W], fan signal [unit unverified], inlet air temperature [${}^\circ$C]\\
+      Surrogate coordinates: CPU power $P$, fan signal $F$, inlet temperature $T$\\
     \midrule
     \textbf{Inputs} & \mdseries
-      Inlet air temperature [${}^\circ$C]\\
+      Surrogate: $(P,T,F)$; controller disturbance: inlet temperature\\
     \midrule
     \textbf{Outputs} & \mdseries
-      Control actions (CPU power [W] and fan signal [unit unverified])\\
+      Surrogate: maximum interval-mean CPU temperature; controller: proposed $(P,F)$\\
     \midrule
     \textbf{Measurement operator} & \mdseries
-      18 CPU sensors, every 5 min; $\mathcal H=\max_{j=1,\ldots,18}\overline{T}_j$ over a steady-state period\\
+      18 CPU sensors, every 5 min; $\mathcal H=\max_{j=1,\ldots,18}\overline{T}_j$ over an approximately steady period\\
     \midrule
     \textbf{Observables} & \mdseries
-      19 steady-state temperature targets\\
+      19 approximately steady temperature targets\\
     \midrule
     \textbf{Quantity of interest} & \mdseries
-      Optimal CPU power and fan settings, s.t. the maximum steady-state CPU temperature does not exceed the limit\\
+      CPU / fan choice within a validated domain and error bound; hardware protects peaks\\
     \bottomrule
   \end{tabular}
   }

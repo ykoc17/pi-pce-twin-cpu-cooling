@@ -1,0 +1,42 @@
+{
+  "source_sha256": "c7e97366301e21139c4d1859d09d0c5be132042db7c30d6ebf8615a3ac91661d",
+  "config": {
+    "starts": [
+      [
+        5.0,
+        0.01,
+        0.02,
+        0.5
+      ],
+      [
+        0.0,
+        0.03,
+        0.01,
+        1.0
+      ],
+      [
+        10.0,
+        0.001,
+        0.04,
+        0.2
+      ]
+    ],
+    "max_abs_offset_C": 50.0,
+    "max_resistance_C_per_W": 1.0,
+    "min_gamma": 0.001,
+    "max_gamma": 5.0,
+    "check_point_power": 7,
+    "check_point_seed": 20261125,
+    "throttling_sensitivity_target_C": 93.5
+  },
+  "outer_metrics": {
+    "n": 19,
+    "RMSE_C": 4.489269035981534,
+    "MAE_C": 3.4961737080013595,
+    "max_abs_error_C": 13.264327555392143,
+    "R2": 0.9261233487907384
+  },
+  "selection": "inner pooled case-wise RMSE, 3 vs 4 constants; ties choose 3",
+  "status": "early internal check; dataset already informed model development",
+  "synthetic_points_used_in_training": 0
+}

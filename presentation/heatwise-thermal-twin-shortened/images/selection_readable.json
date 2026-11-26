@@ -1,0 +1,10 @@
+{
+  "raw_sha256": "7a729dcc9d90d1fd7dc0cf761070a2b45ddb367d7710f1e0e92657c32853f1b1",
+  "observations_sha256": "c7e97366301e21139c4d1859d09d0c5be132042db7c30d6ebf8615a3ac91661d",
+  "observations": 19,
+  "cpu_sensors": 18,
+  "plotted_temperature": "maximum of 18 recorded values; missing if any CPU is missing",
+  "fitted_target": "maximum of 18 interval-average CPU temperatures",
+  "selection": "unchanged start/end times from steady_state.csv",
+  "model_fitting": false
+}

@@ -1,0 +1,128 @@
+{
+  "ordinary": {
+    "degree": 1,
+    "method": "ordinary",
+    "lower": [
+      384.735294118,
+      25.0,
+      0.121636363636
+    ],
+    "upper": [
+      1786.22580645,
+      45.0555555556,
+      0.730571428571
+    ],
+    "powers": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        0
+      ]
+    ],
+    "coefficients": [
+      75.84993739414328,
+      -3.4238904176495546,
+      2.967344498901891,
+      13.850771203195697
+    ],
+    "diagnostics": {
+      "rows": 19,
+      "coefficients": 4,
+      "design_rank": 4,
+      "design_condition": 4.3782626244506995,
+      "solver": "numpy.linalg.lstsq",
+      "iterations": 0,
+      "minimum_signed_derivative_normalized_C": 5.139591435658086,
+      "monotonicity_tolerance_C": 1e-06,
+      "synthetic_temperature_targets": 0,
+      "regularization": "none"
+    },
+    "reference_moments": {
+      "mean_C": 75.84993739414328,
+      "variance_C2": 212.37202189051092
+    },
+    "input_order": [
+      "total_cpu_power_W",
+      "server_inlet_air_temp_tunnel_C",
+      "tunnel_fan_power_raw"
+    ]
+  },
+  "monotonicity": {
+    "degree": 1,
+    "method": "monotonicity",
+    "lower": [
+      384.735294118,
+      25.0,
+      0.121636363636
+    ],
+    "upper": [
+      1786.22580645,
+      45.0555555556,
+      0.730571428571
+    ],
+    "powers": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        0
+      ]
+    ],
+    "coefficients": [
+      75.84993739414328,
+      -3.4238904176495546,
+      2.967344498901891,
+      13.850771203195697
+    ],
+    "diagnostics": {
+      "rows": 19,
+      "coefficients": 4,
+      "design_rank": 4,
+      "design_condition": 4.3782626244506995,
+      "solver": "numpy.linalg.lstsq",
+      "iterations": 0,
+      "minimum_signed_derivative_normalized_C": 5.139591435658086,
+      "monotonicity_tolerance_C": 1e-06,
+      "synthetic_temperature_targets": 0,
+      "regularization": "none"
+    },
+    "reference_moments": {
+      "mean_C": 75.84993739414328,
+      "variance_C2": 212.37202189051092
+    },
+    "input_order": [
+      "total_cpu_power_W",
+      "server_inlet_air_temp_tunnel_C",
+      "tunnel_fan_power_raw"
+    ]
+  }
+}

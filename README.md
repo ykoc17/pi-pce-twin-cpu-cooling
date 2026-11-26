@@ -3,11 +3,11 @@
 A reproducible Python project for a steady-state thermal digital twin using the
 HEATWISE experimental dataset. The project provides dataset loading,
 validation, `thermal-twin inspect`, descriptive exploration with `thermal-twin audit`,
-steady-state preprocessing, input probability models with `thermal-twin inputs`, and a
-three-constant thermal rule with physics check points (`thermal-twin fit-physics`).
-PCE, physics-informed PCE,
-uncertainty quantification, Sobol analysis, and constrained optimization are
-planned later steps and are not implemented here.
+steady-state preprocessing, input reference models with `thermal-twin inputs`, and
+measured-target PCE fitting with `thermal-twin fit-pce`. The current method compares
+ordinary PCE with **PCE with monotonicity constraints**, using the same 19 observations.
+No synthetic temperature targets enter either fit. Operational uncertainty,
+Sobol analysis and constrained control remain future work.
 
 The distribution and CLI are named `thermal-twin`. The Python import package is
 `thermal_twin`; setuptools generates `src/thermal_twin.egg-info` from the
@@ -279,7 +279,51 @@ coefficient uncertainty and surrogate prediction error. The fan-signal unit stay
 **unverified**. No predictive model, propagated output UQ or Sobol indices are
 implemented in this step. Source and raw data are preserved.
 
-## Thermal-resistance rule and check points
+## Current method: PCE with monotonicity constraints
+
+```bash
+thermal-twin fit-pce
+thermal-twin fit-pce --data data/processed/steady_state.csv --output results/monotonic_pce
+```
+
+From a source checkout without reinstalling the package:
+
+```powershell
+.\.venv\Scripts\python.exe -B scripts/fit_monotonic_pce.py
+```
+
+Fit normalized Legendre PCEs of total degree 1 or 2 to the maximum of the
+18 CPU interval averages. At fixed other inputs, the constraints assume temperature
+cannot fall as CPU power or inlet temperature increases, and cannot rise as the raw
+fan signal increases. Flat responses are allowed. These are working assumptions;
+the fan signal's ordering as cooling effort needs independent confirmation.
+
+For these degrees, each derivative is affine or constant. Checking its sign at all
+eight corners enforces the sign throughout the training-input box, to numerical
+tolerance. These locations supply **no temperature labels**. SciPy SLSQP minimizes
+measured squared error subject to 24 linear inequalities on the coefficients.
+There is no fitted thermal formula, PDE residual or physics-loss penalty.
+
+An outer leave-one-case-out comparison scores each of the 19 observations once.
+Each method chooses degree using only inner case-wise tests on the training cases;
+all input scaling and constraint bounds use that fit's training rows only.
+Early RMSE is **5.76 C for ordinary PCE and 5.55 C with monotonicity constraints**.
+Both final fits select degree 1 and coincide. The small score difference comes from
+one outer constrained fit selecting degree 2; it does not establish a general gain.
+Existing data informed project development, so a fresh final test needs new data.
+
+`results/monotonic_pce/` contains coefficients, exact bounds, nested predictions,
+selection scores, derivative checks, figures, source hashes and a full `report.md`.
+All 19 measured observations, including high-temperature flags, remain unchanged.
+Coefficient moments refer to the independent uniform reference, not measured
+disturbance or model-error distributions. Monotonicity is a shape assumption over
+the box, **not proof of coverage, prediction accuracy or thermal safety**. Live control
+remains disabled pending justified error bounds and an operating domain.
+
+## Archived method: thermal-resistance rule and check points
+
+The following experiment is retained for provenance. It is not used by the current
+PCE or presentation. Its generated temperatures are not approved training labels.
 
 ```bash
 thermal-twin fit-physics
@@ -300,7 +344,7 @@ All accepted observations are kept, including those affected by CPU throttling n
 94 C. The report adds a sensitivity comparison without targets of at least 93.5 C.
 
 `results/physics/tables/check_points.csv` contains 128 Sobol input combinations over the
-reference ranges with T_phys. They are targets for the physics part of a later
+reference ranges with T_phys. They were explored as possible targets for a
 physics-informed PCE loss, **not measurements**; untested regions rest on the rule alone.
 Settings are in `configs/physics_config.py`. No PCE is fitted in this step.
 

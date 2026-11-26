@@ -5,12 +5,14 @@
 \begin{frame}[more-space]{Input Data\enspace|\enspace Preprocessing results}
   \begin{columns}[T,onlytextwidth]
     \column{0.56\textwidth}
-      \dataheading{Selected steady-state intervals}
+      \dataheading{Selected approximately steady intervals}
       \centering
       \includegraphics[width=\linewidth,height=50mm,keepaspectratio]
         {../../results/preprocessing/figures/selection_overview.pdf}
       \par\smallskip
       {\small\color{selectiongreen}\textbf{One green band = one processed observation.}}
+      \par\smallskip
+      {\footnotesize \textbf{60-minute dwell: 14 observations} (backup).}
 
     \column{0.41\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
@@ -26,15 +28,15 @@
           \underbrace{\max_{j=1,\ldots,18}\bar T_j}_{\text{temperature target}}
         \Bigr)
       \]
-      Bars denote averages over the same selected interval; $j$ indexes the 18 CPUs.
+      Interval averages; $j=1,\ldots,18$ indexes CPUs.
       \par\smallskip
       \begin{beamercolorbox}[sep=1.5mm,wd=\linewidth]{data warning}
-        \dataheading{Only polynomial degrees 1 and 2 are feasible}
+        \dataheading{Our starting choice: degrees 1 and 2}
         \footnotesize
         \begin{itemize}
-          \item \textbf{Degrees 1 and 2}: 4 and 10 coefficients (feasible).
-          \item \textbf{Degrees 3 and 4}: 20 and 35 coefficients ($>19$).
-          \item Low degrees may miss complex behavior.
+          \item Full bases: \textbf{4 / 10 coefficients}; cubic: 20 ($>19$).
+          \item Quadratic design: $\kappa_2\approx702$; coefficients may be unstable.
+          \item Higher degrees need sparsity / regularization; validate either choice.
         \end{itemize}
       \end{beamercolorbox}
   \end{columns}

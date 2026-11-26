@@ -1,0 +1,189 @@
+\section{Backup}
+
+\begin{frame}[more-space]{Backup\enspace|\enspace Selection-threshold sensitivity}
+  \dataheading{Approximately steady, not proof of physical equilibrium}
+  \small One criterion changed at a time; candidate segmentation kept fixed.
+  \par\medskip
+  {\renewcommand{\arraystretch}{1.35}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lr@{}}
+    \toprule
+    \textbf{Selection setting} & \textbf{Observations}\\
+    \midrule
+    Baseline: 30-minute dwell; 20-minute initial discard & \textbf{19}\\
+    Dwell increased to 60 minutes & \textbf{14}\\
+    Each CPU standard deviation $\leq0.75\,{}^\circ$C (was 1) & 14\\
+    Full-interval drift $\leq0.02\,{}^\circ$C/min (was 0.03) & 14\\
+    Local drift $\leq0.04\,{}^\circ$C/min (was 0.08) & 15\\
+    Initial discard increased to 40 minutes & 18\\
+    \bottomrule
+  \end{tabular*}}
+  \medskip
+  \begin{itemize}
+    \item Baseline intervals last 40--335 minutes; all 18 CPU traces pass checks.
+    \item The count depends on tolerances; 19 rows are not 19 independent experiments.
+    \item Test downstream conclusions against these choices; do not tune to a desired count.
+  \end{itemize}
+  \datasource{Source: results/preprocessing\_review/report.md and threshold\_sensitivity.csv; scripts/review\_preprocessing.py.}
+\end{frame}
+
+\begin{frame}[more-space]{Backup\enspace|\enspace Degree choice and conditioning}
+  \dataheading{Three inputs: full total-degree basis has $M(p)=\binom{3+p}{p}$ terms}
+  \small
+  \begin{center}
+  \renewcommand{\arraystretch}{1.35}
+  \begin{tabular}{lrrr}
+    \toprule
+    \textbf{Degree} & \textbf{Coefficients} & \textbf{Design rank} & $\boldsymbol\kappa_2(A)$\\
+    \midrule
+    1 & 4 & 4 & 4.38\\
+    2 & 10 & 10 & 701.97\\
+    3 & 20 & 19 & underdetermined\\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  \[
+    A_{i\boldsymbol\alpha}=\prod_{k=1}^3\sqrt{2\alpha_k+1}\,
+    L_{\alpha_k}(\xi_{ik}),\quad |\boldsymbol\alpha|\leq p,
+    \qquad \kappa_2(A)=s_{\max}/s_{\min}.
+  \]
+  \begin{itemize}
+    \item $L_j$: standard Legendre polynomial; inputs scaled to $[-1,1]$.
+    \item Quadratic: full rank, but correlated columns make coefficients sensitive.
+    \item Full cubic has no unique unrestricted least-squares fit with 19 rows.
+    \item Sparse / regularized higher degrees are possible; information is still limited.
+  \end{itemize}
+  \datasource{Source: results/monotonic\_pce/design\_diagnostics.csv. Unconstrained design matrices on all 19 rows.}
+\end{frame}
+
+\begin{frame}[more-space]{Backup\enspace|\enspace What the control bound requires}
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \small
+    \[
+      T_{\max,\mathrm{true}}^{\mathrm{ss}}(\mathbf x)
+      -\widehat T_{\max}^{\mathrm{ss}}(\mathbf x)
+      \leq B_{\mathrm{val}}(\mathbf x)
+      \quad\text{throughout the certified domain }\mathcal D_{\mathrm{val}}.
+    \]
+    With the entire inlet interval inside this domain, the robust constraint bounds
+    the \textbf{interval-mean target}, provided this error bound and inlet envelope hold.
+  \end{beamercolorbox}
+  \smallskip
+  \small
+  \begin{enumerate}
+    \item Measure local inlet disturbances and test candidate operating neighborhoods.
+    \item Validate the \textbf{final PCE} on independent grouped data, including underprediction,
+      measurement error and missing physics. A finite test maximum is not a uniform bound.
+    \item Establish a justified bound / domain under explicit assumptions;
+      otherwise keep the optimizer offline. A probabilistic bound needs a stated coverage level.
+    \item For a degree-2 PCE and constant error bound, check inlet endpoints and any
+      interior maximum; use verified maximization for a varying bound.
+  \end{enumerate}
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
+    \footnotesize No $95\,\%$ claim from $\mu+2\sigma$; an observed error is not a safety certificate.
+    No certified operating domain or fallback is implemented. Hardware interlocks and
+    separately tested fallback are prerequisites for deployment.
+  \end{beamercolorbox}
+\end{frame}
+
+
+
+
+\begin{frame}[more-space]{Backup\enspace|\enspace Bibliography: methods}
+  \footnotesize
+  \begin{enumerate}
+    \setlength{\itemsep}{3mm}
+    \item \textbf{Monotonicity constraints in PCE:}
+      Sharma, Nov\'ak and Shields (2024), \emph{Physics-constrained polynomial chaos expansion
+      for scientific machine learning and uncertainty quantification}.
+      \href{https://arxiv.org/abs/2402.15115}{arXiv:2402.15115}.
+    \item \textbf{Basis / coefficient moments / Sobol indices:}
+      Marelli and Sudret, \emph{UQLab Polynomial Chaos Expansions User Manual}.
+      \href{https://www.uqlab.com/pce-user-manual}{PCE manual}.
+    \item \textbf{Numerical fit with linear inequalities:}
+      SciPy \texttt{minimize(method='SLSQP')} and \texttt{LinearConstraint}.
+      \href{https://docs.scipy.org/doc/scipy/reference/optimize.minimize-slsqp.html}{SLSQP documentation};
+      \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.LinearConstraint.html}{linear constraints}.
+    \item \textbf{Fixed controls and uncertain inputs:}
+      Shen and Braatz (2016), \emph{Polynomial Chaos-Based Robust Design of Systems with Probabilistic Uncertainties}.
+      \href{https://doi.org/10.1002/aic.15373}{doi:10.1002/aic.15373}.
+  \end{enumerate}
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data panel}
+    The three derivative signs are \textbf{project assumptions} at fixed other inputs.
+    We will test whether these assumptions help prediction; they are not universal laws.
+  \end{beamercolorbox}
+\end{frame}
+
+\begin{frame}[more-space]{Backup\enspace|\enspace Data provenance and unresolved units}
+  \small
+  \begin{itemize}
+    \item \textbf{Experimental source:} HEATWISE / RISE,
+      \href{https://doi.org/10.5281/zenodo.23237930}{Zenodo 23237930};
+      accompanying article \href{https://doi.org/10.1016/j.csite.2026.107650}{CSITE 78 (2026), 107650}.
+    \item \textbf{DP unit conflict:} setpoint metadata / Zenodo say kPa;
+      the pressure-channel dictionary says Pa. DP is omitted from the main talk;
+      confirm its unit with the data owners.
+    \item \textbf{Fan signal:} unverified raw scale. The monotonicity constraint assumes
+      larger $F$ means stronger cooling; check this ordering independently.
+    \item \textbf{Preserved measurements:} all 19 processed targets remain unchanged,
+      including the six temperature-flagged observations.
+    \item \textbf{Planned fitting:} the same measured targets for PCE and PI-PCE;
+      no generated temperature labels.
+  \end{itemize}
+  \datasource{Sources: data/raw/README.md, CASES.csv, DATA\_DICTIONARY.csv;
+    results/preprocessing\_review/report.md.}
+\end{frame}
+
+\begin{frame}[more-space]{Backup\enspace|\enspace Monotonicity constraints across the input range}
+  \dataheading{For total degree 1 or 2, every first derivative is affine}
+  \small
+  \[
+    \frac{\partial\widehat T}{\partial \xi_i}
+      =a_{i0}+a_{i1}\xi_P+a_{i2}\xi_T+a_{i3}\xi_F.
+  \]
+  \begin{itemize}
+    \item An affine function reaches its minimum / maximum at a box corner.
+    \item Check all \textbf{8 corners} of each fit's training-input box.
+    \item Power / inlet derivatives $\geq0$; fan derivative $\leq0$.
+    \item Positive scaling to $[-1,1]$ preserves each derivative sign.
+  \end{itemize}
+  \medskip
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \textbf{24 linear inequalities on the coefficients}; minimize measured squared error.
+    We will solve this convex quadratic fit using SLSQP. Planned numerical sign tolerance:
+    $10^{-6}\,{}^\circ$C per normalized input coordinate.
+  \end{beamercolorbox}
+  \smallskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
+    Eight derivative-check locations add \textbf{no temperature observations}.
+    Monotonicity holds within that box to numerical tolerance, but the box is not
+    a verified operating / safety region. No guarantee outside it.
+  \end{beamercolorbox}
+\end{frame}
+
+\begin{frame}[more-space]{Backup\enspace|\enspace Planned comparison protocol}
+  \dataheading{We will compare PCE and PI-PCE without using test cases for model choice}
+  \small
+  \begin{enumerate}
+    \item Keep one complete operating case out for testing.
+    \item On the other four cases, choose degree 1 or 2 using smaller case-wise tests,
+      separately for PCE and PI-PCE.
+    \item Refit on those four cases and predict the untouched fifth case.
+      Repeat with each case held out.
+  \end{enumerate}
+  \medskip
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \dataheading{A fair comparison}
+    \begin{itemize}
+      \item Same measured targets, polynomial basis and test cases.
+      \item Scaling and constraint bounds from each training split only.
+      \item Compare RMSE, largest error and heating / cooling trends.
+      \item Keep all test rows; flag settings outside the training-input box.
+    \end{itemize}
+  \end{beamercolorbox}
+  \smallskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
+    \footnotesize Improvement is a question we will test, \textbf{not a guaranteed benefit}.
+    New measurements will be needed for a fresh
+    final test; prediction errors alone will not establish thermal safety.
+  \end{beamercolorbox}
+\end{frame}

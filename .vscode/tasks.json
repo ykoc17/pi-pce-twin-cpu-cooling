@@ -2,13 +2,24 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Build HEATWISE shortened presentation",
+      "type": "process",
+      "command": "python",
+      "args": ["${workspaceFolder}/presentation/heatwise-thermal-twin-shortened/build.py"],
+      "linux": { "command": "python3" },
+      "osx": { "command": "python3" },
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
       "label": "Build HEATWISE presentation",
       "type": "process",
       "command": "python",
       "args": ["${workspaceFolder}/presentation/heatwise-thermal-twin/build.py"],
       "linux": { "command": "python3" },
       "osx": { "command": "python3" },
-      "group": { "kind": "build", "isDefault": true },
+      "group": { "kind": "build", "isDefault": false },
       "problemMatcher": [],
       "presentation": { "reveal": "always", "panel": "shared" }
     }

@@ -6,8 +6,8 @@
     \textbf{1. Efficient UQ:} Mean and variance follow from the coefficients.\par
     \textbf{2. Simple Sobol sensitivity analysis:} Under \textbf{independent inputs}, the coefficients and their
     indices give sensitivities without costly model reruns.\par
-    \textbf{3. Lightweightness:} Evaluation is very fast because it is a surrogate model;
-    no iterative thermal solver is needed. The polynomial basis is easy to implement and evaluate.
+    \textbf{3. Physics-Informed PCE (PI-PCE):} We will add \textbf{monotonicity constraints} for heating / cooling trends;
+    keep the same polynomial basis and coefficient-based calculations.
     \end{minipage}
   \end{beamercolorbox}
   \smallskip
@@ -27,7 +27,7 @@
           \begin{itemize}
             \setlength{\itemsep}{1pt}
             \item Mean $\mu$ and variance $\sigma^2$ follow directly from the PCE coefficients.
-            \item \textbf{For control: use conditional moments (shown later).}
+            \item Moments of the chosen reference; \textbf{not model error}.
           \end{itemize}
         \end{minipage}%
       }
@@ -47,7 +47,7 @@
             \item First-order index: one input's contribution.
             \item Total index: includes interactions.
             \item Independent inputs; $\sigma^2>0$.
-            \item \textbf{Can be used to prioritize which inputs to control or monitor.}
+            \item \textbf{Hypothetical ranking under our reference}; not measured operating sensitivity.
           \end{itemize}
         \end{minipage}%
       }

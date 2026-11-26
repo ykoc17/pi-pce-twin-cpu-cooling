@@ -29,16 +29,15 @@
       {\footnotesize
       \renewcommand{\arraystretch}{1.12}
       \setlength{\tabcolsep}{4pt}
-      \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrr@{}}
+      \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lr@{}}
         \toprule
-        \textbf{Case} & \textbf{Inlet} & \textbf{DP}\\
-        & $[{}^\circ\mathrm{C}]$ & $[\mathrm{Pa}]$\\
+        \textbf{Case} & \textbf{Inlet} $[{}^\circ\mathrm{C}]$\\
         \midrule
-        \casekey{caseone}{1}   & 25 &  2\\
-        \casekey{casetwo}{2}   & 35 &  4 \\
-        \casekey{casethree}{3} & 45 &  6 \\
-        \casekey{casefour}{4}  & 45 &  8 \\
-        \casekey{casefive}{5}  & 45 & 10 \\
+        \casekey{caseone}{1}   & 25\\
+        \casekey{casetwo}{2}   & 35\\
+        \casekey{casethree}{3} & 45\\
+        \casekey{casefour}{4}  & 45\\
+        \casekey{casefive}{5}  & 45\\
         \bottomrule
       \end{tabular*}
       \smallskip
@@ -90,10 +89,11 @@
 
       \medskip
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data warning}
-        \dataheading{3. CPU throttling}
-        Hot CPUs hold about $94\,{}^\circ$C by reducing their power\\
-        \textbf{Affects 6 of the 19 observations}; all are kept\\
-        \textbf{Problem:} Masks the power--temperature trend.
+        \dataheading{3. Suspected CPU throttling}
+        \footnotesize
+        \textbf{6 targets $\geq93.5\,{}^\circ$C}; all are kept.\\
+        A temperature flag, not confirmation from frequency data.\\
+        Throttling can mask the power--temperature trend.
       \end{beamercolorbox}
       \end{columns}
 \end{frame}
@@ -119,11 +119,11 @@
       \medskip
       \dataheading{Implications for PCE / UQ}
       \footnotesize
-      Easy Sobol sensitivity analysis\\
-      not possible with dependent inputs\\
-      \medskip
-      \textbf{However, we assumed independence} for the PCE and Sobol analysis.\\
-      Copula modeling or transformations needed.
+      \begin{itemize}
+        \item Independent uniforms define our \textbf{basis reference}, not the operating law.
+        \item Global Sobol indices describe that \textbf{hypothetical reference}.
+        \item A dependent operating model needs evidence. A copula cannot fill data gaps.
+      \end{itemize}
   \end{columns}
 \end{frame}
 
@@ -147,7 +147,7 @@
 
     \column{0.41\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{Selection criteria}
+        \dataheading{Approximately steady: selection criteria}
         \small
         \begin{enumerate}
           \item Use \textbf{cases 1--5}; exclude transitions.

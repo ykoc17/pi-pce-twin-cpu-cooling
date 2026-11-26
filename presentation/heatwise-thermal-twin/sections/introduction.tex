@@ -114,7 +114,7 @@
     \renewcommand{\arraystretch}{1.25}
     \begin{tabular}{@{}l@{\hspace{9mm}}l@{}}
       \toprule
-      \textbf{Target controls} & CPU power $P_{\mathrm{CPU}}$ and fan power $P_{\mathrm{fan}}$\\
+      \textbf{Target controls} & CPU power $P_{\mathrm{CPU}}$ and fan signal $F$ (unit unverified)\\
       \textbf{Given condition} & Cooling-air inlet temperature $T_{\mathrm{in}}$\\
       \textbf{Twin prediction} & Maximum steady-state CPU temperature\\
       \bottomrule
@@ -150,7 +150,7 @@
         \small
         \begin{itemize}
           \item More data points at chosen settings.
-          \item Needs a data-center CAD model and a fluid simulator, e.g.\ OpenFOAM.
+          \item Detailed CFD would need geometry / CAD and a fluid solver, e.g.\ OpenFOAM.
           \item Simulator assumptions add model uncertainty.
         \end{itemize}
       \end{beamercolorbox}

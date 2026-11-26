@@ -13,24 +13,23 @@
   \begin{columns}[T,onlytextwidth]
     \column{0.48\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \dataheading{Done}
+        \dataheading{Data foundation}
         \small
         \begin{itemize}
           \item Data checked and cleaned.
-          \item \textbf{19 steady-state observations}.
-          \item Assumed independent uniform inputs with ETH UQLab.py.
-          \item Thermal rule with three constants fitted.
-          \item \textbf{128 extra points} generated for the physics loss.
+          \item \textbf{19 approximately steady observations}.
+          \item \textbf{Measured temperature targets only}.
         \end{itemize}
       \end{beamercolorbox}
     \column{0.49\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data warning}
-        \dataheading{Next}
+        \dataheading{Methods we will implement}
         \small
         \begin{itemize}
-          \item Fit and test PCE / physics-informed PCE.
-          \item Study uncertainty and sensitivity.
-          \item Account for input dependencies.
+          \item Fit PCE and \textbf{PI-PCE with monotonicity constraints}.
+          \item Compare predictions on held-out operating cases.
+          \item Measure inlet variation; validate error bounds / domain.
+          \item Study reference sensitivity and real input dependencies.
           \item Confirm the fan-signal unit with the data owners.
         \end{itemize}
       \end{beamercolorbox}

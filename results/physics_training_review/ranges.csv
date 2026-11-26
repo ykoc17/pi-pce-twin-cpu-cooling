@@ -1,0 +1,16 @@
+held_out_case,input,distribution,lower,upper,unit,observations,unique_values,reference_mean,reference_std,bound_origin
+1,total_cpu_power_W,Uniform,384.735294118,1786.22580645,W,15,15,1085.480550284,404.5754622807934,exact min/max of accepted operating-period means
+1,server_inlet_air_temp_tunnel_C,Uniform,35.0,45.0555555556,degC,15,10,40.0277777778,2.902788853438449,exact min/max of accepted operating-period means
+1,tunnel_fan_power_raw,Uniform,0.229111111111,0.730571428571,unverified raw signal,15,15,0.479841269841,0.1447591246367231,exact min/max of accepted operating-period means
+2,total_cpu_power_W,Uniform,385.621621622,1786.22580645,W,15,15,1085.923714036,404.3196015692811,exact min/max of accepted operating-period means
+2,server_inlet_air_temp_tunnel_C,Uniform,25.0,45.0555555556,degC,15,10,35.0277777778,5.789540199386578,exact min/max of accepted operating-period means
+2,tunnel_fan_power_raw,Uniform,0.121636363636,0.730571428571,unverified raw signal,15,15,0.42610389610349997,0.17578441182961227,exact min/max of accepted operating-period means
+3,total_cpu_power_W,Uniform,384.735294118,1786.22580645,W,14,14,1085.480550284,404.5754622807934,exact min/max of accepted operating-period means
+3,server_inlet_air_temp_tunnel_C,Uniform,25.0,45.0214285714,degC,14,10,35.010714285700004,5.779688587629328,exact min/max of accepted operating-period means
+3,tunnel_fan_power_raw,Uniform,0.121636363636,0.730571428571,unverified raw signal,14,14,0.42610389610349997,0.17578441182961227,exact min/max of accepted operating-period means
+4,total_cpu_power_W,Uniform,384.735294118,1786.22580645,W,15,15,1085.480550284,404.5754622807934,exact min/max of accepted operating-period means
+4,server_inlet_air_temp_tunnel_C,Uniform,25.0,45.0555555556,degC,15,11,35.0277777778,5.789540199386578,exact min/max of accepted operating-period means
+4,tunnel_fan_power_raw,Uniform,0.121636363636,0.730571428571,unverified raw signal,15,15,0.42610389610349997,0.17578441182961227,exact min/max of accepted operating-period means
+5,total_cpu_power_W,Uniform,384.735294118,1711.95833333,W,17,17,1048.346813724,383.13628948186073,exact min/max of accepted operating-period means
+5,server_inlet_air_temp_tunnel_C,Uniform,25.0,45.0555555556,degC,17,12,35.0277777778,5.789540199386578,exact min/max of accepted operating-period means
+5,tunnel_fan_power_raw,Uniform,0.121636363636,0.552022727273,unverified raw signal,17,17,0.33682954545449995,0.12424184145068305,exact min/max of accepted operating-period means

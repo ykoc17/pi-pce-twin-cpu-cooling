@@ -1,0 +1,67 @@
+% !TeX program = lualatex
+% Eight-minute concept presentation. Spoken route ends at slide 12.
+\documentclass[
+  english,
+  accept-missing-logos=true,
+  logofile=../rwth-ci/tex/cf4dt-logo.png,
+]{rwth-beamer}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\definecolor{caseone}{HTML}{0072B2}
+\definecolor{casetwo}{HTML}{E69F00}
+\definecolor{casethree}{HTML}{009E73}
+\definecolor{casefour}{HTML}{D55E00}
+\definecolor{casefive}{HTML}{CC79A7}
+\definecolor{selectiongreen}{HTML}{009E73}
+\setbeamercolor{data panel}{fg=black,bg=rwth-blue-100!6}
+\setbeamercolor{data warning}{fg=black,bg=casefour!7}
+\newcommand{\dataheading}[1]{{\color{rwth-blue-100}\bfseries #1}\par\smallskip}
+\newcommand{\casekey}[2]{{\color{#1}\textbullet}\,#2}
+\newcommand{\datasource}[1]{\par\vfill{\fontsize{5.5}{6.5}\selectfont\color{black!65}#1\par}}
+\newcommand{\datametric}[2]{%
+  \begin{beamercolorbox}[wd=\linewidth,sep=1.4mm]{data panel}
+    {\color{rwth-blue-100}\large\bfseries #1}\par
+    {\footnotesize #2}
+  \end{beamercolorbox}%
+}
+\newcommand{\backupcode}{Index}
+\newcommand{\backupnav}{%
+  \put(0,0){%
+    \hspace*{\dimexpr\paperwidth-4mm\relax}%
+    \raisebox{-5.5mm}[0pt][0pt]{%
+      \makebox[0pt][r]{\scriptsize\hyperlink{backup-index}{\beamergotobutton{Index}}}%
+    }%
+  }%
+}
+\graphicspath{{images/}{../heatwise-thermal-twin/}{../heatwise-thermal-twin/images/}{../../}{../rwth-ci/tex/}}
+\titlegraphic*{\includegraphics{../heatwise-thermal-twin/images/datacenter.jpeg}}
+\title[Physics-Informed PCE]{Physics-Informed PCE for a Thermal Digital Twin of a Data Center}
+\author[Yagiz Koc / Ina Dzingarska]{Yagiz Koc \and Ina Dzingarska}
+\institute{}
+\date{01.12.2026}
+
+\begin{document}
+\begingroup
+\setbeamerfont{title}{size*={12}{14.5}}
+\setbeamerfont{author}{size*={9}{11}}
+\setbeamerfont{date}{size*={9}{11}}
+\addtobeamertemplate{title page}{}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south east,fill=white,fill opacity=0.9,text opacity=1,
+      inner sep=0.6mm,font=\fontsize{3.5}{4.5}\selectfont,text=black!80]
+      at ([xshift=-2mm,yshift=\dimexpr-2\paperheight/3+2mm\relax]current page.north east)
+      {\href{https://www.ri.se/en/news/from-idea-to-an-internationally-recognised-innovation-environment-ice-datacenter-celebrates}
+        {RISE ICE Datacenter research facility, Lule\aa{}, Sweden. Photo: RISE (17 June 2026)}};
+  \end{tikzpicture}%
+}
+\maketitle[titlegraphic=2:3]
+\endgroup
+\input{sections/concept}
+\appendix
+\setbeamertemplate{page number in head/foot}{\backupcode}
+\AddToHook{shipout/foreground}{\backupnav}
+\input{sections/backup}
+\end{document}

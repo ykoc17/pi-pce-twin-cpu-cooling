@@ -46,13 +46,24 @@ def main(argv: list[str] | None = None) -> int:
     inputs.add_argument("--scenario", type=Path,
                         help="Optional JSON specifying a Gaussian-copula operating scenario; never fitted automatically")
     from configs.physics_config import DEFAULT_PHYSICS_OUTPUT
-    physics = commands.add_parser("fit-physics", help="Fit the three-constant thermal rule and generate check points")
+    physics = commands.add_parser("fit-physics", help="Legacy thermal-rule experiment; current method is fit-pce")
     physics.add_argument("--data", type=Path, default=DEFAULT_OBSERVATIONS_PATH,
                          help="Accepted operating-period CSV (default: %(default)s)")
     physics.add_argument("--output", type=Path, default=DEFAULT_PHYSICS_OUTPUT,
                          help="Results directory (default: %(default)s)")
+    from configs.pce_config import DEFAULT_PCE_OUTPUT
+    pce = commands.add_parser("fit-pce", help="Fit measured-data PCE with monotonicity constraints")
+    pce.add_argument("--data", type=Path, default=DEFAULT_OBSERVATIONS_PATH)
+    pce.add_argument("--output", type=Path, default=DEFAULT_PCE_OUTPUT)
     args = parser.parse_args(argv)
     try:
+        if args.command == "fit-pce":
+            from thermal_twin.monotonic_pce import run_pce
+            result = run_pce(args.data, args.output)
+            print(f"PCE with monotonicity constraints: {args.output / 'report.md'}")
+            print(result["metrics"][["method", "RMSE_C", "max_abs_error_C"]].to_string(index=False))
+            print("19 measured observations; no synthetic temperature targets. Early case-wise comparison only.")
+            return 0
         if args.command == "fit-physics":
             from thermal_twin.physics import run_physics
             result = run_physics(args.data, args.output)

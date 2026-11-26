@@ -2,9 +2,9 @@
 \subsection{Input distributions}
 
 \begin{frame}[more-space]{Input Data\enspace|\enspace Input distributions}
-  \dataheading{Uniform inputs: equal weight across each observed range}
+  \dataheading{Assumed reference distributions: equal weight across each range}
   \small
-  Bounds come from the \textbf{19 processed observations}.
+  Independent uniforms define the PCE reference; \textbf{not measured operating probabilities}.
   \par\medskip
   {\renewcommand{\arraystretch}{1.35}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrl@{}}
@@ -27,6 +27,9 @@
       \xi_i=2\frac{x_i-a_i}{b_i-a_i}-1
     \]
     Lower bound $\mapsto-1$; midpoint $\mapsto0$; upper bound $\mapsto1$.\par
-    Uniform reference inputs become $\mathcal U(-1,1)$: Use a normalized \textbf{Legendre} basis as the orthonormal polynomial family for the PCE.
+    Normalized \textbf{Legendre} polynomials are orthonormal for this reference.
   \end{beamercolorbox}
+  \smallskip
+  {\footnotesize \textbf{Separate control assumption:} local inlet variation around its measured value.
+  Its range must come from new disturbance measurements, not these global bounds.}
 \end{frame}

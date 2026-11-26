@@ -16,8 +16,9 @@
   \medskip
   \begin{itemize}
     \small
-    \item These coefficients can be compared across CPU/fan settings to understand which settings respond more strongly to inlet fluctuations
-    \item \textbf{This holds for a degree-2 PCE.} For degree 1, $b_1$ is the same at every setting and $b_2=0$
+    \item Compare settings using the \textbf{same inlet range / distribution}. $b_1^2,b_2^2$ split inlet variance into linear / curvature parts.
+    \item Only inlet varies here: its Sobol index is 1 if variance is nonzero. \textbf{This cannot rank the three inputs.}
+    \item Full total-degree 2: $b_1$ can vary with $P,F$; $b_2$ is constant. Degree 1: $b_1$ is constant and $b_2=0$.
   \end{itemize}
       \end{minipage}%
     };

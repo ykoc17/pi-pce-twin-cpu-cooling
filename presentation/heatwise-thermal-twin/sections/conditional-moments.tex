@@ -1,4 +1,4 @@
-\begin{frame}[more-space]{UQ\enspace|\enspace Rearranging the PCE to find uncertainties w.r.t inlet air temperature}
+\begin{frame}[more-space]{UQ\enspace|\enspace Conditional inlet-temperature moments}
   \footnotesize
   \setlength{\abovedisplayskip}{2pt}
   \setlength{\belowdisplayskip}{2pt}
@@ -8,7 +8,7 @@
     \column{0.51\textwidth}
       \begin{beamercolorbox}[sep=1.5mm,wd=\linewidth]{data panel}
         \dataheading{1. Insert one CPU / fan setting (degree-2 PCE)}
-        $P=1000\,\mathrm W$, $F=0.4$. Illustrative model:
+        $P=1000\,\mathrm W$, $F=0.4$. Illustrative quadratic, not a fitted result:
         \[
           \widehat T=80+2(T_{\mathrm{inlet}}-35)
             +0.3(T_{\mathrm{inlet}}-35)^2.
@@ -17,7 +17,7 @@
     \column{0.46\textwidth}
       \begin{beamercolorbox}[sep=1.5mm,wd=\linewidth]{data panel}
         \dataheading{2. Choose an inlet variation $\delta$}
-        $\delta>0$: assumed half-width [${}^\circ$C]; range $[35-\delta,35+\delta]$.
+        $0<\delta\leq2$: illustrative half-width [${}^\circ$C]; measure it separately for control.
         \[
           T_{\mathrm{inlet}}=35+\delta\xi,\qquad \xi\sim\mathcal U(-1,1)
         \]
@@ -45,7 +45,7 @@
   \end{beamercolorbox}
   \smallskip
   \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
-    \dataheading{4. Read the mean and spread for this setting}
+    \dataheading{4. Read the mean and spread of this example}
     \[
       \mu_T=b_0=80+0.1\delta^2,\qquad
       \sigma_T=\sqrt{b_1^2+b_2^2}
@@ -53,3 +53,4 @@
     \]
   \end{beamercolorbox}
 \end{frame}
+% These moments quantify inlet response, not total prediction error.

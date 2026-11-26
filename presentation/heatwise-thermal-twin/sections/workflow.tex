@@ -13,9 +13,9 @@
       \node[stage] (measure) {\textbf{1. Measure}\\[0.5mm]
         Inlet temperature\\CPU / fan settings\\18 CPU temperatures};
       \node[stage,right=of measure] (choose) {\textbf{2. Predict + choose}\\[0.5mm]
-        PCE temperature\\Uncertainty margin\\Best CPU / fan setting};
+        PCE temperature\\Worst-case + error bound\\Validated CPU / fan choice};
       \node[stage,right=of choose] (act) {\textbf{3. Apply + repeat}\\[0.5mm]
-        Check limits\\Send commands\\Measure again};
+        Pass deployment gate\\Else safe fallback\\Measure again};
       \draw[flow] (measure) -- (choose);
       \draw[flow] (choose) -- (act);
       \draw[flow,rounded corners=2mm] (act.south) -- ++(0,-5mm)
@@ -37,7 +37,7 @@
       \node[stage] (store) {\textbf{1. Store}\\[0.5mm]
         Readings + time\\Settings + version};
       \node[stage,right=of store] (select) {\textbf{2. Select}\\[0.5mm]
-        Settled periods\\Complete sensors};
+        Approximately steady\\Complete sensors};
       \node[stage,right=of select] (fit) {\textbf{3. Fit}\\[0.5mm]
         PCE / PI-PCE\\Updated data};
       \node[stage,right=of fit] (check) {\textbf{4. Check}\\[0.5mm]
@@ -50,5 +50,6 @@
   \par\smallskip
   \noindent{\color{rwth-blue-100}\bfseries Safety loop:}\enspace
   {\footnotesize Monitor actual CPU temperatures;
-    override the recommendation if too hot.}\par
+    independent hardware limits / verified fallback handle peaks.
+    \textbf{Concept only: no live control yet.}}\par
 \end{frame}

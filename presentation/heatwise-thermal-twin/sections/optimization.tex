@@ -1,34 +1,46 @@
 \section{Optimization Problem: Constrained optimal control}
 
-\begin{frame}[more-space]{Optimization Problem: Constrained optimal control}
-  {\small Choose CPU power $P$ and fan signal $F$ at the measured inlet temperature.}
-  \medskip
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+\begin{frame}[more-space]{Optimization Problem\enspace|\enspace Proposed robust control}
+  {\footnotesize Choose CPU power $P$ and fan signal $F$; test the \textbf{whole local inlet range}.}
+  \smallskip
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data panel}
     \small
+    \setlength{\abovedisplayskip}{3pt}
+    \setlength{\belowdisplayskip}{3pt}
     \[
       \begin{aligned}
         \max_{P,F}\quad &
-          \underbrace{P}_{\text{CPU power}}
-          -\lambda_F\underbrace{F}_{\text{fan effort}}\\[2mm]
+          P-\lambda_F F\\[1mm]
         \text{subject to}\quad
-        &\mu_T(P,F)+k\sigma_T(P,F)
+        &\max_{t\in\mathcal I}\bigl[\widehat T_{\max}^{\mathrm{ss}}(P,t,F)
+          +B_{\mathrm{val}}(P,t,F)\bigr]
           \leq T_{\mathrm{limit}}-\Delta T_{\mathrm{safety}},\\[1mm]
-        &P_{\min}\leq P\leq P_{\max},\qquad
+        &(P,t,F)\in\mathcal D_{\mathrm{val}}\quad\text{for every }t\in\mathcal I,\\[1mm]
+        &P_{\min}\leq P\leq P_{\max},\quad
           F_{\min}\leq F\leq F_{\max},\\[1mm]
-        &|P-P_{\mathrm{prev}}|\leq\Delta P_{\max},\qquad
+        &|P-P_{\mathrm{prev}}|\leq\Delta P_{\max},\quad
           |F-F_{\mathrm{prev}}|\leq\Delta F_{\max}.
       \end{aligned}
     \]
   \end{beamercolorbox}
-  \medskip
+  \smallskip
   \begin{columns}[T,onlytextwidth]
-    \column{0.485\textwidth}
-      \small
-      \textbf{Temperature target}\par
-      $\mu_T,\sigma_T$: mean and spread from inlet variation, with CPU/fan settings fixed.
-    \column{0.485\textwidth}
-      \small
-      \textbf{Use a constrained optimizer}\par
-      For example, \texttt{scipy.optimize.minimize} with the SLSQP method. Use the PCE to evaluate $\mu_T$ and $\sigma_T$ at each candidate $(P,F)$.
+    \column{0.49\textwidth}
+      \footnotesize
+      \dataheading{Disturbance + prediction error}
+      $\mathcal I=[T_{\mathrm{inlet}}^{\mathrm{meas}}-\delta,
+      T_{\mathrm{inlet}}^{\mathrm{meas}}+\delta]$: measured disturbance envelope.\par
+      $B_{\mathrm{val}}\geq0$: validated upper prediction-error allowance for the \textbf{final PCE}.
+    \column{0.48\textwidth}
+      \footnotesize
+      \dataheading{Only validated operating combinations}
+      $\mathcal D_{\mathrm{val}}$: locally tested domain; \textbf{not the full box or its convex hull}.\par
+      $\mu,\sigma$ describe inlet response; they are \textbf{not a safety certificate}.
   \end{columns}
+  \smallskip
+  \begin{beamercolorbox}[sep=1mm,wd=\textwidth]{data warning}
+    \footnotesize \textbf{Deployment gate:} $\delta$, $B_{\mathrm{val}}$ and $\mathcal D_{\mathrm{val}}$ are not established yet:
+    \textbf{no autonomous commands}. If no certified feasible choice, use a verified safe fallback.
+    Independent hardware protection handles transients / peaks.
+  \end{beamercolorbox}
 \end{frame}
