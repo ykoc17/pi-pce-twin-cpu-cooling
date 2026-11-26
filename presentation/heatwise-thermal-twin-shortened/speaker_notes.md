@@ -4,7 +4,7 @@ Main route: **slides 1-12 only**. Presenter 1 covers slides 1-6 (0:00-4:00).
 Presenter 2 covers slides 7-12 (4:00-8:00). The handover is before PI-PCE.
 The following is a rehearsal script; time includes pointing and short pauses.
 Do not read every label or hardware detail aloud. The complete information is
-available on the slides and in categorized backups.
+available on the slides and in categorized appendix slides.
 
 ## Presenter 1: introduction, data and baseline
 
@@ -141,12 +141,12 @@ cases before extending the application.
 
 Thank you for listening. We welcome your questions.
 
-## How to use the backup
+## How to use the appendix
 
-The next PDF page is a clickable topic index. Each backup shows its stable
+The next PDF page is a clickable topic index. Each appendix shows its stable
 code in its title/footer and has an Index return button. The main slides link
 to relevant details. [coverage_map.md](coverage_map.md) lists every code and PDF
-page and maps every longer-deck slide to its location here.
+page and maps longer-deck slides to their locations or requested removal.
 
 | Asked about | Go to |
 | --- | --- |
@@ -163,7 +163,7 @@ page and maps every longer-deck slide to its location here.
 | Conditional moments / sensitivity | D1-D2 |
 | Twin definition / learning loop | E1-E2 |
 | Optimization / safety requirements | E3-E4 |
-| Full outlook / bibliography / provenance | F1-F3 |
+| Full outlook | F1 |
 
 ## Rehearsal and Q&A
 

@@ -1,13 +1,11 @@
 % Generated from the longer deck; rebuild with scripts/build_backups.py.
 
 
-\section{Backup index}
+\section{Appendix index}
 
 \renewcommand{\backupcode}{Index}
 
-\begin{frame}[more-space,label=backup-index]{Backup\enspace|\enspace Topic index}
-
-\small Click a code to open a slide. Every backup has an Index return link.
+\begin{frame}[more-space,label=backup-index]{Appendix\enspace|\enspace Topic index}
 
 \par\medskip
 
@@ -15,7 +13,7 @@
 
 \begin{tabular}{@{}p{0.44\textwidth}p{0.52\textwidth}@{}}
 
-\toprule\textbf{Topic} & \textbf{Backup codes}\\\midrule
+\toprule\textbf{Topic} & \textbf{Appendix codes}\\\midrule
 
 \textbf{A. Data and preprocessing} & \hyperlink{backup-A1}{\color{rwth-blue-100}\textbf{A1}}\quad \hyperlink{backup-A2}{\color{rwth-blue-100}\textbf{A2}}\quad \hyperlink{backup-A3}{\color{rwth-blue-100}\textbf{A3}}\quad \hyperlink{backup-A4}{\color{rwth-blue-100}\textbf{A4}}\quad \hyperlink{backup-A5}{\color{rwth-blue-100}\textbf{A5}}\quad \hyperlink{backup-A6}{\color{rwth-blue-100}\textbf{A6}}\quad \hyperlink{backup-A7}{\color{rwth-blue-100}\textbf{A7}}\\
 
@@ -27,21 +25,15 @@
 
 \textbf{E. Digital twin and operating choices} & \hyperlink{backup-E1}{\color{rwth-blue-100}\textbf{E1}}\quad \hyperlink{backup-E2}{\color{rwth-blue-100}\textbf{E2}}\quad \hyperlink{backup-E3}{\color{rwth-blue-100}\textbf{E3}}\quad \hyperlink{backup-E4}{\color{rwth-blue-100}\textbf{E4}}\\
 
-\textbf{F. Outlook and references} & \hyperlink{backup-F1}{\color{rwth-blue-100}\textbf{F1}}\quad \hyperlink{backup-F2}{\color{rwth-blue-100}\textbf{F2}}\quad \hyperlink{backup-F3}{\color{rwth-blue-100}\textbf{F3}}\\
+\textbf{F. Outlook} & \hyperlink{backup-F1}{\color{rwth-blue-100}\textbf{F1}}\\
 
 \bottomrule\end{tabular}}
 
 \medskip
 
-\begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
-
-\small Selection rules: \hyperlink{backup-A5}{\textbf{A5}}. Software: \hyperlink{backup-B1}{\textbf{B1}}. Full learning loop: \hyperlink{backup-E2}{\textbf{E2}}.
-
-\end{beamercolorbox}
-
 \end{frame}
 
-\section{Backup A: Data and preprocessing}
+\section{Appendix A: Data and preprocessing}
 
 \renewcommand{\backupcode}{A1}
 
@@ -239,7 +231,7 @@
       \par\smallskip
       {\small\color{selectiongreen}\textbf{One green band = one processed observation.}}
       \par\smallskip
-      {\footnotesize \textbf{60-minute dwell: 14 observations} (backup).}
+      {\footnotesize \textbf{60-minute dwell: 14 observations} (appendix).}
 
     \column{0.41\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
@@ -297,7 +289,7 @@
   \datasource{Source: results/preprocessing\_review/report.md and threshold\_sensitivity.csv; scripts/review\_preprocessing.py.}
 \end{frame}
 
-\section{Backup B: PCE and input reference}
+\section{Appendix B: PCE and input reference}
 
 \renewcommand{\backupcode}{B1}
 
@@ -470,7 +462,7 @@
   \datasource{Source: results/monotonic\_pce/design\_diagnostics.csv. Unconstrained design matrices on all 19 rows.}
 \end{frame}
 
-\section{Backup C: PI-PCE and comparison}
+\section{Appendix C: PI-PCE and comparison}
 
 \renewcommand{\backupcode}{C1}
 
@@ -625,7 +617,7 @@
   \end{beamercolorbox}
 \end{frame}
 
-\section{Backup D: UQ and sensitivity}
+\section{Appendix D: UQ and sensitivity}
 
 \renewcommand{\backupcode}{D1}
 
@@ -714,7 +706,7 @@
   \end{tikzpicture}
 \end{frame}
 
-\section{Backup E: Digital twin and operating choices}
+\section{Appendix E: Digital twin and operating choices}
 
 \renewcommand{\backupcode}{E1}
 
@@ -886,7 +878,7 @@
   \end{beamercolorbox}
 \end{frame}
 
-\section{Backup F: Outlook and references}
+\section{Appendix F: Outlook}
 
 \renewcommand{\backupcode}{F1}
 
@@ -915,53 +907,4 @@
         \end{itemize}
       \end{beamercolorbox}
   \end{columns}
-\end{frame}
-
-\renewcommand{\backupcode}{F2}
-
-\begin{frame}[more-space,label=backup-F2]{F2\enspace|\enspace Methods bibliography}
-  \footnotesize
-  \begin{enumerate}
-    \setlength{\itemsep}{3mm}
-    \item \textbf{Monotonicity constraints in PCE:}
-      Sharma, Nov\'ak and Shields (2024), \emph{Physics-constrained polynomial chaos expansion
-      for scientific machine learning and uncertainty quantification}.
-      \href{https://arxiv.org/abs/2402.15115}{arXiv:2402.15115}.
-    \item \textbf{Basis / coefficient moments / Sobol indices:}
-      Marelli and Sudret, \emph{UQLab Polynomial Chaos Expansions User Manual}.
-      \href{https://www.uqlab.com/pce-user-manual}{PCE manual}.
-    \item \textbf{Numerical fit with linear inequalities:}
-      SciPy \texttt{minimize(method='SLSQP')} and \texttt{LinearConstraint}.
-      \href{https://docs.scipy.org/doc/scipy/reference/optimize.minimize-slsqp.html}{SLSQP documentation};
-      \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.LinearConstraint.html}{linear constraints}.
-    \item \textbf{Fixed controls and uncertain inputs:}
-      Shen and Braatz (2016), \emph{Polynomial Chaos-Based Robust Design of Systems with Probabilistic Uncertainties}.
-      \href{https://doi.org/10.1002/aic.15373}{doi:10.1002/aic.15373}.
-  \end{enumerate}
-  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data panel}
-    The three derivative signs are \textbf{project assumptions} at fixed other inputs.
-    We will test whether these assumptions help prediction; they are not universal laws.
-  \end{beamercolorbox}
-\end{frame}
-
-\renewcommand{\backupcode}{F3}
-
-\begin{frame}[more-space,label=backup-F3]{F3\enspace|\enspace Data provenance and unresolved units}
-  \small
-  \begin{itemize}
-    \item \textbf{Experimental source:} HEATWISE / RISE,
-      \href{https://doi.org/10.5281/zenodo.23237930}{Zenodo 23237930};
-      accompanying article \href{https://doi.org/10.1016/j.csite.2026.107650}{CSITE 78 (2026), 107650}.
-    \item \textbf{DP unit conflict:} setpoint metadata / Zenodo say kPa;
-      the pressure-channel dictionary says Pa. DP is omitted from the main talk;
-      confirm its unit with the data owners.
-    \item \textbf{Fan signal:} unverified raw scale. The monotonicity constraint assumes
-      larger $F$ means stronger cooling; check this ordering independently.
-    \item \textbf{Preserved measurements:} all 19 processed targets remain unchanged,
-      including the six temperature-flagged observations.
-    \item \textbf{Planned fitting:} the same measured targets for PCE and PI-PCE;
-      no generated temperature labels.
-  \end{itemize}
-  \datasource{Sources: data/raw/README.md, CASES.csv, DATA\_DICTIONARY.csv;
-    results/preprocessing\_review/report.md.}
 \end{frame}

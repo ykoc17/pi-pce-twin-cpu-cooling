@@ -1,4 +1,4 @@
-"""Preserve every non-introduction content slide and make a categorized backup index.
+"""Preserve selected source slides and make a categorized appendix index.
 
 Only writes this shortened presentation. Introductory information is mapped to
 the condensed main talk; source content is retained, with local B1 spacing.
@@ -12,6 +12,10 @@ import re
 
 HERE = Path(__file__).resolve().parents[1]
 ORIGINAL = HERE.parent / "heatwise-thermal-twin"
+OMITTED = {
+    27: "Removed from the shortened deck by request (formerly F2: methods bibliography)",
+    28: "Removed from the shortened deck by request (formerly F3: data provenance and units)",
+}
 
 # (category, section name, [(original PDF slide, short title), ...])
 CATEGORIES = [
@@ -46,10 +50,8 @@ CATEGORIES = [
         (19, "Full proposed robust optimization"),
         (26, "What a control error bound requires"),
     ]),
-    ("F", "Outlook and references", [
+    ("F", "Outlook", [
         (22, "Complete conclusion and outlook"),
-        (27, "Methods bibliography"),
-        (28, "Data provenance and unresolved units"),
     ]),
 ]
 
@@ -69,6 +71,8 @@ def body(frame):
 
 
 def backup_body(code, original_body):
+    if code == "A6":
+        return original_body.replace("(backup).", "(appendix).")
     if code != "B1":
         return original_body
     adjusted, count = re.subn(r"(?m)^  \\smallskip$",
@@ -85,16 +89,16 @@ def main():
         raise ValueError("The source slide map changed; update coverage deliberately.")
     originals = dict(enumerate(frames, start=2))  # native cover is PDF page 1
     selected = [n for _, _, slides in CATEGORIES for n, _ in slides]
-    if sorted(selected) != [n for n in range(6, 31) if n != 23]:
-        raise ValueError("Every non-introduction content slide must appear exactly once.")
+    if sorted(selected) != [n for n in range(6, 31) if n != 23 and n not in OMITTED]:
+        raise ValueError("Every retained non-introduction source slide must appear exactly once.")
 
     output = ["% Generated from the longer deck; rebuild with scripts/build_backups.py.\n",
-              r"\section{Backup index}", r"\renewcommand{\backupcode}{Index}",
-              r"\begin{frame}[more-space,label=backup-index]{Backup\enspace|\enspace Topic index}",
-              r"\small Click a code to open a slide. Every backup has an Index return link.",
+              r"\section{Appendix index}", r"\renewcommand{\backupcode}{Index}",
+              r"\begin{frame}[more-space,label=backup-index]{Appendix\enspace|\enspace Topic index}",
+              r"\small Click a code to open a slide. Every appendix slide has an Index return link.",
               r"\par\medskip", r"{\renewcommand{\arraystretch}{1.8}",
               r"\begin{tabular}{@{}p{0.44\textwidth}p{0.52\textwidth}@{}}",
-              r"\toprule\textbf{Topic} & \textbf{Backup codes}\\\midrule"]
+              r"\toprule\textbf{Topic} & \textbf{Appendix codes}\\\midrule"]
     for letter, name, slides in CATEGORIES:
         links = [rf"\hyperlink{{backup-{letter}{i}}}{{\color{{rwth-blue-100}}\textbf{{{letter}{i}}}}}"
                  for i in range(1, len(slides)+1)]
@@ -109,7 +113,7 @@ def main():
     records = []
     page = 14  # 12 main slides + one backup index
     for letter, name, slides in CATEGORIES:
-        output.append(rf"\section{{Backup {letter}: {name}}}")
+        output.append(rf"\section{{Appendix {letter}: {name}}}")
         for i, (number, title) in enumerate(slides, 1):
             code = f"{letter}{i}"
             frame = originals[number]
@@ -133,6 +137,8 @@ def main():
     for new, record in zip(generated, records, strict=True):
         # Undo the sole local spacing adjustment before checking source preservation.
         restored = body(new)
+        if record["backup_code"] == "A6":
+            restored = restored.replace("(appendix).", "(backup).")
         if record["backup_code"] == "B1":
             restored = re.sub(r"(?m)^  \\par\\vfill$",
                               lambda _: r"  \smallskip", restored)
@@ -147,25 +153,27 @@ def main():
         5: "Main 4: experimental vs simulated targets, CAD/CFD and future data",
         23: "Main 12: thanks and discussion",
     }
-    mapping = {str(n): main_map[n] if n in main_map else next(
+    mapping = {str(n): main_map[n] if n in main_map else OMITTED[n] if n in OMITTED else next(
         f"{r['backup_code']} (PDF page {r['pdf_page']}): {r['title']}" for r in records if r['original_slide']==n)
         for n in range(1, 31)}
     evidence = {"main_slides": 12, "backup_index_page": 13, "backup_slides": len(records),
                 "total_pages": page-1, "original_slide_map": mapping, "backups": records,
-                "intro_policy": "Introductory content is condensed into the main talk, not duplicated in backups",
+                "omitted_original_slides": OMITTED,
+                "intro_policy": "Introductory content is condensed into the main talk, not duplicated in the appendix",
                 "original_pdf_sha256": hashlib.sha256((ORIGINAL/"pdf/heatwise-thermal-twin.pdf").read_bytes()).hexdigest()}
     (HERE/"coverage.json").write_text(json.dumps(evidence, indent=2)+"\n", encoding="utf-8")
-    lines = ["# Coverage and backup reference", "", "Main talk: slides 1-12. Index: PDF page 13. "
-             "Technical backup: A1-F3. No introduction slides are duplicated in backup.", "",
-             "Every non-introduction content slide from the longer deck is retained with its "
-             "complete content; titles, codes and navigation are added. B1 has local vertical-spacing adjustments.", "",
-             "## Backup topics", "", "| Code | PDF page | Topic | Longer-deck slide |",
+    lines = ["# Coverage and appendix reference", "", "Main talk: slides 1-12. Index: PDF page 13. "
+             "Technical appendix: A1-F1. No introduction slides are duplicated in the appendix.", "",
+             "Retained source slides keep their complete content; titles, codes and navigation are added. "
+             "B1 has local vertical-spacing adjustments. F2 and F3 were removed by request; "
+             "their source slides remain in the longer deck.", "",
+             "## Appendix topics", "", "| Code | PDF page | Topic | Longer-deck slide |",
              "| --- | --- | --- | --- |"]
     lines += [f"| {r['backup_code']} | {r['pdf_page']} | {r['title']} | {r['original_slide']} |" for r in records]
     lines += ["", "## Coverage of every original slide", "", "| Longer-deck slide | Where to find the information |",
               "| --- | --- |"]
     lines += [f"| {n} | {mapping[str(n)]} |" for n in range(1,31)]
-    lines += ["", "The regenerated backup bodies are checked against the original source after undoing B1's spacing-only adjustment. "
+    lines += ["", "The regenerated appendix bodies are checked against the original source after undoing local spacing and terminology adjustments. "
               "The new main slides retain the introductory facts in a leaner form; their "
               "coverage is reviewed separately rather than claiming identical wording.", ""]
     (HERE/"coverage_map.md").write_text("\n".join(lines), encoding="utf-8")

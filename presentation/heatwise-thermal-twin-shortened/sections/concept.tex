@@ -94,8 +94,12 @@
   \end{columns}
   \par\vfill
   \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
-    \small The same workflow can use future simulated or measured data.
-    More suitable data may help; \textbf{improvement still needs validation}.
+    \small
+    \begin{itemize}
+      \setlength{\itemsep}{1pt}
+      \item The same workflow can use future simulated or measured data.
+      \item More suitable data may help; \textbf{improvement still needs validation}.
+    \end{itemize}
   \end{beamercolorbox}
   \datasource{Source: \href{https://www.openfoam.com/}{openfoam.com}}
 \end{frame}
@@ -123,8 +127,14 @@
   \end{columns}
   \smallskip
   \begin{beamercolorbox}[sep=1.7mm,wd=\textwidth]{data panel}
-    \small \textbf{Target:} largest of the 18 CPU temperature averages.
-    This is a settled-temperature model, not a model of short temperature peaks.
+    \small
+    \begin{itemize}
+      \setlength{\itemsep}{1pt}
+      \vspace{-1.5mm}
+      \item \textbf{Target:} largest of the 18 CPU temperature averages.
+      \item This is a settled-temperature model, not a model of short temperature peaks.
+    \end{itemize}
+    \vspace{-1.5mm}
   \end{beamercolorbox}
   \datasource{Data limits: \hyperlink{backup-A2}{\textbf{A2}}--\hyperlink{backup-A3}{\textbf{A3}};
     full rules: \hyperlink{backup-A5}{\textbf{A5}}; threshold sensitivity: \hyperlink{backup-A7}{\textbf{A7}}.}
@@ -155,8 +165,12 @@
   \end{columns}
   \medskip
   \begin{beamercolorbox}[sep=1.7mm,wd=\textwidth]{data warning}
-    \small Independent uniforms give equal weight across each input range.
-    This defines the Legendre basis; \textbf{not real operating probabilities}.
+    \small
+    \begin{itemize}
+      \setlength{\itemsep}{1pt}
+      \item Independent uniforms give equal weight across each input range.
+      \item This defines the Legendre basis; \textbf{not real operating probabilities}.
+    \end{itemize}
   \end{beamercolorbox}
   \datasource{Method: \href{https://www.uqlab.com/pce-user-manual}{UQLab PCE manual}. Software: \hyperlink{backup-B1}{\textbf{B1}}; bounds / scaling: \hyperlink{backup-B3}{\textbf{B3}}; conditioning: \hyperlink{backup-B4}{\textbf{B4}}.}
 \end{frame}
@@ -219,9 +233,12 @@
   \end{enumerate}
   \par\vfill
   \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
-    \small Compare \textbf{prediction error} and \textbf{heating / cooling trends}.
-    \par\medskip
-    Flag test settings outside the training ranges.
+    \small
+    \begin{itemize}
+      \setlength{\itemsep}{1pt}
+      \item Compare \textbf{prediction error} and \textbf{heating / cooling trends}.
+      \item Flag test settings outside the training ranges.
+    \end{itemize}
   \end{beamercolorbox}
   \datasource{Full protocol: \hyperlink{backup-C4}{\textbf{C4}}.}
 \end{frame}
@@ -249,7 +266,6 @@
             S_i^{\mathrm T}=\frac{\sum_{\alpha_i>0}c_{\boldsymbol\alpha}^{2}}{\sigma^2},
             \qquad\sigma^2>0
           \]
-          {\footnotesize Numerator: terms containing input $i$.}
           \begin{itemize}
             \item \textbf{First-order:} one input acting alone.
             \item \textbf{Total:} also includes interactions.
@@ -261,8 +277,12 @@
   \end{columns}
   \medskip
   \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
-    \small \textbf{Not prediction error.} Real operating uncertainty needs separate data.\par\medskip
-    For uncertainty of max temperature w.r.t air inlet temperature, fix CPU / fan settings and rearrange the same PCE.
+    \small
+    \begin{itemize}
+      \setlength{\itemsep}{1pt}
+      \item \textbf{Not prediction error.} Real operating uncertainty needs separate data.
+      \item For uncertainty of max temperature w.r.t air inlet temperature, fix CPU / fan settings and rearrange the same PCE.
+    \end{itemize}
   \end{beamercolorbox}
   \datasource{Method: \href{https://www.uqlab.com/pce-user-manual}{UQLab PCE manual}. Full Sobol formulas: \hyperlink{backup-B2}{\textbf{B2}}; conditional moments: \hyperlink{backup-D1}{\textbf{D1}}.}
 \end{frame}

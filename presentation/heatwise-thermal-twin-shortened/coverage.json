@@ -1,8 +1,8 @@
 {
   "main_slides": 12,
   "backup_index_page": 13,
-  "backup_slides": 24,
-  "total_pages": 37,
+  "backup_slides": 22,
+  "total_pages": 35,
   "original_slide_map": {
     "1": "Main 1: cover, authors/date, same credited photo",
     "2": "Main 2: motivation/statistics/drivers; main 7/9/10: physics, uncertainty and project goals",
@@ -30,8 +30,8 @@
     "24": "A7 (PDF page 20): Selection-threshold sensitivity",
     "25": "B4 (PDF page 24): Polynomial degree and conditioning",
     "26": "E4 (PDF page 34): What a control error bound requires",
-    "27": "F2 (PDF page 36): Methods bibliography",
-    "28": "F3 (PDF page 37): Data provenance and unresolved units",
+    "27": "Removed from the shortened deck by request (formerly F2: methods bibliography)",
+    "28": "Removed from the shortened deck by request (formerly F3: data provenance and units)",
     "29": "C3 (PDF page 27): Why eight corners suffice",
     "30": "C4 (PDF page 28): Full comparison protocol"
   },
@@ -250,33 +250,17 @@
       "original_slide": 22,
       "backup_code": "F1",
       "pdf_page": 35,
-      "category": "Outlook and references",
+      "category": "Outlook",
       "title": "Complete conclusion and outlook",
       "original_title": "Conclusion and Outlook",
       "layout_adjustment": null,
       "body_sha256": "d3b14e1d01d301a228937ffd0915f7ac026384796bbe5028135ab44367bf93a2"
-    },
-    {
-      "original_slide": 27,
-      "backup_code": "F2",
-      "pdf_page": 36,
-      "category": "Outlook and references",
-      "title": "Methods bibliography",
-      "original_title": "Backup\\enspace|\\enspace Bibliography: methods",
-      "layout_adjustment": null,
-      "body_sha256": "2c703f2be1fe30b728ba3fcb7d51e58339308e1e38895321282e64b6c6d0bac5"
-    },
-    {
-      "original_slide": 28,
-      "backup_code": "F3",
-      "pdf_page": 37,
-      "category": "Outlook and references",
-      "title": "Data provenance and unresolved units",
-      "original_title": "Backup\\enspace|\\enspace Data provenance and unresolved units",
-      "layout_adjustment": null,
-      "body_sha256": "9ac420eb91573173529ec122c1be6171dbfa3eed4aee9c40fc6da4049fb49a5e"
     }
   ],
-  "intro_policy": "Introductory content is condensed into the main talk, not duplicated in backups",
+  "omitted_original_slides": {
+    "27": "Removed from the shortened deck by request (formerly F2: methods bibliography)",
+    "28": "Removed from the shortened deck by request (formerly F3: data provenance and units)"
+  },
+  "intro_policy": "Introductory content is condensed into the main talk, not duplicated in the appendix",
   "original_pdf_sha256": "00b6a9d5ac1bd2ce01e0917ef0d8149ae7f7c9ba001903dae88c2941ac8d7bc4"
 }

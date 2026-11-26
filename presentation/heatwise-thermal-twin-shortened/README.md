@@ -5,8 +5,8 @@ problem, data, proposed PCE/PI-PCE methods and comparison plan. Model results an
 claims of demonstrated control are intentionally absent. The later final
 presentation will assess predictions, sensitivity and the operating-point concept.
 
-**Spoken route: slides 1-12 only.** PDF page 13 is a clickable backup index;
-the 24 technical backups are labeled A1-F3. The handover is before slide 7:
+**Spoken route: slides 1-12 only.** PDF page 13 is a clickable appendix index;
+the 22 technical appendix slides are labeled A1-F1. The handover is before slide 7:
 four minutes per presenter. The timings are a
 rehearsal target, not a measured delivery time.
 
@@ -27,7 +27,7 @@ rehearsal target, not a measured delivery time.
 
 Use [speaker_notes.md](speaker_notes.md) to rehearse. It includes transitions,
 pointing cues, a four-minute handover and short answers for likely questions.
-Avoid explaining the backup equations during the main talk.
+Avoid explaining the appendix equations during the main talk.
 
 ## Build
 
@@ -46,7 +46,7 @@ On other installations, use `python`/`python3`, or pass `--engine` with the LuaL
 Compilation intermediates remain in this version's own `build/` directory.
 
 The shared RWTH template stays in `../rwth-ci/`. The cover image and original
-backup graphics are referenced in place. Keep this directory inside the repository.
+appendix graphics are referenced in place. Keep this directory inside the repository.
 
 ## Readable data figure
 
@@ -65,42 +65,43 @@ Rebuild the figure without fitting any model:
 The script checks all 19 targets against raw data and writes provenance hashes to
 `images/selection_readable.json`. It does not rerun selection or change raw data.
 
-## Complete information and organized backups
+## Complete information and organized appendix slides
 
-Every non-introduction content slide in the longer presentation is preserved in
-full in the categorized backups. Headings, backup codes and Index navigation
+The retained non-introduction source slides are preserved in full in the
+categorized appendix slides. F2 (bibliography) and F3 (provenance) were removed by request;
+their sources remain in the longer presentation. Headings, appendix codes and Index navigation
 are added; B1 also has evenly distributed vertical spacing. Original introductory information is condensed into
 the main talk: motivation on slide 2, experiment/photo on slide 3, choice of
 measurements on slide 4, and the twin concept/three loops on slide 10.
 
-| Backup category | Codes | PDF pages |
+| Appendix category | Codes | PDF pages |
 | --- | --- | --- |
 | Data and preprocessing | A1-A7 | 14-20 |
 | PCE and input reference | B1-B4 | 21-24 |
 | PI-PCE and comparison | C1-C4 | 25-28 |
 | UQ and sensitivity | D1-D2 | 29-30 |
 | Digital twin and operating choices | E1-E4 | 31-34 |
-| Outlook and references | F1-F3 | 35-37 |
+| Outlook | F1 | 35 |
 
 Click any code on the index (page 13), or follow detail links on main slides.
-Every backup shows its code in the title/footer and has an **Index** return link.
-The PDF bookmarks also group backups by category. Refer to **A5** for the full
+Every appendix shows its code in the title/footer and has an **Index** return link.
+The PDF bookmarks also group appendix slides by category. Refer to **A5** for the full
 selection checklist, **B1** for software roles/logo, and **E2** for model updates
 and version approval.
 
-[coverage_map.md](coverage_map.md) maps **all 30 longer-deck slides** to their
-locations here and lists each backup's physical PDF page. `coverage.json` records
-source-body hashes. Regenerate the organized backups and check preservation:
+[coverage_map.md](coverage_map.md) maps the 30 longer-deck slides to their
+locations here or records their requested removal, and lists each appendix's PDF page. `coverage.json` records
+source-body hashes. Regenerate the organized appendix slides and check preservation:
 
 ```powershell
 .\.venv\Scripts\python.exe -B presentation/heatwise-thermal-twin-shortened/scripts/build_backups.py
 ```
 
-The script verifies all 24 non-introduction content bodies against their sources,
+The script verifies all 22 retained appendix bodies against their sources,
 undoing B1's spacing-only adjustment, and checks that no source slide is missed.
 Rebuild the PDF afterwards. The
 original presentation, scientific code, observations and model results remain
-unchanged. This deck now has **37 PDF pages: 12 main, 1 index, 24 backups**.
+unchanged. This deck now has **35 PDF pages: 12 main, 1 index, 22 appendix slides**.
 
 ## Editing
 
