@@ -111,7 +111,14 @@ def main():
                r"\end{beamercolorbox}", r"\end{frame}"]
 
     records = []
-    page = 14  # 12 main slides + one backup index
+    index_page = 13
+    navigation = HERE / "build/heatwise-thermal-twin-shortened.nav"
+    if navigation.exists():
+        ranges = re.findall(r"\\beamer@framepages\s*\{(\d+)\}\s*\{(\d+)\}",
+                            navigation.read_text(encoding="utf-8"))
+        if len(ranges) == len(selected) + 13:
+            index_page = int(ranges[12][0])  # account for main-slide overlays
+    page = index_page + 1
     for letter, name, slides in CATEGORIES:
         output.append(rf"\section{{Appendix {letter}: {name}}}")
         for i, (number, title) in enumerate(slides, 1):
@@ -156,13 +163,14 @@ def main():
     mapping = {str(n): main_map[n] if n in main_map else OMITTED[n] if n in OMITTED else next(
         f"{r['backup_code']} (PDF page {r['pdf_page']}): {r['title']}" for r in records if r['original_slide']==n)
         for n in range(1, 31)}
-    evidence = {"main_slides": 12, "backup_index_page": 13, "backup_slides": len(records),
+    evidence = {"main_slides": 12, "main_pdf_pages": index_page-1,
+                "backup_index_page": index_page, "backup_slides": len(records),
                 "total_pages": page-1, "original_slide_map": mapping, "backups": records,
                 "omitted_original_slides": OMITTED,
                 "intro_policy": "Introductory content is condensed into the main talk, not duplicated in the appendix",
                 "original_pdf_sha256": hashlib.sha256((ORIGINAL/"pdf/heatwise-thermal-twin.pdf").read_bytes()).hexdigest()}
     (HERE/"coverage.json").write_text(json.dumps(evidence, indent=2)+"\n", encoding="utf-8")
-    lines = ["# Coverage and appendix reference", "", "Main talk: slides 1-12. Index: PDF page 13. "
+    lines = ["# Coverage and appendix reference", "", f"Main talk: slides 1-12. Index: PDF page {index_page}. "
              "Technical appendix: A1-F1. No introduction slides are duplicated in the appendix.", "",
              "Retained source slides keep their complete content; titles, codes and navigation are added. "
              "B1 has local vertical-spacing adjustments. F2 and F3 were removed by request; "

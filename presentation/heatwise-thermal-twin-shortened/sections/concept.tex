@@ -1,7 +1,7 @@
 % Presenter 1: slides 1--6, 0:00--4:00. Presenter 2: slides 7--12, 4:00--8:00.
 \section{Introduction}
 
-% 2: 0:10--0:50
+% 2: 0:10--0:50. Reveals: intro/statistics -> heat drivers -> goal.
 \begin{frame}[more-space]{Introduction\enspace|\enspace Why a thermal digital twin?}
   \par\vfill
   \small AI training and deployment rely on data centers.
@@ -12,6 +12,7 @@
     \column{0.31\textwidth}\datametric{7 to >30\,\%}{Cooling share, depending on facility type}
   \end{columns}
   \par\vfill
+  \begin{uncoverenv}<2->
   \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
     \centering
     \begin{tikzpicture}[font=\small]
@@ -32,12 +33,15 @@
         shorten <=1mm,shorten >=1mm] (drivers.east)--(effect.west);
     \end{tikzpicture}
   \end{beamercolorbox}
+  \end{uncoverenv}
   \par\vfill
+  \begin{uncoverenv}<3->
   \dataheading{Goal: more CPU power within a thermal budget; less cooling waste}
+  \end{uncoverenv}
   \datasource{Source: \href{https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai}{IEA, Energy and AI (2025)}.}
 \end{frame}
 
-% 3: 0:50--1:25
+% 3: 0:50--1:25. Reveals: experiment -> input box -> output bullet.
 \begin{frame}[more-space]{Introduction\enspace|\enspace RISE ICE Datacenter, Sweden}
   \begin{columns}[T,onlytextwidth]
     \column{0.56\textwidth}
@@ -47,6 +51,8 @@
       \par\smallskip
       {\small\color{rwth-blue-100}\textbf{RISE ICE Datacenter research facility,\\Lule\aa{}, Sweden.}}
     \column{0.41\textwidth}
+      \hspace*{-4mm}%
+      \begin{minipage}[t]{\linewidth}
       \dataheading{The experiment}
       \small
       \begin{itemize}
@@ -56,18 +62,26 @@
       \end{itemize}
       \smallskip
       \textbf{Original study:} thermal performance of air vs.\ two-phase chip cooling.
+      \end{minipage}
   \end{columns}
   \medskip
+  \begin{uncoverenv}<2->
   \begin{beamercolorbox}[sep=1.7mm,wd=\textwidth]{data panel}
-    \small \textbf{Our inputs:} CPU power $P$, inlet temperature $T_{\mathrm{inlet}}$, raw fan signal $F$.
-    \par\smallskip
-    \textbf{Our output:} largest of the 18 CPU temperature averages over an approximately steady interval.
+    \small
+    \begin{itemize}
+      \setlength{\itemsep}{1pt}
+      \vspace{-1.5mm}
+      \item<2-> \textbf{Our inputs:} CPU power $P$, air inlet temperature $T_{\mathrm{inlet}}$, raw fan signal $F$.
+      \item<3-> \textbf{Our output:} largest of the 18 CPU temperature averages over an approximately steady interval.
+    \end{itemize}
+    \vspace{-1.5mm}
   \end{beamercolorbox}
+  \end{uncoverenv}
   \datasource{Photo: \href{https://www.ri.se/en/news/from-idea-to-an-internationally-recognised-innovation-environment-ice-datacenter-celebrates}{RISE / ICE Datacenter (2026)}.
     Data: \href{https://zenodo.org/records/23237930}{HEATWISE / Zenodo}; \href{https://doi.org/10.1016/j.csite.2026.107650}{Ebrahimpour Ahmadi et al., CSITE 78 (2026), 107650}.}
 \end{frame}
 
-% 4: 1:25--2:00
+% 4: 1:25--2:00. Reveals: simulated targets -> measurements -> future data.
 \begin{frame}[more-space]{Introduction\enspace|\enspace Why start with measured data?}
   \vspace*{\fill}
   \begin{columns}[T,onlytextwidth]
@@ -82,6 +96,7 @@
         \end{itemize}
       \end{beamercolorbox}
     \column{0.49\textwidth}
+      \begin{uncoverenv}<2->
       \begin{beamercolorbox}[sep=2.5mm,wd=\linewidth]{data panel}
         \dataheading{Experimental measurements}
         \small
@@ -91,8 +106,10 @@
           \item \textbf{Our choice for the first model.}
         \end{itemize}
       \end{beamercolorbox}
+      \end{uncoverenv}
   \end{columns}
   \par\vfill
+  \begin{uncoverenv}<3->
   \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
     \small
     \begin{itemize}
@@ -101,12 +118,13 @@
       \item More suitable data may help; \textbf{improvement still needs validation}.
     \end{itemize}
   \end{beamercolorbox}
+  \end{uncoverenv}
   \datasource{Source: \href{https://www.openfoam.com/}{openfoam.com}}
 \end{frame}
 
 \section{Data and proposed methods}
 
-% 5: 2:00--2:55
+% 5: 2:00--2:55. Reveals: graph/caption -> summary -> limits -> target box.
 \begin{frame}[more-space]{Preprocessing: From time series to 19 observations}
   \begin{columns}[T,onlytextwidth]
     \column{0.69\textwidth}
@@ -114,18 +132,26 @@
       \par\smallskip
       {\small\color{selectiongreen}\textbf{One green band = one observation.}}
     \column{0.28\textwidth}
+      \begin{uncoverenv}<2->
       \datametric{19}{approximately steady observations}
-      \medskip
+      \smallskip
       \small
       \begin{itemize}
+        \setlength{\itemsep}{1pt}
         \item Wait after load changes.
         \item Keep stable periods with all 18 sensors.
         \item Average within each period.
       \end{itemize}
+      \end{uncoverenv}
       \smallskip
-      {\footnotesize \textbf{Limits:} sparse data, input dependency and throttling}
+      \begin{uncoverenv}<3->
+      \begin{beamercolorbox}[sep=1.4mm,wd=\linewidth]{data limits}
+        \small {\color{red!65!black}\textbf{Limits:}} sparse data, input dependency and throttling
+      \end{beamercolorbox}
+      \end{uncoverenv}
   \end{columns}
   \smallskip
+  \begin{uncoverenv}<4->
   \begin{beamercolorbox}[sep=1.7mm,wd=\textwidth]{data panel}
     \small
     \begin{itemize}
@@ -136,11 +162,12 @@
     \end{itemize}
     \vspace{-1.5mm}
   \end{beamercolorbox}
+  \end{uncoverenv}
   \datasource{Data limits: \hyperlink{backup-A2}{\textbf{A2}}--\hyperlink{backup-A3}{\textbf{A3}};
     full rules: \hyperlink{backup-A5}{\textbf{A5}}; threshold sensitivity: \hyperlink{backup-A7}{\textbf{A7}}.}
 \end{frame}
 
-% 6: 2:55--4:00
+% 6: 2:55--4:00. Reveals: model -> degree choice -> benefits -> reference.
 \begin{frame}[more-space]{Polynomial Chaos Expansion}
   \begin{beamercolorbox}[sep=3mm,wd=\textwidth]{data panel}
     \centering
@@ -156,14 +183,19 @@
   \medskip
   \begin{columns}[T,onlytextwidth]
     \column{0.48\textwidth}
+      \begin{uncoverenv}<2->
       \dataheading{Small enough to start}
       \small 4 or 10 coefficients for three inputs.\\
       We will choose the degree using training data.
+      \end{uncoverenv}
     \column{0.49\textwidth}
+      \begin{uncoverenv}<3->
       \dataheading{Why PCE?}
       \small Fast evaluation; mean, variance and input influence can be read from the coefficients.
+      \end{uncoverenv}
   \end{columns}
   \medskip
+  \begin{uncoverenv}<4->
   \begin{beamercolorbox}[sep=1.7mm,wd=\textwidth]{data warning}
     \small
     \begin{itemize}
@@ -172,15 +204,21 @@
       \item This defines the Legendre basis; \textbf{not real operating probabilities}.
     \end{itemize}
   \end{beamercolorbox}
+  \end{uncoverenv}
   \datasource{Method: \href{https://www.uqlab.com/pce-user-manual}{UQLab PCE manual}. Software: \hyperlink{backup-B1}{\textbf{B1}}; bounds / scaling: \hyperlink{backup-B3}{\textbf{B3}}; conditioning: \hyperlink{backup-B4}{\textbf{B4}}.}
 \end{frame}
 
-% 7: 4:00--5:05
+% 7: 4:00--5:05. Reveals: introduction -> signs -> fit -> assumptions.
 \begin{frame}[more-space]{Physics-Informed PCE: Add monotonicity constraints}
-  \small Fit the same 19 measurements, while enforcing expected heating and cooling trends.
+  \vspace*{2mm}
+  \small
+  \begin{itemize}
+    \item Fit the same 19 measurements, while enforcing expected heating and cooling trends.
+  \end{itemize}
   \par\vfill
   \begin{columns}[T,onlytextwidth]
     \column{0.50\textwidth}
+      \begin{uncoverenv}<2->
       \begin{beamercolorbox}[sep=2.5mm,wd=\linewidth]{data panel}
         \dataheading{Expected directions}
         \small
@@ -191,24 +229,30 @@
           $\dfrac{\partial\widehat T}{\partial F}\leq0$ & More fan cooling: no hotter
         \end{tabular}
       \end{beamercolorbox}
+      \end{uncoverenv}
     \column{0.47\textwidth}
+      \begin{uncoverenv}<3->
       \begin{beamercolorbox}[sep=2.5mm,wd=\linewidth]{data panel}
         \dataheading{Same fit, restricted shape}
         \[
           \min_{\mathbf c}\sum_{i\in\mathrm{train}}(\widehat T_i-y_i)^2
         \]
-        \small subject to these derivative signs.\par\medskip
-        $y_i$: measured target.\\
+        {\small\centering subject to these derivative signs.\par}
+        \medskip
+        {\footnotesize\color{black!60}$y_i$: measured target.\par}
       \end{beamercolorbox}
+      \end{uncoverenv}
   \end{columns}
   \par\vfill
+  \begin{uncoverenv}<4->
   \begin{beamercolorbox}[sep=1.7mm,wd=\textwidth]{data warning}
     \small These are assumptions to test!
   \end{beamercolorbox}
+  \end{uncoverenv}
   \datasource{Full fit: \hyperlink{backup-C1}{\textbf{C1}}; corner argument: \hyperlink{backup-C3}{\textbf{C3}}.}
 \end{frame}
 
-% 8: 5:05--6:00
+% 8: 5:05--6:00. Reveals: case diagram/steps -> comparison box.
 \begin{frame}[more-space]{PCE vs PI-PCE: same basis, measurements and test cases}
   \vspace*{\fill}
   \noindent\makebox[\textwidth][c]{%
@@ -232,6 +276,7 @@
     \item Repeat until all five cases have been tested.
   \end{enumerate}
   \par\vfill
+  \begin{uncoverenv}<2->
   \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
     \small
     \begin{itemize}
@@ -240,10 +285,11 @@
       \item Flag test settings outside the training ranges.
     \end{itemize}
   \end{beamercolorbox}
+  \end{uncoverenv}
   \datasource{Full protocol: \hyperlink{backup-C4}{\textbf{C4}}.}
 \end{frame}
 
-% 9: 6:00--6:40
+% 9: 6:00--6:40. Reveals: moments -> Sobol indices -> uncertainty note.
 \begin{frame}[more-space]{UQ and Sensitivity: What the coefficients tell us}
   \begin{columns}[T,onlytextwidth]
     \column{0.49\textwidth}
@@ -258,6 +304,7 @@
         \end{minipage}
       \end{beamercolorbox}
     \column{0.49\textwidth}
+      \begin{uncoverenv}<2->
       \begin{beamercolorbox}[sep=2.5mm,wd=\linewidth]{data panel}
         \begin{minipage}[t][35mm][t]{\dimexpr\linewidth-5mm\relax}
           \dataheading{Which inputs matter most?}
@@ -274,8 +321,10 @@
           \footnotesize Larger index = more influence, \textbf{for our assumed input distributions}.
         \end{minipage}
       \end{beamercolorbox}
+      \end{uncoverenv}
   \end{columns}
   \medskip
+  \begin{uncoverenv}<3->
   \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
     \small
     \begin{itemize}
@@ -284,10 +333,11 @@
       \item For uncertainty of max temperature w.r.t air inlet temperature, fix CPU / fan settings and rearrange the same PCE.
     \end{itemize}
   \end{beamercolorbox}
+  \end{uncoverenv}
   \datasource{Method: \href{https://www.uqlab.com/pce-user-manual}{UQLab PCE manual}. Full Sobol formulas: \hyperlink{backup-B2}{\textbf{B2}}; conditional moments: \hyperlink{backup-D1}{\textbf{D1}}.}
 \end{frame}
 
-% 10: 6:40--7:25
+% 10: 6:40--7:25. Reveals: main workflow -> two other loops.
 \begin{frame}[more-space]{The Proposed Digital Twin}
   \vspace*{\fill}
   \noindent\makebox[\textwidth][c]{%
@@ -308,6 +358,9 @@
     \end{tikzpicture}%
   }
   \par\vfill
+  \begin{uncoverenv}<2->
+  {\small\color{black}\textbf{Two other loops:}\par}
+  \medskip
   \begin{columns}[T,onlytextwidth]
     \column{0.48\textwidth}
       \dataheading{Safety loop}
@@ -317,11 +370,12 @@
       \dataheading{Slower learning loop}
       \small New steady data $\rightarrow$ refit $\rightarrow$ validate.
   \end{columns}
+  \end{uncoverenv}
   \datasource{Full definition: \hyperlink{backup-E1}{\textbf{E1}}; learning loop: \hyperlink{backup-E2}{\textbf{E2}};
     robust formulation: \hyperlink{backup-E3}{\textbf{E3}}; control requirements: \hyperlink{backup-E4}{\textbf{E4}}.}
 \end{frame}
 
-% 11: 7:25--7:55
+% 11: 7:25--7:55. Reveals: current status -> transition arrow and backlog.
 \begin{frame}[more-space]{Outlook}
   \begin{beamercolorbox}[sep=3mm,wd=\textwidth]{data panel}
     \begin{minipage}[t][24mm][t]{\dimexpr\textwidth-6mm\relax}
@@ -335,6 +389,7 @@
     \end{minipage}
   \end{beamercolorbox}
   \par\nointerlineskip
+  \begin{uncoverenv}<2->
   \hbox to\textwidth{\hfil
     \begin{tikzpicture}
       \path[use as bounding box] (-4mm,-4mm) rectangle (4mm,4mm);
@@ -354,6 +409,7 @@
       \end{itemize}
     \end{minipage}
   \end{beamercolorbox}
+  \end{uncoverenv}
 \end{frame}
 
 % 12: 7:55--8:00

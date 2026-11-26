@@ -1,45 +1,45 @@
 {
   "main_slides": 12,
-  "backup_index_page": 13,
+  "backup_index_page": 33,
   "backup_slides": 22,
-  "total_pages": 35,
+  "total_pages": 55,
   "original_slide_map": {
     "1": "Main 1: cover, authors/date, same credited photo",
     "2": "Main 2: motivation/statistics/drivers; main 7/9/10: physics, uncertainty and project goals",
     "3": "Main 3: RISE ICE photo, location, hardware and original study",
     "4": "Main 10: twin concept and three loops; E1/E2: full definition/workflow",
     "5": "Main 4: experimental vs simulated targets, CAD/CFD and future data",
-    "6": "B1 (PDF page 21): PCE definition and software",
-    "7": "B2 (PDF page 22): PCE advantages and UQ / Sobol formulas",
-    "8": "A1 (PDF page 14): Operating cases and measured ranges",
-    "9": "A2 (PDF page 15): Coverage, fan units and throttling",
-    "10": "A3 (PDF page 16): Input dependence",
-    "11": "A4 (PDF page 17): Why approximately steady targets?",
-    "12": "A5 (PDF page 18): Full preprocessing checklist",
-    "13": "A6 (PDF page 19): Selection results and the 19 observations",
-    "14": "B3 (PDF page 23): Input bounds, uniforms and scaling",
-    "15": "C1 (PDF page 25): Monotonicity constraints and fitting",
-    "16": "C2 (PDF page 26): Planned PCE / PI-PCE comparison",
-    "17": "D1 (PDF page 29): Conditional moments: worked example",
-    "18": "D2 (PDF page 30): Conditional sensitivity coefficients",
-    "19": "E3 (PDF page 33): Full proposed robust optimization",
-    "20": "E1 (PDF page 31): Digital twin definition",
-    "21": "E2 (PDF page 32): Control, learning and safety loops",
-    "22": "F1 (PDF page 35): Complete conclusion and outlook",
+    "6": "B1 (PDF page 41): PCE definition and software",
+    "7": "B2 (PDF page 42): PCE advantages and UQ / Sobol formulas",
+    "8": "A1 (PDF page 34): Operating cases and measured ranges",
+    "9": "A2 (PDF page 35): Coverage, fan units and throttling",
+    "10": "A3 (PDF page 36): Input dependence",
+    "11": "A4 (PDF page 37): Why approximately steady targets?",
+    "12": "A5 (PDF page 38): Full preprocessing checklist",
+    "13": "A6 (PDF page 39): Selection results and the 19 observations",
+    "14": "B3 (PDF page 43): Input bounds, uniforms and scaling",
+    "15": "C1 (PDF page 45): Monotonicity constraints and fitting",
+    "16": "C2 (PDF page 46): Planned PCE / PI-PCE comparison",
+    "17": "D1 (PDF page 49): Conditional moments: worked example",
+    "18": "D2 (PDF page 50): Conditional sensitivity coefficients",
+    "19": "E3 (PDF page 53): Full proposed robust optimization",
+    "20": "E1 (PDF page 51): Digital twin definition",
+    "21": "E2 (PDF page 52): Control, learning and safety loops",
+    "22": "F1 (PDF page 55): Complete conclusion and outlook",
     "23": "Main 12: thanks and discussion",
-    "24": "A7 (PDF page 20): Selection-threshold sensitivity",
-    "25": "B4 (PDF page 24): Polynomial degree and conditioning",
-    "26": "E4 (PDF page 34): What a control error bound requires",
+    "24": "A7 (PDF page 40): Selection-threshold sensitivity",
+    "25": "B4 (PDF page 44): Polynomial degree and conditioning",
+    "26": "E4 (PDF page 54): What a control error bound requires",
     "27": "Removed from the shortened deck by request (formerly F2: methods bibliography)",
     "28": "Removed from the shortened deck by request (formerly F3: data provenance and units)",
-    "29": "C3 (PDF page 27): Why eight corners suffice",
-    "30": "C4 (PDF page 28): Full comparison protocol"
+    "29": "C3 (PDF page 47): Why eight corners suffice",
+    "30": "C4 (PDF page 48): Full comparison protocol"
   },
   "backups": [
     {
       "original_slide": 8,
       "backup_code": "A1",
-      "pdf_page": 14,
+      "pdf_page": 34,
       "category": "Data and preprocessing",
       "title": "Operating cases and measured ranges",
       "original_title": "Input Data\\enspace|\\enspace Operating cases and model variables",
@@ -49,7 +49,7 @@
     {
       "original_slide": 9,
       "backup_code": "A2",
-      "pdf_page": 15,
+      "pdf_page": 35,
       "category": "Data and preprocessing",
       "title": "Coverage, fan units and throttling",
       "original_title": "Input Data\\enspace|\\enspace Problems with the dataset",
@@ -59,7 +59,7 @@
     {
       "original_slide": 10,
       "backup_code": "A3",
-      "pdf_page": 16,
+      "pdf_page": 36,
       "category": "Data and preprocessing",
       "title": "Input dependence",
       "original_title": "Input Data\\enspace|\\enspace Problems with the dataset",
@@ -69,7 +69,7 @@
     {
       "original_slide": 11,
       "backup_code": "A4",
-      "pdf_page": 17,
+      "pdf_page": 37,
       "category": "Data and preprocessing",
       "title": "Why approximately steady targets?",
       "original_title": "Model\\enspace|\\enspace Steady-state outputs of PCE",
@@ -79,7 +79,7 @@
     {
       "original_slide": 12,
       "backup_code": "A5",
-      "pdf_page": 18,
+      "pdf_page": 38,
       "category": "Data and preprocessing",
       "title": "Full preprocessing checklist",
       "original_title": "Input Data\\enspace|\\enspace Preprocessing",
@@ -89,7 +89,7 @@
     {
       "original_slide": 13,
       "backup_code": "A6",
-      "pdf_page": 19,
+      "pdf_page": 39,
       "category": "Data and preprocessing",
       "title": "Selection results and the 19 observations",
       "original_title": "Input Data\\enspace|\\enspace Preprocessing results",
@@ -99,7 +99,7 @@
     {
       "original_slide": 24,
       "backup_code": "A7",
-      "pdf_page": 20,
+      "pdf_page": 40,
       "category": "Data and preprocessing",
       "title": "Selection-threshold sensitivity",
       "original_title": "Backup\\enspace|\\enspace Selection-threshold sensitivity",
@@ -109,7 +109,7 @@
     {
       "original_slide": 6,
       "backup_code": "B1",
-      "pdf_page": 21,
+      "pdf_page": 41,
       "category": "PCE and input reference",
       "title": "PCE definition and software",
       "original_title": "Model\\enspace|\\enspace Polynomial Chaos Expansion",
@@ -119,7 +119,7 @@
     {
       "original_slide": 7,
       "backup_code": "B2",
-      "pdf_page": 22,
+      "pdf_page": 42,
       "category": "PCE and input reference",
       "title": "PCE advantages and UQ / Sobol formulas",
       "original_title": "Model\\enspace|\\enspace Polynomial Chaos Expansion: Advantages",
@@ -129,7 +129,7 @@
     {
       "original_slide": 14,
       "backup_code": "B3",
-      "pdf_page": 23,
+      "pdf_page": 43,
       "category": "PCE and input reference",
       "title": "Input bounds, uniforms and scaling",
       "original_title": "Input Data\\enspace|\\enspace Input distributions",
@@ -139,7 +139,7 @@
     {
       "original_slide": 25,
       "backup_code": "B4",
-      "pdf_page": 24,
+      "pdf_page": 44,
       "category": "PCE and input reference",
       "title": "Polynomial degree and conditioning",
       "original_title": "Backup\\enspace|\\enspace Degree choice and conditioning",
@@ -149,7 +149,7 @@
     {
       "original_slide": 15,
       "backup_code": "C1",
-      "pdf_page": 25,
+      "pdf_page": 45,
       "category": "PI-PCE and comparison",
       "title": "Monotonicity constraints and fitting",
       "original_title": "Model\\enspace|\\enspace Physics-Informed PCE (PI-PCE)",
@@ -159,7 +159,7 @@
     {
       "original_slide": 16,
       "backup_code": "C2",
-      "pdf_page": 26,
+      "pdf_page": 46,
       "category": "PI-PCE and comparison",
       "title": "Planned PCE / PI-PCE comparison",
       "original_title": "Model\\enspace|\\enspace Planned comparison: PCE vs PI-PCE",
@@ -169,7 +169,7 @@
     {
       "original_slide": 29,
       "backup_code": "C3",
-      "pdf_page": 27,
+      "pdf_page": 47,
       "category": "PI-PCE and comparison",
       "title": "Why eight corners suffice",
       "original_title": "Backup\\enspace|\\enspace Monotonicity constraints across the input range",
@@ -179,7 +179,7 @@
     {
       "original_slide": 30,
       "backup_code": "C4",
-      "pdf_page": 28,
+      "pdf_page": 48,
       "category": "PI-PCE and comparison",
       "title": "Full comparison protocol",
       "original_title": "Backup\\enspace|\\enspace Planned comparison protocol",
@@ -189,7 +189,7 @@
     {
       "original_slide": 17,
       "backup_code": "D1",
-      "pdf_page": 29,
+      "pdf_page": 49,
       "category": "UQ and sensitivity",
       "title": "Conditional moments: worked example",
       "original_title": "UQ\\enspace|\\enspace Conditional inlet-temperature moments",
@@ -199,7 +199,7 @@
     {
       "original_slide": 18,
       "backup_code": "D2",
-      "pdf_page": 30,
+      "pdf_page": 50,
       "category": "UQ and sensitivity",
       "title": "Conditional sensitivity coefficients",
       "original_title": "Sensitivity Analysis",
@@ -209,7 +209,7 @@
     {
       "original_slide": 20,
       "backup_code": "E1",
-      "pdf_page": 31,
+      "pdf_page": 51,
       "category": "Digital twin and operating choices",
       "title": "Digital twin definition",
       "original_title": "Summary: Digital Twin Definition",
@@ -219,7 +219,7 @@
     {
       "original_slide": 21,
       "backup_code": "E2",
-      "pdf_page": 32,
+      "pdf_page": 52,
       "category": "Digital twin and operating choices",
       "title": "Control, learning and safety loops",
       "original_title": "The Digital Twin Workflow",
@@ -229,7 +229,7 @@
     {
       "original_slide": 19,
       "backup_code": "E3",
-      "pdf_page": 33,
+      "pdf_page": 53,
       "category": "Digital twin and operating choices",
       "title": "Full proposed robust optimization",
       "original_title": "Optimization Problem\\enspace|\\enspace Proposed robust control",
@@ -239,7 +239,7 @@
     {
       "original_slide": 26,
       "backup_code": "E4",
-      "pdf_page": 34,
+      "pdf_page": 54,
       "category": "Digital twin and operating choices",
       "title": "What a control error bound requires",
       "original_title": "Backup\\enspace|\\enspace What the control bound requires",
@@ -249,7 +249,7 @@
     {
       "original_slide": 22,
       "backup_code": "F1",
-      "pdf_page": 35,
+      "pdf_page": 55,
       "category": "Outlook",
       "title": "Complete conclusion and outlook",
       "original_title": "Conclusion and Outlook",
@@ -262,5 +262,6 @@
     "28": "Removed from the shortened deck by request (formerly F3: data provenance and units)"
   },
   "intro_policy": "Introductory content is condensed into the main talk, not duplicated in the appendix",
-  "original_pdf_sha256": "00b6a9d5ac1bd2ce01e0917ef0d8149ae7f7c9ba001903dae88c2941ac8d7bc4"
+  "original_pdf_sha256": "00b6a9d5ac1bd2ce01e0917ef0d8149ae7f7c9ba001903dae88c2941ac8d7bc4",
+  "main_pdf_pages": 32
 }

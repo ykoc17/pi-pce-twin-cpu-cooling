@@ -15,6 +15,8 @@ model-comparison results in the final presentation.
 
 ### 2. Motivation - 0:10-0:50
 
+**Reveals:** introduction/statistics initially; click for heat drivers; click for the goal.
+
 Data centers combine growing computing demand with a cooling cost. In 2024,
 they used about one and a half percent of global electricity. Cooling takes
 roughly seven to over thirty percent of a facility's electricity. More CPU
@@ -26,6 +28,8 @@ Can physical trend guidance help a model trained on only nineteen observations?
 is visible for context; do not read all three cards word for word.
 
 ### 3. RISE ICE Datacenter - 0:50-1:25
+
+**Reveals:** photo/experiment initially; click for the box and input bullet; click for the output bullet.
 
 This photo shows the RISE ICE Datacenter research facility in Lulea, Sweden.
 Our data come from nine servers in its server wind tunnel. The original study
@@ -39,6 +43,8 @@ for reference; there is no need to read it aloud.
 
 ### 4. Why measured data? - 1:25-2:00
 
+**Reveals:** simulator box initially; click for measurements; click for the bottom box.
+
 Simulation could give us more targets at chosen settings. But detailed CFD
 would need the geometry and a fluid solver, and its assumptions would add
 model uncertainty. We therefore start with experimental measurements: fewer
@@ -48,6 +54,8 @@ simulated or measured data later, but more data would still need validation.
 **Point:** the two columns and our choice. Do not expand this into a CFD tutorial.
 
 ### 5. Nineteen observations - 2:00-2:55
+
+**Reveals:** graph/green caption initially; click for the right-hand summary; click for the red limits box; click for the bottom target box.
 
 Our first model describes approximately steady operation. After a load change,
 we allow temperatures to settle. The top curve shows CPU power; the bottom
@@ -62,6 +70,8 @@ in A5, including the longest-interval rule.
 a 60-minute minimum retained duration leaves 14 observations.
 
 ### 6. PCE - 2:55-4:00
+
+**Reveals:** model box initially; click for degree choice; click for PCE benefits; click for the input-reference box.
 
 PCE means polynomial chaos expansion. Here it is compact polynomial regression:
 known terms multiplied by fitted coefficients. We will start with linear and
@@ -79,6 +89,8 @@ explains why the quadratic needs care. Do not open them during the main talk.
 
 ### 7. PI-PCE - 4:00-5:05
 
+**Reveals:** introductory bullet initially; click for expected directions; click for the fitting box; click for the assumptions warning.
+
 Our physics-informed version adds monotonicity constraints. With other inputs
 fixed, more CPU power should not lower temperature, a warmer inlet should not
 lower it, and stronger cooling should not raise it. Zero slope is allowed.
@@ -93,6 +105,8 @@ error. Full fitting details are C1; the eight-corner argument is C3.
 
 ### 8. Planned comparison - 5:05-6:00
 
+**Reveals:** case diagram and numbered steps initially; click for the bottom comparison box.
+
 We will compare ordinary PCE and PI-PCE using the same measurements and basis.
 Here case one is held out. On the other four, smaller case-wise tests choose
 the degree; we refit and predict case one. Repeat until each case has been
@@ -106,6 +120,8 @@ be needed for a fresh final test. C4 contains the complete protocol.
 
 ### 9. UQ and sensitivity - 6:00-6:40
 
+**Reveals:** mean/variance box initially; click for the Sobol box; click for the bottom uncertainty note.
+
 For the chosen input reference, the constant coefficient gives the mean, and
 the other squared coefficients give the variance. Sobol indices divide that
 variance among inputs and interactions. This describes the model under our
@@ -117,6 +133,8 @@ polynomial. The worked algebra is D1.
 operating sensitivity ranking that has not been established.
 
 ### 10. Digital twin concept - 6:40-7:25
+
+**Reveals:** main workflow initially; click for “Two other loops:” and both safety/learning loops.
 
 The surrogate is one component of the proposed twin. At a given inlet
 temperature, it would help compare CPU and cooling choices. Fast decisions
@@ -130,6 +148,8 @@ signal is not yet a calibrated energy cost.
 approval. E3/E4 contain the full control formulation and its limits.
 
 ### 11. Outlook - 7:25-7:55
+
+**Reveals:** current status initially; click for the transition arrow and backlog box together.
 
 Today we establish the data foundation, model concept and fair test plan.
 For the final presentation we will fit and compare the models, report errors
