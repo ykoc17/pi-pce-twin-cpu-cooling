@@ -2,11 +2,13 @@
 \subsection{Adding Physics: Physics-Informed PCE}
 
 \begin{frame}[more-space]{Model\enspace|\enspace Adding Physics: Physics-Informed PCE}
+  {\footnotesize Only \textbf{19 experimental data points} $\longrightarrow$
+    {\color{rwth-blue-100}\textbf{Idea 1:} Use physics to reduce solution space.}}\par\vspace{0.3mm}
   \begin{columns}[T,onlytextwidth]
     \column{0.49\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \begin{minipage}[t][54mm][t]{\dimexpr\linewidth-4mm\relax}
-        \dataheading{1. A simple heating / cooling rule}
+        \begin{minipage}[t][50mm][t]{\dimexpr\linewidth-4mm\relax}
+        \dataheading{1. Rule for maximum CPU temperature}
         \footnotesize
         \setlength{\abovedisplayskip}{3pt}
         \setlength{\belowdisplayskip}{3pt}
@@ -14,9 +16,9 @@
         \setlength{\fboxsep}{1mm}
         \setlength{\fboxrule}{0.5pt}
         \noindent\fcolorbox{rwth-blue-100!60}{white}{%
-        \begin{minipage}[c][15mm][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+        \begin{minipage}[c][12mm][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
         \[
-          T_{\mathrm{phys}}=T_{\mathrm{inlet}}+\Delta T_0
+          T_{\max,\mathrm{phys}}^{\mathrm{ss}}=T_{\mathrm{inlet}}+\Delta T_0
             +P_{\mathrm{CPU}}\,K\left(\frac{F}{F_{\mathrm{ref}}}\right)^{-\gamma}
         \]
         \end{minipage}%
@@ -24,14 +26,13 @@
         \endgroup
         \begin{itemize}
           \setlength{\itemsep}{1pt}
-          \item $K\geq0$: effective resistance [${}^\circ$C/W].
-          \item $\gamma>0$: how cooling lowers resistance.
-          \item $\Delta T_0$: temperature offset.
+          \item $K\geq0$: effective system resistance [${}^\circ$C/W].
+          \item $\gamma>0$: cooling effect; $\Delta T_0$: temperature offset.
           \item $F_{\mathrm{ref}}$: median training fan signal (fixed).
         \end{itemize}
         \smallskip
-        \textbf{How to fit:} constrained nonlinear least squares on the
-        19 measured steady-state targets.
+        \textbf{Direct prediction:} one output, the largest of the 18 CPU interval
+        averages. Fit to 19 observations by constrained nonlinear least squares.
         \par\smallskip
         \begingroup\raggedright
         \textbf{Result:} $\Delta T_0=3.6\,{}^\circ$C, $K=0.032\,{}^\circ$C/W,
@@ -41,7 +42,7 @@
       \end{beamercolorbox}
     \column{0.49\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
-        \begin{minipage}[t][54mm][t]{\dimexpr\linewidth-4mm\relax}
+        \begin{minipage}[t][50mm][t]{\dimexpr\linewidth-4mm\relax}
         \dataheading{2. Fit data and encourage physics}
         \footnotesize
         \setlength{\abovedisplayskip}{2pt}
@@ -50,18 +51,18 @@
         \setlength{\fboxsep}{1mm}
         \setlength{\fboxrule}{0.5pt}
         \noindent\fcolorbox{rwth-blue-100!60}{white}{%
-        \begin{minipage}[c][26mm][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+        \begin{minipage}[c][22mm][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
         \[
           \mathcal L(\mathbf c)=\mathcal L_{\mathrm{data}}
             +\lambda_{\mathrm{phys}}\mathcal L_{\mathrm{physics}}
         \]
         \[
           \mathcal L_{\mathrm{data}}=\frac1N\sum_{i=1}^{N}
-            \bigl[\widehat T(\mathbf x_i)-y_i\bigr]^2
+            \bigl[\widehat{T}_{\max}^{\mathrm{ss}}(\mathbf x_i)-y_i\bigr]^2
         \]
         \[
           \mathcal L_{\mathrm{physics}}=\frac1M\sum_{j=1}^{M}
-            \bigl[\widehat T(\mathbf z_j)-T_{\mathrm{phys}}(\mathbf z_j)\bigr]^2
+            \bigl[\widehat{T}_{\max}^{\mathrm{ss}}(\mathbf z_j)-T_{\max,\mathrm{phys}}^{\mathrm{ss}}(\mathbf z_j)\bigr]^2
         \]
         \end{minipage}%
         }
@@ -81,7 +82,7 @@
 \begin{frame}[more-space]{Model\enspace|\enspace Physics-Informed PCE: Generating more points}
   \begin{columns}[T,onlytextwidth]
     \column{0.57\textwidth}
-      \dataheading{Extra points cover the untested combinations}
+      \dataheading{Idea 2: Extra points cover the untested combinations}
       \centering
       \includegraphics[width=\linewidth]{../../results/physics/figures/check_points.pdf}
     \column{0.40\textwidth}
@@ -91,7 +92,7 @@
         \setlength{\itemsep}{1pt}
         \item Fit the thermal rule to the measurements.
         \item Spread \textbf{128 points} evenly over the three input ranges (Sobol sequence).
-        \item Compute $T_{\mathrm{phys}}$ at every point.
+        \item Compute $T_{\max,\mathrm{phys}}^{\mathrm{ss}}$ at every point.
         \item Fit the PCE to both sets together (planned).
       \end{enumerate}
       \medskip
@@ -102,7 +103,7 @@
         \textbf{Points} & \textbf{Target} & \textbf{Loss}\\
         \midrule
         Measured: 19 & Measurement & $\mathcal L_{\mathrm{data}}$\\
-        Extra: 128 & $T_{\mathrm{phys}}$ & $\lambda_{\mathrm{phys}}\mathcal L_{\mathrm{physics}}$\\
+        Extra: 128 & $T_{\max,\mathrm{phys}}^{\mathrm{ss}}$ & $\lambda_{\mathrm{phys}}\mathcal L_{\mathrm{physics}}$\\
         \bottomrule
       \end{tabular*}}
   \end{columns}
