@@ -1,10 +1,17 @@
 % Presenter 1: slides 1--6, 0:00--4:00. Presenter 2: slides 7--12, 4:00--8:00.
 \section{Introduction}
 
-% 2: 0:10--0:50. Reveals: intro/statistics -> heat drivers -> goal.
+% 2: 0:10--0:50. Reveals: intro/statistics -> heat drivers -> goal -> appendix link.
 \begin{frame}[more-space]{Introduction\enspace|\enspace Why a thermal digital twin?}
   \par\vfill
-  \small AI training and deployment rely on data centers.
+  \small AI training and deployment rely on data centers.%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node<4->[anchor=south east,rounded corners=1mm,
+      fill=rwth-blue-100,text=white,inner xsep=3mm,inner ysep=2mm,
+      font=\small\bfseries]
+      at ([xshift=-4mm,yshift=18mm]current page.south east)
+      {Full plan in \hyperlink{backup-index}{\textcolor{white}{\underline{Appendix}}}};
+  \end{tikzpicture}%
   \par\vfill
   \begin{columns}[T,onlytextwidth]
     \column{0.31\textwidth}\datametric{1.5\,\%}{World electricity used by data centers in 2024}

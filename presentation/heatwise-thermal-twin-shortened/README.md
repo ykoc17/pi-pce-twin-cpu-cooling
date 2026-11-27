@@ -5,7 +5,7 @@ problem, data, proposed PCE/PI-PCE methods and comparison plan. Model results an
 claims of demonstrated control are intentionally absent. The later final
 presentation will assess predictions, sensitivity and the operating-point concept.
 
-**Spoken route: slides 1-12 only.** PDF page 33 is a clickable appendix index;
+**Spoken route: slides 1-12 only.** PDF page 34 is a clickable appendix index;
 the 26 technical appendix slides are labeled A1-F1. The handover is before slide 7:
 four minutes per presenter. Click-through reveals add PDF pages; slide numbers remain unchanged. The timings are a
 rehearsal target, not a measured delivery time.
@@ -76,14 +76,14 @@ measurements on slide 4, and the twin concept/three loops on slide 10.
 
 | Appendix category | Codes | PDF pages |
 | --- | --- | --- |
-| Data and preprocessing | A1-A7 | 34-40 |
-| PCE and input reference | B1-B4 | 41-44 |
-| PI-PCE and comparison | C1-C8 | 45-52 |
-| UQ and sensitivity | D1-D2 | 53-54 |
-| Digital twin and operating choices | E1-E4 | 55-58 |
-| Outlook | F1 | 59 |
+| Data and preprocessing | A1-A7 | 35-41 |
+| PCE and input reference | B1-B4 | 42-45 |
+| PI-PCE and comparison | C1-C8 | 46-53 |
+| UQ and sensitivity | D1-D2 | 54-55 |
+| Digital twin and operating choices | E1-E4 | 56-59 |
+| Outlook | F1 | 60 |
 
-Click any code on the index (page 33), or follow detail links on main slides.
+Click any code on the index (page 34), or follow detail links on main slides.
 Every appendix shows its code in the title/footer and has an **Index** return link.
 The PDF bookmarks also group appendix slides by category. Refer to **A5** for the full
 selection checklist, **B1** for software roles/logo, and **E2** for model updates
@@ -101,7 +101,7 @@ The script verifies all 22 retained appendix bodies against their sources,
 undoing B1's spacing-only adjustment, and checks that no source slide is missed.
 Rebuild the PDF afterwards. The
 original presentation, scientific code, observations and model results remain
-unchanged. This deck now has **59 PDF pages: 32 main reveal pages, 1 index, 26 appendix slides**.
+unchanged. This deck now has **60 PDF pages: 33 main reveal pages, 1 index, 26 appendix slides**.
 
 ## Editing
 

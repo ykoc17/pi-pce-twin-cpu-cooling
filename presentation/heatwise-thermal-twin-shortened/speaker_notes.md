@@ -15,7 +15,7 @@ model-comparison results in the final presentation.
 
 ### 2. Motivation - 0:10-0:50
 
-**Reveals:** introduction/statistics initially; click for heat drivers; click for the goal.
+**Reveals:** introduction/statistics initially; click for heat drivers; click for the goal; final click for the “Full plan in Appendix” box. “Appendix” links to the topic index; continue to slide 3 during the main talk.
 
 Data centers combine growing computing demand with a cooling cost. In 2024,
 they used about one and a half percent of global electricity. Cooling takes

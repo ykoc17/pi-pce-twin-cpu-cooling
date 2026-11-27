@@ -26,6 +26,8 @@ More CPU power, warmer inlet air, or less cooling can raise CPU temperatures.
 
 Our goal is to support more computing within a temperature limit, while avoiding unnecessary cooling effort.
 
+[Click 3: “Full plan in Appendix” box. Continue to slide 3; the link is available for questions.]
+
 ### Slide 3 — RISE ICE Datacenter | 0:50–1:25
 
 [Initially: photo and experiment details. Point briefly to the photo.]
