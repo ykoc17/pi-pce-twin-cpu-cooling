@@ -719,6 +719,13 @@
     $b_2(P,F)$ & Strength and direction of the curvature in the air inlet temperature response\\
     \bottomrule
   \end{tabular}}
+  \par\medskip
+  {\small
+    \begin{itemize}
+      \setlength{\itemsep}{1pt}
+      \item These coefficients can be compared across CPU/fan settings to understand which settings respond more strongly to inlet fluctuations.
+    \end{itemize}
+  }
       \end{minipage}%
     };
   \end{tikzpicture}
@@ -819,22 +826,21 @@
 
 \renewcommand{\backupcode}{E3}
 
-\begin{frame}[more-space,label=backup-E3]{E3\enspace|\enspace Full proposed robust optimization}
-  {\footnotesize Choose CPU power $P$ and fan signal $F$; test the \textbf{whole local inlet range}.}
-  \smallskip
-  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data panel}
+\begin{frame}[more-space,label=backup-E3]{E3\enspace|\enspace Full proposed robust constrained optimal control}
+  {\small\textbf{Choose CPU power $P$ and fan signal $F$ at the measured inlet temperature.}}
+  \par\vfill
+  \begin{beamercolorbox}[sep=3mm,wd=\textwidth]{data panel}
     \small
     \setlength{\abovedisplayskip}{3pt}
     \setlength{\belowdisplayskip}{3pt}
     \[
       \begin{aligned}
         \max_{P,F}\quad &
-          P-\lambda_F F\\[1mm]
+          \underbrace{P}_{\text{CPU power}}
+          -\lambda_F\underbrace{F}_{\text{fan effort}}\\[3mm]
         \text{subject to}\quad
-        &\max_{t\in\mathcal I}\bigl[\widehat T_{\max}^{\mathrm{ss}}(P,t,F)
-          +B_{\mathrm{val}}(P,t,F)\bigr]
+        &\mu_T(P,F)+k\sigma_T(P,F)
           \leq T_{\mathrm{limit}}-\Delta T_{\mathrm{safety}},\\[1mm]
-        &(P,t,F)\in\mathcal D_{\mathrm{val}}\quad\text{for every }t\in\mathcal I,\\[1mm]
         &P_{\min}\leq P\leq P_{\max},\quad
           F_{\min}\leq F\leq F_{\max},\\[1mm]
         &|P-P_{\mathrm{prev}}|\leq\Delta P_{\max},\quad
@@ -842,19 +848,17 @@
       \end{aligned}
     \]
   \end{beamercolorbox}
-  \smallskip
+  \par\vfill
   \begin{columns}[T,onlytextwidth]
-    \column{0.49\textwidth}
-      \footnotesize
-      \dataheading{Disturbance + prediction error}
-      $\mathcal I=[T_{\mathrm{inlet}}^{\mathrm{meas}}-\delta,
-      T_{\mathrm{inlet}}^{\mathrm{meas}}+\delta]$: measured disturbance envelope.\par
-      $B_{\mathrm{val}}\geq0$: validated upper prediction-error allowance for the \textbf{final PCE}.
     \column{0.48\textwidth}
       \footnotesize
-      \dataheading{Only validated operating combinations}
-      $\mathcal D_{\mathrm{val}}$: locally tested domain; \textbf{not the full box or its convex hull}.\par
-      $\mu,\sigma$ describe inlet response; they are \textbf{not a safety certificate}.
+      \textbf{Temperature target}\par
+      $\mu_T,\sigma_T$: mean and spread from inlet variation, with CPU/fan settings fixed.
+    \column{0.48\textwidth}
+      \footnotesize
+      \textbf{Use a constrained optimizer}\par
+      For example, \texttt{scipy.optimize.minimize} with the SLSQP method.
+      Use the PCE to evaluate $\mu_T$ and $\sigma_T$ at each candidate $(P,F)$.
   \end{columns}
 \end{frame}
 
