@@ -541,7 +541,6 @@
             \item PI-PCE: add monotonicity constraints.
             \item $N$: observations in the training split.
           \end{itemize}
-          \footnotesize Eight box corners check derivative signs; they need \textbf{no temperature labels}.
         \end{minipage}
       \end{beamercolorbox}
   \end{columns}
@@ -724,6 +723,8 @@
     \begin{itemize}
       \setlength{\itemsep}{1pt}
       \item These coefficients can be compared across CPU/fan settings to understand which settings respond more strongly to inlet fluctuations.
+      \item Overall air inlet-induced spread: $\sigma_T(P,F)=\sqrt{b_1^2(P,F)+b_2^2(P,F)}$.
+      \item The nominal prediction $\widehat T_{\max}^{\mathrm{ss}}(P,F)$ differs generally from $b_0(P,F)$ = $\mu_T$ for a curved polynomial.
     \end{itemize}
   }
       \end{minipage}%
@@ -877,7 +878,7 @@
         \item Calculate formulas for $\mu_T$ and $\sigma_T$ depending on
           $P$, $F$ and $T_{\mathrm{inlet}}$.
         \item Choose inlet air variation $\delta$.
-        \item Choose hyperparameters: $\lambda_F$, $\Delta T_{\mathrm{safety}}$,
+        \item Choose hyperparameters: $\lambda_F$, $\Delta T_{\mathrm{safety}}$, $T_{\mathrm{limit}}$
           $\Delta P_{\max}$, $\Delta F_{\max}$, $k$.
       \end{enumerate}
     \column{0.49\textwidth}
@@ -900,8 +901,12 @@
   \par\vfill
   \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
     \footnotesize
-    We can use SLSQP twice: offline to learn the polynomial coefficients,
+    \begin{itemize}
+      \setlength{\itemsep}{1pt}
+      \item We can use SLSQP twice: offline to learn the polynomial coefficients,
     and online to choose CPU and fan settings while keeping the trained model fixed.
+      \item \textbf{Offline} fit: \textbf{convex} (guaranteed \textbf{global} optimum), \textbf{online} fit: possibly \textbf{non-convex} (possibly \textbf{local} optimum).
+    \end{itemize}
   \end{beamercolorbox}
 \end{frame}
 
@@ -923,13 +928,13 @@
       \end{beamercolorbox}
     \column{0.49\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data warning}
-        \dataheading{Methods we will implement}
+        \dataheading{Methods we want to implement}
         \small
         \begin{itemize}
           \item Fit PCE and \textbf{PI-PCE with monotonicity constraints}.
           \item Compare predictions on held-out operating cases.
-          \item Measure inlet variation; validate error bounds / domain.
           \item Study reference sensitivity and real input dependencies.
+          \item Address max temperature sensitivity to air inlet, depending on the control variables.
           \item Confirm the fan-signal unit with the data owners.
         \end{itemize}
       \end{beamercolorbox}
