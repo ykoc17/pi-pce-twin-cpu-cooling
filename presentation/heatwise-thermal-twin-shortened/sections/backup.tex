@@ -167,12 +167,13 @@
       \end{beamercolorbox}
 
       \medskip
-      \dataheading{What this means for our model}
+      \dataheading{Our decision:}
       \footnotesize
       \begin{itemize}
-        \item For PCE, we treat inputs as \textbf{independent}, with \textbf{equal weight across each range}.
-        \item Sobol indices show which inputs matter \textbf{under these assumptions}.
-        \item Real inputs vary together. We need \textbf{more data} to model these links.
+        \item For PCE, we decided to treat inputs as \textbf{independent}, with \textbf{equal weight across each range}.
+        \item So, Sobol indices show which inputs matter \textbf{under these assumptions}.
+        \item Real inputs vary together.
+        \item Input dependence will be addressed later.
       \end{itemize}
   \end{columns}
 \end{frame}
@@ -245,7 +246,7 @@
       \par\smallskip
       {\small\color{selectiongreen}\textbf{One green band = one processed observation.}}
       \par\smallskip
-      {\footnotesize \textbf{60-minute dwell: 14 observations} (appendix).}
+      {\footnotesize \textbf{60-minute dwell: 14 observations}}
 
     \column{0.41\textwidth}
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data panel}
@@ -300,7 +301,6 @@
     \item The count depends on tolerances; 19 rows are not 19 independent experiments.
     \item Test downstream conclusions against these choices; do not tune to a desired count.
   \end{itemize}
-  \datasource{Source: results/preprocessing\_review/report.md and threshold\_sensitivity.csv; scripts/review\_preprocessing.py.}
 \end{frame}
 
 \section{Appendix B: PCE and input reference}
@@ -612,12 +612,6 @@
     \textbf{24 linear inequalities on the coefficients}; minimize measured squared error.
     We will solve this convex quadratic fit using SLSQP. Planned numerical sign tolerance:
     $10^{-6}\,{}^\circ$C per normalized input coordinate.
-  \end{beamercolorbox}
-  \smallskip
-  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
-    Eight derivative-check locations add \textbf{no temperature observations}.
-    Monotonicity holds within that box to numerical tolerance, but the box is not
-    a verified operating / safety region. No guarantee outside it.
   \end{beamercolorbox}
 \end{frame}
 
