@@ -50,11 +50,6 @@
   \]
   {\footnotesize\color{black!60}For normalized linear Legendre terms, each slope is
     $\sqrt3$ times its corresponding PCE coefficient; the sign is unchanged.\par}
-  \par\vfill
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
-    Correlated measurements can lead an ordinary fit to a positive fan slope.
-    The constrained fit must respect the assumed cooling direction.
-  \end{beamercolorbox}
 \end{frame}
 
 \renewcommand{\backupcode}{C7}
@@ -106,7 +101,6 @@
     to validate, especially for the raw fan signal. They do not establish prediction
     accuracy, safety or behavior outside the training box.
   \end{beamercolorbox}
-  \datasource{Implementation: \texttt{src/thermal\_twin/monotonic\_pce.py}.
-    Solver: \href{https://docs.scipy.org/doc/scipy/reference/optimize.minimize-slsqp.html}{SciPy SLSQP documentation}.
+  \datasource{Solver: \href{https://docs.scipy.org/doc/scipy/reference/optimize.minimize-slsqp.html}{SciPy SLSQP documentation}.
     Basis and earlier details: \hyperlink{backup-C1}{\textbf{C1}}, \hyperlink{backup-C3}{\textbf{C3}}.}
 \end{frame}

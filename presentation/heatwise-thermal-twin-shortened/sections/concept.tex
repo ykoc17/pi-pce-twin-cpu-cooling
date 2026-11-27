@@ -234,6 +234,7 @@
   \small
   \begin{itemize}
     \item Fit the same 19 measurements, while enforcing expected heating and cooling trends.
+    \item \textbf{Goal}: to reduce the search space and improve the fit
   \end{itemize}
   \par\vfill
   \begin{columns}[T,onlytextwidth]
@@ -265,8 +266,14 @@
   \end{columns}
   \par\vfill
   \begin{uncoverenv}<4->
+  \begin{beamercolorbox}[sep=1.7mm,wd=\textwidth]{data panel}
+    \small Derivatives easy to calculate because the PCE is a polynomial. The constrained fit is a \textbf{quadratic program}.
+  \end{beamercolorbox}
+  \end{uncoverenv}
+\par\vfill
+  \begin{uncoverenv}<5->
   \begin{beamercolorbox}[sep=1.7mm,wd=\textwidth]{data warning}
-    \small These are assumptions to test!
+    \small These constraints are assumptions to test!
   \end{beamercolorbox}
   \end{uncoverenv}
   \datasource{Full fit: \hyperlink{backup-C1}{\textbf{C1}}; corner argument: \hyperlink{backup-C3}{\textbf{C3}}.}
