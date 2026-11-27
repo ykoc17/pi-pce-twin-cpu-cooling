@@ -1,8 +1,9 @@
 {
   "main_slides": 12,
+  "main_pdf_pages": 32,
   "backup_index_page": 33,
-  "backup_slides": 22,
-  "total_pages": 55,
+  "backup_slides": 26,
+  "total_pages": 59,
   "original_slide_map": {
     "1": "Main 1: cover, authors/date, same credited photo",
     "2": "Main 2: motivation/statistics/drivers; main 7/9/10: physics, uncertainty and project goals",
@@ -20,16 +21,16 @@
     "14": "B3 (PDF page 43): Input bounds, uniforms and scaling",
     "15": "C1 (PDF page 45): Monotonicity constraints and fitting",
     "16": "C2 (PDF page 46): Planned PCE / PI-PCE comparison",
-    "17": "D1 (PDF page 49): Conditional moments: worked example",
-    "18": "D2 (PDF page 50): Conditional sensitivity coefficients",
-    "19": "E3 (PDF page 53): Full proposed robust optimization",
-    "20": "E1 (PDF page 51): Digital twin definition",
-    "21": "E2 (PDF page 52): Control, learning and safety loops",
-    "22": "F1 (PDF page 55): Complete conclusion and outlook",
+    "17": "D1 (PDF page 53): Conditional moments: worked example",
+    "18": "D2 (PDF page 54): Conditional sensitivity coefficients",
+    "19": "E3 (PDF page 57): Full proposed robust optimization",
+    "20": "E1 (PDF page 55): Digital twin definition",
+    "21": "E2 (PDF page 56): Control, learning and safety loops",
+    "22": "F1 (PDF page 59): Complete conclusion and outlook",
     "23": "Main 12: thanks and discussion",
     "24": "A7 (PDF page 40): Selection-threshold sensitivity",
     "25": "B4 (PDF page 44): Polynomial degree and conditioning",
-    "26": "E4 (PDF page 54): What a control error bound requires",
+    "26": "E4 (PDF page 58): What a control error bound requires",
     "27": "Removed from the shortened deck by request (formerly F2: methods bibliography)",
     "28": "Removed from the shortened deck by request (formerly F3: data provenance and units)",
     "29": "C3 (PDF page 47): Why eight corners suffice",
@@ -53,7 +54,7 @@
       "category": "Data and preprocessing",
       "title": "Coverage, fan units and throttling",
       "original_title": "Input Data\\enspace|\\enspace Problems with the dataset",
-      "layout_adjustment": null,
+      "layout_adjustment": "bulleted callouts and bold threshold",
       "body_sha256": "89ed9fc3a565518bc72512b160cf74b98aeb331db2891db7d432a53d68e514f9"
     },
     {
@@ -64,7 +65,7 @@
       "title": "Input dependence",
       "original_title": "Input Data\\enspace|\\enspace Problems with the dataset",
       "layout_adjustment": null,
-      "body_sha256": "bf033e00f18810e14aa0bbf021003ecafc76a7d93a2b8b541dc05b45fbca179a"
+      "body_sha256": "467529a526954d3898a0d7efb5b3d556e2e9022be852a56d4d0e4c8f09a8abcb"
     },
     {
       "original_slide": 11,
@@ -133,7 +134,7 @@
       "category": "PCE and input reference",
       "title": "Input bounds, uniforms and scaling",
       "original_title": "Input Data\\enspace|\\enspace Input distributions",
-      "layout_adjustment": null,
+      "layout_adjustment": "two bulleted control-assumption sentences",
       "body_sha256": "97d0e3fa3b75dfbb644559bb77fc932441685093042126f6651cfad5a3c52be3"
     },
     {
@@ -143,8 +144,9 @@
       "category": "PCE and input reference",
       "title": "Polynomial degree and conditioning",
       "original_title": "Backup\\enspace|\\enspace Degree choice and conditioning",
-      "layout_adjustment": null,
-      "body_sha256": "6ba0a75c25da3e1e63af6fc45bc7377a908da22fa8a8a9ad82ead9ee484e1a66"
+      "layout_adjustment": "condition-number explanation and numerical SVD ratios",
+      "body_sha256": "6ba0a75c25da3e1e63af6fc45bc7377a908da22fa8a8a9ad82ead9ee484e1a66",
+      "source": "sections/conditioning_explained.tex"
     },
     {
       "original_slide": 15,
@@ -187,9 +189,53 @@
       "body_sha256": "09d8f1537da37aebd2e4dd6cb2eff2f394a6ba6f81c6b31fc8a76c50fb8f4dbc"
     },
     {
+      "original_slide": null,
+      "backup_code": "C5",
+      "pdf_page": 49,
+      "category": "PI-PCE and comparison",
+      "title": "Physics in practice: fit the measurements",
+      "original_title": null,
+      "layout_adjustment": null,
+      "source": "sections/physics_in_practice.tex",
+      "body_sha256": "7901101579fb96a4f66e20cc35c3c8f9858c79bf7d1c81e9501f713926dd00f5"
+    },
+    {
+      "original_slide": null,
+      "backup_code": "C6",
+      "pdf_page": 50,
+      "category": "PI-PCE and comparison",
+      "title": "Physics in practice: constrain the slopes",
+      "original_title": null,
+      "layout_adjustment": null,
+      "source": "sections/physics_in_practice.tex",
+      "body_sha256": "9d0e24d53074d375fc843cf77c6331189da80504254c28055fe00755fefd8f6a"
+    },
+    {
+      "original_slide": null,
+      "backup_code": "C7",
+      "pdf_page": 51,
+      "category": "PI-PCE and comparison",
+      "title": "Physics in practice: check eight corners",
+      "original_title": null,
+      "layout_adjustment": null,
+      "source": "sections/physics_in_practice.tex",
+      "body_sha256": "2cab5bdad08c246207427e01bb8097207d10215f9d6f2a1fb9cf9b99644303fe"
+    },
+    {
+      "original_slide": null,
+      "backup_code": "C8",
+      "pdf_page": 52,
+      "category": "PI-PCE and comparison",
+      "title": "Physics in practice: solve the constrained fit",
+      "original_title": null,
+      "layout_adjustment": null,
+      "source": "sections/physics_in_practice.tex",
+      "body_sha256": "af1ae04f3f3455a9df9ad8afd59294d9758f2fe454c1ca52d11d0a4af95d6365"
+    },
+    {
       "original_slide": 17,
       "backup_code": "D1",
-      "pdf_page": 49,
+      "pdf_page": 53,
       "category": "UQ and sensitivity",
       "title": "Conditional moments: worked example",
       "original_title": "UQ\\enspace|\\enspace Conditional inlet-temperature moments",
@@ -199,7 +245,7 @@
     {
       "original_slide": 18,
       "backup_code": "D2",
-      "pdf_page": 50,
+      "pdf_page": 54,
       "category": "UQ and sensitivity",
       "title": "Conditional sensitivity coefficients",
       "original_title": "Sensitivity Analysis",
@@ -209,7 +255,7 @@
     {
       "original_slide": 20,
       "backup_code": "E1",
-      "pdf_page": 51,
+      "pdf_page": 55,
       "category": "Digital twin and operating choices",
       "title": "Digital twin definition",
       "original_title": "Summary: Digital Twin Definition",
@@ -219,7 +265,7 @@
     {
       "original_slide": 21,
       "backup_code": "E2",
-      "pdf_page": 52,
+      "pdf_page": 56,
       "category": "Digital twin and operating choices",
       "title": "Control, learning and safety loops",
       "original_title": "The Digital Twin Workflow",
@@ -229,7 +275,7 @@
     {
       "original_slide": 19,
       "backup_code": "E3",
-      "pdf_page": 53,
+      "pdf_page": 57,
       "category": "Digital twin and operating choices",
       "title": "Full proposed robust optimization",
       "original_title": "Optimization Problem\\enspace|\\enspace Proposed robust control",
@@ -239,7 +285,7 @@
     {
       "original_slide": 26,
       "backup_code": "E4",
-      "pdf_page": 54,
+      "pdf_page": 58,
       "category": "Digital twin and operating choices",
       "title": "What a control error bound requires",
       "original_title": "Backup\\enspace|\\enspace What the control bound requires",
@@ -249,7 +295,7 @@
     {
       "original_slide": 22,
       "backup_code": "F1",
-      "pdf_page": 55,
+      "pdf_page": 59,
       "category": "Outlook",
       "title": "Complete conclusion and outlook",
       "original_title": "Conclusion and Outlook",
@@ -262,6 +308,5 @@
     "28": "Removed from the shortened deck by request (formerly F3: data provenance and units)"
   },
   "intro_policy": "Introductory content is condensed into the main talk, not duplicated in the appendix",
-  "original_pdf_sha256": "00b6a9d5ac1bd2ce01e0917ef0d8149ae7f7c9ba001903dae88c2941ac8d7bc4",
-  "main_pdf_pages": 32
+  "original_pdf_sha256": "b1cd0b82f8499a1f563ef3cfe0d23bfc6cf9ff1a7db24faeca9619bea43f8e47"
 }

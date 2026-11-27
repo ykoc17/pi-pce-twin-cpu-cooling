@@ -1,0 +1,42 @@
+  \footnotesize
+  \dataheading{1. Build $A$ from our 19 measured input combinations}
+  \begin{itemize}
+    \setlength{\itemsep}{1pt}
+    \vspace{-1.5mm}
+    \item Scale inputs to $[-1,1]$ and evaluate normalized Legendre terms:
+      $A_{n\alpha}=\Psi_\alpha(\boldsymbol\xi_n)$.
+    \item \textbf{19 rows} = 19 observations; \textbf{4 / 10 / 20 columns} = polynomial coefficients.
+  \end{itemize}
+  \vspace{-1.5mm}
+  \par\vfill
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \begin{minipage}{\dimexpr\textwidth-4mm\relax}
+    \dataheading{2. Calculate the condition number: largest / smallest singular value}
+    $\kappa_2(A)=s_{\max}/s_{\min}$. A singular-value decomposition (SVD) measures how clearly $A$ distinguishes
+    coefficient combinations. A small $s_{\min}$ indicates a poorly determined combination.
+    \par\smallskip
+    {\renewcommand{\arraystretch}{1.35}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcp{0.56\linewidth}@{}}
+      \toprule
+      \textbf{Degree} & \textbf{Matrix size} & \textbf{Calculation / limitation}\\
+      \midrule
+      1 & $19\times4$ & $7.5883\,/\,1.7332\approx\mathbf{4.38}$\\
+      2 & $19\times10$ & $11.7905\,/\,0.0167964\approx\mathbf{701.97}$\\
+      3 & $19\times20$ & 20 coefficients, only 19 rows: no unique unrestricted fit\\
+      \bottomrule
+    \end{tabular*}}
+    \end{minipage}
+  \end{beamercolorbox}
+  \par\vfill
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
+    \dataheading{3. Interpretation: smaller means better numerical conditioning}
+    \begin{itemize}
+      \setlength{\itemsep}{1pt}
+      \vspace{-1.5mm}
+      \item \textbf{4.38:} relatively stable; \textbf{701.97:} coefficients are more sensitive to data changes.
+      \item This is \textbf{not prediction error}. Cubic fitting needs extra restrictions, e.g.\ sparsity / regularization.
+    \end{itemize}
+    \vspace{-1.5mm}
+  \end{beamercolorbox}
+  \datasource{Computed from all 19 processed input rows, before monotonicity constraints; temperature targets are not used in $\kappa_2(A)$.
+    Source: \texttt{results/monotonic\_pce/design\_diagnostics.csv}; singular-value decomposition with NumPy.}

@@ -55,6 +55,25 @@ CATEGORIES = [
     ]),
 ]
 
+# Authored additions are kept separately from the preserved longer-deck slides.
+PRACTICAL_SOURCE = HERE / "sections/physics_in_practice.tex"
+
+
+def practical_frames():
+    source = PRACTICAL_SOURCE.read_text(encoding="utf-8")
+    frames = re.findall(r"\\begin\{frame\}.*?\\end\{frame\}", source, re.S)
+    result = []
+    for frame in frames:
+        match = re.match(
+            r"\\begin\{frame\}\[.*?label=backup-(C[5-8])\]\{C[5-8]\\enspace\|\\enspace (.*)\}",
+            frame.split("\n", 1)[0])
+        if not match:
+            raise ValueError("Review the authored practical-explanation slide map.")
+        result.append((match[1], match[2], frame))
+    if [code for code, _, _ in result] != ["C5", "C6", "C7", "C8"]:
+        raise ValueError("Expected the four practical explanation slides C5-C8.")
+    return result
+
 
 def expanded_source(path):
     source = path.read_text(encoding="utf-8")
@@ -70,7 +89,63 @@ def body(frame):
     return frame.split("\n", 1)[1].rsplit(r"\end{frame}", 1)[0]
 
 
+A2_REPLACEMENTS = [
+    (r"""        Five trajectories; no full factorial design or LHS\\
+        \textbf{Untested:} high fan signals between $25\,{}^\circ$C and $45\,{}^\circ$C""",
+     r"""        \begin{itemize}
+          \setlength{\itemsep}{1pt}
+          \vspace{-1.5mm}
+          \item Five trajectories; no full factorial design or LHS.
+          \item \textbf{Untested:} high fan signals between $25\,{}^\circ$C and $45\,{}^\circ$C.
+        \end{itemize}
+        \vspace{-1.5mm}"""),
+    (r"""        \textbf{Needed:} confirmation from data owners""",
+     r"""        \begin{itemize}
+          \vspace{-1.5mm}
+          \item \textbf{Needed:} confirmation from data owners.
+        \end{itemize}
+        \vspace{-1.5mm}"""),
+    (r"""        \textbf{6 targets $\geq93.5\,{}^\circ$C}; all are kept.\\
+        A temperature flag, not confirmation from frequency data.\\
+        Throttling can mask the power--temperature trend.""",
+     r"""        \begin{itemize}
+          \setlength{\itemsep}{1pt}
+          \vspace{-1.5mm}
+          \item \textbf{6 targets \boldmath$\geq$\,93.5\,\textdegree C}; all are kept.
+          \item A temperature flag, not confirmation from frequency data.
+          \item Throttling can mask the power--temperature trend.
+        \end{itemize}
+        \vspace{-1.5mm}"""),
+]
+
+
+B3_NOTE_OLD = r"""  {\footnotesize \textbf{Separate control assumption:} local inlet variation around its measured value.
+  Its range must come from new disturbance measurements, not these global bounds.}"""
+B3_NOTE_NEW = r"""  {\footnotesize
+  \begin{itemize}
+    \setlength{\itemsep}{1pt}
+    \vspace{-1.5mm}
+    \item \textbf{Separate control assumption:} local inlet variation around its measured value.
+    \item Its range must come from new disturbance measurements, not these global bounds.
+  \end{itemize}
+  \vspace{-1.5mm}}
+""".rstrip()
+
+
 def backup_body(code, original_body):
+    if code == "B3":
+        if original_body.count(B3_NOTE_OLD) != 1:
+            raise ValueError("B3 control-assumption note changed; review its formatting.")
+        return original_body.replace(B3_NOTE_OLD, B3_NOTE_NEW)
+    if code == "B4":
+        return (HERE / "sections/conditioning_explained.tex").read_text(encoding="utf-8")
+    if code == "A2":
+        adjusted = original_body
+        for old, new in A2_REPLACEMENTS:
+            if adjusted.count(old) != 1:
+                raise ValueError("A2 source changed; review its callout formatting.")
+            adjusted = adjusted.replace(old, new)
+        return adjusted
     if code == "A6":
         return original_body.replace("(backup).", "(appendix).")
     if code != "B1":
@@ -83,6 +158,7 @@ def backup_body(code, original_body):
 
 
 def main():
+    additions = practical_frames()
     source = expanded_source(ORIGINAL / "main.tex")
     frames = re.findall(r"\\begin\{frame\}.*?\\end\{frame\}", source, re.S)
     if len(frames) != 29:
@@ -95,20 +171,17 @@ def main():
     output = ["% Generated from the longer deck; rebuild with scripts/build_backups.py.\n",
               r"\section{Appendix index}", r"\renewcommand{\backupcode}{Index}",
               r"\begin{frame}[more-space,label=backup-index]{Appendix\enspace|\enspace Topic index}",
-              r"\small Click a code to open a slide. Every appendix slide has an Index return link.",
               r"\par\medskip", r"{\renewcommand{\arraystretch}{1.8}",
               r"\begin{tabular}{@{}p{0.44\textwidth}p{0.52\textwidth}@{}}",
               r"\toprule\textbf{Topic} & \textbf{Appendix codes}\\\midrule"]
     for letter, name, slides in CATEGORIES:
         links = [rf"\hyperlink{{backup-{letter}{i}}}{{\color{{rwth-blue-100}}\textbf{{{letter}{i}}}}}"
                  for i in range(1, len(slides)+1)]
+        if letter == "C":
+            links += [rf"\hyperlink{{backup-{code}}}{{\color{{rwth-blue-100}}\textbf{{{code}}}}}"
+                      for code, _, _ in additions]
         output.append(rf"\textbf{{{letter}. {name}}} & " + r"\quad ".join(links) + r"\\")
-    output += [r"\bottomrule\end{tabular}}", r"\medskip",
-               r"\begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}",
-               r"\small Selection rules: \hyperlink{backup-A5}{\textbf{A5}}. "
-               r"Software: \hyperlink{backup-B1}{\textbf{B1}}. "
-               r"Full learning loop: \hyperlink{backup-E2}{\textbf{E2}}.",
-               r"\end{beamercolorbox}", r"\end{frame}"]
+    output += [r"\bottomrule\end{tabular}}", r"\medskip", r"\end{frame}"]
 
     records = []
     index_page = 13
@@ -116,7 +189,7 @@ def main():
     if navigation.exists():
         ranges = re.findall(r"\\beamer@framepages\s*\{(\d+)\}\s*\{(\d+)\}",
                             navigation.read_text(encoding="utf-8"))
-        if len(ranges) == len(selected) + 13:
+        if len(ranges) >= 13:
             index_page = int(ranges[12][0])  # account for main-slide overlays
     page = index_page + 1
     for letter, name, slides in CATEGORIES:
@@ -135,15 +208,38 @@ def main():
             records.append({"original_slide": number, "backup_code": code,
                             "pdf_page": page, "category": name, "title": title,
                             "original_title": old_title,
-                            "layout_adjustment": "even vertical spacing" if code == "B1" else None,
+                            "layout_adjustment": ("two bulleted control-assumption sentences" if code == "B3"
+                                                  else "condition-number explanation and numerical SVD ratios" if code == "B4"
+                                                  else "bulleted callouts and bold threshold" if code == "A2"
+                                                  else "even vertical spacing" if code == "B1" else None),
                             "body_sha256": hashlib.sha256(original_body.encode()).hexdigest()})
             page += 1
+        if letter == "C":
+            output.append(r"\input{sections/physics_in_practice}")
+            for code, title, frame in additions:
+                records.append({"original_slide": None, "backup_code": code,
+                                "pdf_page": page, "category": name, "title": title,
+                                "original_title": None, "layout_adjustment": None,
+                                "source": "sections/physics_in_practice.tex",
+                                "body_sha256": hashlib.sha256(body(frame).encode()).hexdigest()})
+                page += 1
 
     tex = "\n\n".join(output)+"\n"
     generated = re.findall(r"\\begin\{frame\}.*?\\end\{frame\}", tex, re.S)[1:]
-    for new, record in zip(generated, records, strict=True):
-        # Undo the sole local spacing adjustment before checking source preservation.
+    retained = [record for record in records if record["original_slide"] is not None]
+    for new, record in zip(generated, retained, strict=True):
+        if record["backup_code"] == "B4":
+            record["source"] = "sections/conditioning_explained.tex"
+            if body(new) != backup_body("B4", ""):
+                raise ValueError("B4 must match its authored explanatory source.")
+            continue
+        # Undo local formatting adjustments before checking source preservation.
         restored = body(new)
+        if record["backup_code"] == "B3":
+            restored = restored.replace(B3_NOTE_NEW, B3_NOTE_OLD)
+        if record["backup_code"] == "A2":
+            for old, adjusted in A2_REPLACEMENTS:
+                restored = restored.replace(adjusted, old)
         if record["backup_code"] == "A6":
             restored = restored.replace("(appendix).", "(backup).")
         if record["backup_code"] == "B1":
@@ -173,19 +269,21 @@ def main():
     lines = ["# Coverage and appendix reference", "", f"Main talk: slides 1-12. Index: PDF page {index_page}. "
              "Technical appendix: A1-F1. No introduction slides are duplicated in the appendix.", "",
              "Retained source slides keep their complete content; titles, codes and navigation are added. "
-             "B1 has local vertical-spacing adjustments. F2 and F3 were removed by request; "
-             "their source slides remain in the longer deck.", "",
+             "A2 has bulleted callouts and a bold threshold; B1 has local vertical-spacing adjustments. "
+             "B4 is rewritten to explain the design matrix, singular-value ratios and their interpretation. F2 and F3 were removed by request; "
+             "their source slides remain in the longer deck. C5-C8 add a practical mathematical explanation of PI-PCE.", "",
              "## Appendix topics", "", "| Code | PDF page | Topic | Longer-deck slide |",
              "| --- | --- | --- | --- |"]
-    lines += [f"| {r['backup_code']} | {r['pdf_page']} | {r['title']} | {r['original_slide']} |" for r in records]
+    lines += [f"| {r['backup_code']} | {r['pdf_page']} | {r['title']} | {r['original_slide'] if r['original_slide'] is not None else 'New explanation'} |" for r in records]
     lines += ["", "## Coverage of every original slide", "", "| Longer-deck slide | Where to find the information |",
               "| --- | --- |"]
     lines += [f"| {n} | {mapping[str(n)]} |" for n in range(1,31)]
-    lines += ["", "The regenerated appendix bodies are checked against the original source after undoing local spacing and terminology adjustments. "
+    lines += ["", "Except for the authored B4 explanation, regenerated appendix bodies are checked against the original source after undoing local formatting and terminology adjustments. "
               "The new main slides retain the introductory facts in a leaner form; their "
               "coverage is reviewed separately rather than claiming identical wording.", ""]
     (HERE/"coverage_map.md").write_text("\n".join(lines), encoding="utf-8")
-    print(f"Preserved {len(records)} original content slides in A-F; {page-1} PDF pages including the 12-slide main route.")
+    print(f"Preserved {len(retained)} original content slides plus {len(additions)} new explanation slides; "
+          f"{page-1} PDF pages including the 12-slide main route.")
 
 
 if __name__ == "__main__":

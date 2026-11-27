@@ -6,7 +6,7 @@ claims of demonstrated control are intentionally absent. The later final
 presentation will assess predictions, sensitivity and the operating-point concept.
 
 **Spoken route: slides 1-12 only.** PDF page 33 is a clickable appendix index;
-the 22 technical appendix slides are labeled A1-F1. The handover is before slide 7:
+the 26 technical appendix slides are labeled A1-F1. The handover is before slide 7:
 four minutes per presenter. Click-through reveals add PDF pages; slide numbers remain unchanged. The timings are a
 rehearsal target, not a measured delivery time.
 
@@ -70,7 +70,7 @@ The script checks all 19 targets against raw data and writes provenance hashes t
 The retained non-introduction source slides are preserved in full in the
 categorized appendix slides. F2 (bibliography) and F3 (provenance) were removed by request;
 their sources remain in the longer presentation. Headings, appendix codes and Index navigation
-are added; B1 also has evenly distributed vertical spacing. Original introductory information is condensed into
+are added; B1 also has evenly distributed vertical spacing. B4 is rewritten to explain the condition numbers using the design matrix and numerical singular-value ratios. C5-C8 add a practical mathematical explanation of the physics-informed fit, including the linear example, corner checks and constrained optimization. Original introductory information is condensed into
 the main talk: motivation on slide 2, experiment/photo on slide 3, choice of
 measurements on slide 4, and the twin concept/three loops on slide 10.
 
@@ -78,10 +78,10 @@ measurements on slide 4, and the twin concept/three loops on slide 10.
 | --- | --- | --- |
 | Data and preprocessing | A1-A7 | 34-40 |
 | PCE and input reference | B1-B4 | 41-44 |
-| PI-PCE and comparison | C1-C4 | 45-48 |
-| UQ and sensitivity | D1-D2 | 49-50 |
-| Digital twin and operating choices | E1-E4 | 51-54 |
-| Outlook | F1 | 55 |
+| PI-PCE and comparison | C1-C8 | 45-52 |
+| UQ and sensitivity | D1-D2 | 53-54 |
+| Digital twin and operating choices | E1-E4 | 55-58 |
+| Outlook | F1 | 59 |
 
 Click any code on the index (page 33), or follow detail links on main slides.
 Every appendix shows its code in the title/footer and has an **Index** return link.
@@ -101,7 +101,7 @@ The script verifies all 22 retained appendix bodies against their sources,
 undoing B1's spacing-only adjustment, and checks that no source slide is missed.
 Rebuild the PDF afterwards. The
 original presentation, scientific code, observations and model results remain
-unchanged. This deck now has **55 PDF pages: 32 main reveal pages, 1 index, 22 appendix slides**.
+unchanged. This deck now has **59 PDF pages: 32 main reveal pages, 1 index, 26 appendix slides**.
 
 ## Editing
 

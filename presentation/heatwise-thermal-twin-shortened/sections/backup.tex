@@ -19,7 +19,7 @@
 
 \textbf{B. PCE and input reference} & \hyperlink{backup-B1}{\color{rwth-blue-100}\textbf{B1}}\quad \hyperlink{backup-B2}{\color{rwth-blue-100}\textbf{B2}}\quad \hyperlink{backup-B3}{\color{rwth-blue-100}\textbf{B3}}\quad \hyperlink{backup-B4}{\color{rwth-blue-100}\textbf{B4}}\\
 
-\textbf{C. PI-PCE and comparison} & \hyperlink{backup-C1}{\color{rwth-blue-100}\textbf{C1}}\quad \hyperlink{backup-C2}{\color{rwth-blue-100}\textbf{C2}}\quad \hyperlink{backup-C3}{\color{rwth-blue-100}\textbf{C3}}\quad \hyperlink{backup-C4}{\color{rwth-blue-100}\textbf{C4}}\\
+\textbf{C. PI-PCE and comparison} & \hyperlink{backup-C1}{\color{rwth-blue-100}\textbf{C1}}\quad \hyperlink{backup-C2}{\color{rwth-blue-100}\textbf{C2}}\quad \hyperlink{backup-C3}{\color{rwth-blue-100}\textbf{C3}}\quad \hyperlink{backup-C4}{\color{rwth-blue-100}\textbf{C4}}\quad \hyperlink{backup-C5}{\color{rwth-blue-100}\textbf{C5}}\quad \hyperlink{backup-C6}{\color{rwth-blue-100}\textbf{C6}}\quad \hyperlink{backup-C7}{\color{rwth-blue-100}\textbf{C7}}\quad \hyperlink{backup-C8}{\color{rwth-blue-100}\textbf{C8}}\\
 
 \textbf{D. UQ and sensitivity} & \hyperlink{backup-D1}{\color{rwth-blue-100}\textbf{D1}}\quad \hyperlink{backup-D2}{\color{rwth-blue-100}\textbf{D2}}\\
 
@@ -111,23 +111,37 @@
         \dataheading{1. Sparsity}
         {\large\color{rwth-blue-100}\bfseries 31 / 125}\;occupied grid cells\par
         \smallskip
-        Five trajectories; no full factorial design or LHS\\
-        \textbf{Untested:} high fan signals between $25\,{}^\circ$C and $45\,{}^\circ$C
+        \begin{itemize}
+          \setlength{\itemsep}{1pt}
+          \vspace{-1.5mm}
+          \item Five trajectories; no full factorial design or LHS.
+          \item \textbf{Untested:} high fan signals between $25\,{}^\circ$C and $45\,{}^\circ$C.
+        \end{itemize}
+        \vspace{-1.5mm}
       \end{beamercolorbox}
 
       \medskip
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data warning}
         \dataheading{2. Unverified unit of fan signal}
-        \textbf{Needed:} confirmation from data owners
+        \begin{itemize}
+          \vspace{-1.5mm}
+          \item \textbf{Needed:} confirmation from data owners.
+        \end{itemize}
+        \vspace{-1.5mm}
       \end{beamercolorbox}
 
       \medskip
       \begin{beamercolorbox}[sep=2mm,wd=\linewidth]{data warning}
         \dataheading{3. Suspected CPU throttling}
         \footnotesize
-        \textbf{6 targets $\geq93.5\,{}^\circ$C}; all are kept.\\
-        A temperature flag, not confirmation from frequency data.\\
-        Throttling can mask the power--temperature trend.
+        \begin{itemize}
+          \setlength{\itemsep}{1pt}
+          \vspace{-1.5mm}
+          \item \textbf{6 targets \boldmath$\geq$\,93.5\,\textdegree C}; all are kept.
+          \item A temperature flag, not confirmation from frequency data.
+          \item Throttling can mask the power--temperature trend.
+        \end{itemize}
+        \vspace{-1.5mm}
       \end{beamercolorbox}
       \end{columns}
 \end{frame}
@@ -153,12 +167,12 @@
       \end{beamercolorbox}
 
       \medskip
-      \dataheading{Implications for PCE / UQ}
+      \dataheading{What this means for our model}
       \footnotesize
       \begin{itemize}
-        \item Independent uniforms define our \textbf{basis reference}, not the operating law.
-        \item Global Sobol indices describe that \textbf{hypothetical reference}.
-        \item A dependent operating model needs evidence. A copula cannot fill data gaps.
+        \item For PCE, we treat inputs as \textbf{independent}, with \textbf{equal weight across each range}.
+        \item Sobol indices show which inputs matter \textbf{under these assumptions}.
+        \item Real inputs vary together. We need \textbf{more data} to model these links.
       \end{itemize}
   \end{columns}
 \end{frame}
@@ -427,39 +441,59 @@
     Normalized \textbf{Legendre} polynomials are orthonormal for this reference.
   \end{beamercolorbox}
   \smallskip
-  {\footnotesize \textbf{Separate control assumption:} local inlet variation around its measured value.
-  Its range must come from new disturbance measurements, not these global bounds.}
+  {\footnotesize
+  \begin{itemize}
+    \setlength{\itemsep}{1pt}
+    \vspace{-1.5mm}
+    \item \textbf{Separate control assumption:} local inlet variation around its measured value.
+    \item Its range must come from new disturbance measurements, not these global bounds.
+  \end{itemize}
+  \vspace{-1.5mm}}
 \end{frame}
 
 \renewcommand{\backupcode}{B4}
 
 \begin{frame}[more-space,label=backup-B4]{B4\enspace|\enspace Polynomial degree and conditioning}
-  \dataheading{Three inputs: full total-degree basis has $M(p)=\binom{3+p}{p}$ terms}
-  \small
-  \begin{center}
-  \renewcommand{\arraystretch}{1.35}
-  \begin{tabular}{lrrr}
-    \toprule
-    \textbf{Degree} & \textbf{Coefficients} & \textbf{Design rank} & $\boldsymbol\kappa_2(A)$\\
-    \midrule
-    1 & 4 & 4 & 4.38\\
-    2 & 10 & 10 & 701.97\\
-    3 & 20 & 19 & underdetermined\\
-    \bottomrule
-  \end{tabular}
-  \end{center}
-  \[
-    A_{i\boldsymbol\alpha}=\prod_{k=1}^3\sqrt{2\alpha_k+1}\,
-    L_{\alpha_k}(\xi_{ik}),\quad |\boldsymbol\alpha|\leq p,
-    \qquad \kappa_2(A)=s_{\max}/s_{\min}.
-  \]
+  \footnotesize
+  \dataheading{1. Build $A$ from our 19 measured input combinations}
   \begin{itemize}
-    \item $L_j$: standard Legendre polynomial; inputs scaled to $[-1,1]$.
-    \item Quadratic: full rank, but correlated columns make coefficients sensitive.
-    \item Full cubic has no unique unrestricted least-squares fit with 19 rows.
-    \item Sparse / regularized higher degrees are possible; information is still limited.
+    \setlength{\itemsep}{1pt}
+    \vspace{-1.5mm}
+    \item Scale inputs to $[-1,1]$ and evaluate normalized Legendre terms:
+      $A_{n\alpha}=\Psi_\alpha(\boldsymbol\xi_n)$.
+    \item \textbf{19 rows} = 19 observations; \textbf{4 / 10 / 20 columns} = polynomial coefficients.
   \end{itemize}
-  \datasource{Source: results/monotonic\_pce/design\_diagnostics.csv. Unconstrained design matrices on all 19 rows.}
+  \vspace{-1.5mm}
+  \par\vfill
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \begin{minipage}{\dimexpr\textwidth-4mm\relax}
+    \dataheading{2. Calculate the condition number: largest / smallest singular value}
+    $\kappa_2(A)=s_{\max}/s_{\min}$. A singular-value decomposition (SVD) measures how clearly $A$ distinguishes
+    coefficient combinations. A small $s_{\min}$ indicates a poorly determined combination.
+    \par\smallskip
+    {\renewcommand{\arraystretch}{1.35}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcp{0.56\linewidth}@{}}
+      \toprule
+      \textbf{Degree} & \textbf{Matrix size} & \textbf{Calculation / limitation}\\
+      \midrule
+      1 & $19\times4$ & $7.5883\,/\,1.7332\approx\mathbf{4.38}$\\
+      2 & $19\times10$ & $11.7905\,/\,0.0167964\approx\mathbf{701.97}$\\
+      3 & $19\times20$ & 20 coefficients, only 19 rows: no unique unrestricted fit\\
+      \bottomrule
+    \end{tabular*}}
+    \end{minipage}
+  \end{beamercolorbox}
+  \par\vfill
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
+    \dataheading{3. Interpretation: smaller means better numerical conditioning}
+    \begin{itemize}
+      \setlength{\itemsep}{1pt}
+      \vspace{-1.5mm}
+      \item \textbf{4.38:} relatively stable; \textbf{701.97:} coefficients are more sensitive to data changes.
+      \item Cubic fitting needs extra restrictions, e.g.\ sparsity / regularization.
+    \end{itemize}
+    \vspace{-1.5mm}
+  \end{beamercolorbox}
 \end{frame}
 
 \section{Appendix C: PI-PCE and comparison}
@@ -616,6 +650,8 @@
     final test; prediction errors alone will not establish thermal safety.
   \end{beamercolorbox}
 \end{frame}
+
+\input{sections/physics_in_practice}
 
 \section{Appendix D: UQ and sensitivity}
 
@@ -838,12 +874,6 @@
       $\mathcal D_{\mathrm{val}}$: locally tested domain; \textbf{not the full box or its convex hull}.\par
       $\mu,\sigma$ describe inlet response; they are \textbf{not a safety certificate}.
   \end{columns}
-  \smallskip
-  \begin{beamercolorbox}[sep=1mm,wd=\textwidth]{data warning}
-    \footnotesize \textbf{Deployment gate:} $\delta$, $B_{\mathrm{val}}$ and $\mathcal D_{\mathrm{val}}$ are not established yet:
-    \textbf{no autonomous commands}. If no certified feasible choice, use a verified safe fallback.
-    Independent hardware protection handles transients / peaks.
-  \end{beamercolorbox}
 \end{frame}
 
 \renewcommand{\backupcode}{E4}
