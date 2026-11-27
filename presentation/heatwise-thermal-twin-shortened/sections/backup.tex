@@ -862,6 +862,49 @@
   \end{columns}
 \end{frame}
 
+\renewcommand{\backupcode}{E4}
+
+\begin{frame}[more-space,label=backup-E4]{E4\enspace|\enspace Summary: Step-by-step}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \dataheading{Offline}
+      \footnotesize
+      \begin{enumerate}
+        \setlength{\itemsep}{2pt}
+        \item Data set preprocessing and assumptions
+          $\rightarrow$ {\color{selectiongreen}\textbf{DONE!}}
+        \item Fit PI-PCE using, e.g., SLSQP (Sequential Least Squares Programming).
+        \item Calculate formulas for $\mu_T$ and $\sigma_T$ depending on
+          $P$, $F$ and $T_{\mathrm{inlet}}$.
+        \item Choose inlet air variation $\delta$.
+        \item Choose hyperparameters: $\lambda_F$, $\Delta T_{\mathrm{safety}}$,
+          $\Delta P_{\max}$, $\Delta F_{\max}$, $k$.
+      \end{enumerate}
+    \column{0.49\textwidth}
+      \dataheading{Online}
+      \footnotesize
+      \begin{enumerate}
+        \setlength{\itemsep}{1pt}
+        \item Get the previously chosen $P_{\mathrm{prev}}$ and $F_{\mathrm{prev}}$.
+        \item Get measurements: inlet air temperature and current $T_{\max}$.
+        \item \textbf{Safety loop:} check $T_{\max}$; if dangerous, override
+          $P$ and $F$ and continue.
+        \item \textbf{Learning loop:} save readings to a database to update
+          the PCE after approval.
+        \item Find optimal $P$ and $F$ using, e.g., SLSQP
+          (Sequential Least Squares Programming).
+        \item Actuate the system using the optimal $P$ and $F$.
+        \item Wait $\Delta t$ to let the new temperatures settle.
+      \end{enumerate}
+  \end{columns}
+  \par\vfill
+  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
+    \footnotesize
+    We can use SLSQP twice: offline to learn the polynomial coefficients,
+    and online to choose CPU and fan settings while keeping the trained model fixed.
+  \end{beamercolorbox}
+\end{frame}
+
 \section{Appendix F: Outlook}
 
 \renewcommand{\backupcode}{F1}
