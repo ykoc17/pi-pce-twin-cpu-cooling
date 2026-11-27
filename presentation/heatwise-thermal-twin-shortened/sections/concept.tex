@@ -268,7 +268,14 @@
   \par\vfill
   \begin{uncoverenv}<4->
   \begin{beamercolorbox}[sep=1.7mm,wd=\textwidth]{data panel}
-    \small Derivatives easy to calculate because the PCE is a polynomial. The constrained fit is a \textbf{quadratic program}.
+    \small
+    \begin{itemize}
+      \setlength{\itemsep}{1pt}
+      \vspace{-1.5mm}
+      \item Derivatives easy to calculate because the PCE is a polynomial. The constrained fit is a \textbf{quadratic program}.
+      \item \textbf{SLSQP} adjusts the coefficients to minimize squared prediction errors under these constraints.
+    \end{itemize}
+    \vspace{-1.5mm}
   \end{beamercolorbox}
   \end{uncoverenv}
 \par\vfill
@@ -388,6 +395,12 @@
       \draw[flow] (predict)--(compare);
     \end{tikzpicture}%
   }
+  \par\vfill
+  \begin{beamercolorbox}[sep=1.7mm,wd=\textwidth]{data panel}
+    \small
+    \textbf{Offline:} fit the polynomial coefficients.\par
+    \textbf{Online:} keep the trained model fixed and optimize $P$ and $F$ at the measured inlet temperature.
+  \end{beamercolorbox}
   \par\vfill
   \begin{uncoverenv}<2->
   {\small\color{black}\textbf{Two other loops:}\par}
