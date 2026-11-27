@@ -23,7 +23,7 @@
 
 \textbf{D. UQ and sensitivity} & \hyperlink{backup-D1}{\color{rwth-blue-100}\textbf{D1}}\quad \hyperlink{backup-D2}{\color{rwth-blue-100}\textbf{D2}}\\
 
-\textbf{E. Digital twin and operating choices} & \hyperlink{backup-E1}{\color{rwth-blue-100}\textbf{E1}}\quad \hyperlink{backup-E2}{\color{rwth-blue-100}\textbf{E2}}\quad \hyperlink{backup-E3}{\color{rwth-blue-100}\textbf{E3}}\quad \hyperlink{backup-E4}{\color{rwth-blue-100}\textbf{E4}}\\
+\textbf{E. Digital twin and operating choices} & \hyperlink{backup-E1}{\color{rwth-blue-100}\textbf{E1}}\quad \hyperlink{backup-E2}{\color{rwth-blue-100}\textbf{E2}}\quad \hyperlink{backup-E3}{\color{rwth-blue-100}\textbf{E3}}\\
 
 \textbf{F. Outlook} & \hyperlink{backup-F1}{\color{rwth-blue-100}\textbf{F1}}\\
 
@@ -856,38 +856,6 @@
       $\mathcal D_{\mathrm{val}}$: locally tested domain; \textbf{not the full box or its convex hull}.\par
       $\mu,\sigma$ describe inlet response; they are \textbf{not a safety certificate}.
   \end{columns}
-\end{frame}
-
-\renewcommand{\backupcode}{E4}
-
-\begin{frame}[more-space,label=backup-E4]{E4\enspace|\enspace What a control error bound requires}
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
-    \small
-    \[
-      T_{\max,\mathrm{true}}^{\mathrm{ss}}(\mathbf x)
-      -\widehat T_{\max}^{\mathrm{ss}}(\mathbf x)
-      \leq B_{\mathrm{val}}(\mathbf x)
-      \quad\text{throughout the certified domain }\mathcal D_{\mathrm{val}}.
-    \]
-    With the entire inlet interval inside this domain, the robust constraint bounds
-    the \textbf{interval-mean target}, provided this error bound and inlet envelope hold.
-  \end{beamercolorbox}
-  \smallskip
-  \small
-  \begin{enumerate}
-    \item Measure local inlet disturbances and test candidate operating neighborhoods.
-    \item Validate the \textbf{final PCE} on independent grouped data, including underprediction,
-      measurement error and missing physics. A finite test maximum is not a uniform bound.
-    \item Establish a justified bound / domain under explicit assumptions;
-      otherwise keep the optimizer offline. A probabilistic bound needs a stated coverage level.
-    \item For a degree-2 PCE and constant error bound, check inlet endpoints and any
-      interior maximum; use verified maximization for a varying bound.
-  \end{enumerate}
-  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data warning}
-    \footnotesize No $95\,\%$ claim from $\mu+2\sigma$; an observed error is not a safety certificate.
-    No certified operating domain or fallback is implemented. Hardware interlocks and
-    separately tested fallback are prerequisites for deployment.
-  \end{beamercolorbox}
 \end{frame}
 
 \section{Appendix F: Outlook}

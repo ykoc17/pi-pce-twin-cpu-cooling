@@ -5,8 +5,8 @@ problem, data, proposed PCE/PI-PCE methods and comparison plan. Model results an
 claims of demonstrated control are intentionally absent. The later final
 presentation will assess predictions, sensitivity and the operating-point concept.
 
-**Spoken route: slides 1-12 only.** PDF page 34 is a clickable appendix index;
-the 26 technical appendix slides are labeled A1-F1. The handover is before slide 7:
+**Spoken route: slides 1-12 only.** PDF page 35 is a clickable appendix index;
+the 25 technical appendix slides are labeled A1-F1. The handover is before slide 7:
 four minutes per presenter. Click-through reveals add PDF pages; slide numbers remain unchanged. The timings are a
 rehearsal target, not a measured delivery time.
 
@@ -68,7 +68,7 @@ The script checks all 19 targets against raw data and writes provenance hashes t
 ## Complete information and organized appendix slides
 
 The retained non-introduction source slides are preserved in full in the
-categorized appendix slides. F2 (bibliography) and F3 (provenance) were removed by request;
+categorized appendix slides. E4 (control error-bound requirements), F2 (bibliography) and F3 (provenance) were removed by request;
 their sources remain in the longer presentation. Headings, appendix codes and Index navigation
 are added; B1 also has evenly distributed vertical spacing. B4 is rewritten to explain the condition numbers using the design matrix and numerical singular-value ratios. C5-C8 add a practical mathematical explanation of the physics-informed fit, including the linear example, corner checks and constrained optimization. Original introductory information is condensed into
 the main talk: motivation on slide 2, experiment/photo on slide 3, choice of
@@ -76,14 +76,14 @@ measurements on slide 4, and the twin concept/three loops on slide 10.
 
 | Appendix category | Codes | PDF pages |
 | --- | --- | --- |
-| Data and preprocessing | A1-A7 | 35-41 |
-| PCE and input reference | B1-B4 | 42-45 |
-| PI-PCE and comparison | C1-C8 | 46-53 |
-| UQ and sensitivity | D1-D2 | 54-55 |
-| Digital twin and operating choices | E1-E4 | 56-59 |
+| Data and preprocessing | A1-A7 | 36-42 |
+| PCE and input reference | B1-B4 | 43-46 |
+| PI-PCE and comparison | C1-C8 | 47-54 |
+| UQ and sensitivity | D1-D2 | 55-56 |
+| Digital twin and operating choices | E1-E3 | 57-59 |
 | Outlook | F1 | 60 |
 
-Click any code on the index (page 34), or follow detail links on main slides.
+Click any code on the index (page 35), or follow detail links on main slides.
 Every appendix shows its code in the title/footer and has an **Index** return link.
 The PDF bookmarks also group appendix slides by category. Refer to **A5** for the full
 selection checklist, **B1** for software roles/logo, and **E2** for model updates
@@ -97,11 +97,11 @@ source-body hashes. Regenerate the organized appendix slides and check preservat
 .\.venv\Scripts\python.exe -B presentation/heatwise-thermal-twin-shortened/scripts/build_backups.py
 ```
 
-The script verifies all 22 retained appendix bodies against their sources,
-undoing B1's spacing-only adjustment, and checks that no source slide is missed.
+The script checks the 21 retained source slides and the four added explanation slides,
+accounting for local formatting and the authored B4 explanation, and records requested omissions.
 Rebuild the PDF afterwards. The
 original presentation, scientific code, observations and model results remain
-unchanged. This deck now has **60 PDF pages: 33 main reveal pages, 1 index, 26 appendix slides**.
+unchanged. This deck now has **60 PDF pages: 34 main reveal pages, 1 index, 25 appendix slides**.
 
 ## Editing
 

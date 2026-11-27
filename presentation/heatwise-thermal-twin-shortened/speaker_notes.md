@@ -145,7 +145,7 @@ and actuator mapping. CPU power is a performance proxy, and the raw fan
 signal is not yet a calibrated energy cost.
 
 **Point:** the three loops. E2 retains storage, timestamps, versions and model
-approval. E3/E4 contain the full control formulation and its limits.
+approval. E3 contains the full control formulation and its deployment prerequisites.
 
 ### 11. Outlook - 7:25-7:55
 
@@ -182,7 +182,7 @@ page and maps longer-deck slides to their locations or requested removal.
 | Degree selection / test leakage | C4 |
 | Conditional moments / sensitivity | D1-D2 |
 | Twin definition / learning loop | E1-E2 |
-| Optimization / safety requirements | E3-E4 |
+| Optimization / deployment prerequisites | E3 |
 | Full outlook | F1 |
 
 ## Rehearsal and Q&A
