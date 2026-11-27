@@ -94,7 +94,7 @@
   \begin{columns}[T,onlytextwidth]
     \column{0.48\textwidth}
       \begin{beamercolorbox}[sep=2.5mm,wd=\linewidth]{data panel}
-        \dataheading{Simulator-generated targets}
+        \dataheading{Path 1: Simulator-generated targets}
         \small
         \begin{itemize}
           \item More points at chosen settings.
@@ -105,7 +105,7 @@
     \column{0.49\textwidth}
       \begin{uncoverenv}<2->
       \begin{beamercolorbox}[sep=2.5mm,wd=\linewidth]{data panel}
-        \dataheading{Experimental measurements}
+        \dataheading{Path 2: Experimental measurements}
         \small
         \begin{itemize}
           \item Fewer available points.
@@ -153,7 +153,7 @@
       \smallskip
       \begin{uncoverenv}<3->
       \begin{beamercolorbox}[sep=1.4mm,wd=\linewidth]{data limits}
-        \small {\color{red!65!black}\textbf{Limits:}} sparse data, input dependency and throttling
+        \small {\color{red!65!black}\textbf{Limits:}} sparse data, input dependency and CPU throttling
       \end{beamercolorbox}
       \end{uncoverenv}
   \end{columns}
@@ -220,8 +220,9 @@
     \small
     \begin{itemize}
       \setlength{\itemsep}{1pt}
-      \item Independent uniforms give equal weight across each input range.
-      \item This defines the Legendre basis; \textbf{not real operating probabilities}.
+      \item Independent uniforms give equal weight across each input range in the dataset.
+      \item This defines the Legendre basis for the polynomial terms.
+      \item These are \textbf{not real operating probabilities}. The input distributions are controlled experiment values.
     \end{itemize}
   \end{beamercolorbox}
   \end{uncoverenv}
@@ -327,7 +328,10 @@
             \mu=c_{\mathbf0},\qquad
             \sigma^2=\sum_{\boldsymbol\alpha\ne\mathbf0}c_{\boldsymbol\alpha}^2
           \]
-          \small Mean and variance under the chosen input reference.
+          \begin{itemize}
+          \item \small Mean and variance \textbf{under the chosen input reference}.
+          \item \textbf{In our case}: independent uniform distributions across the observed ranges.
+          \end{itemize}
         \end{minipage}
       \end{beamercolorbox}
     \column{0.49\textwidth}
@@ -356,7 +360,7 @@
     \small
     \begin{itemize}
       \setlength{\itemsep}{1pt}
-      \item \textbf{Not prediction error.} Real operating uncertainty needs separate data.
+      \item \textbf{Not prediction error. Input distributions are not real operating probabilities.} Real operating uncertainty needs separate data.
       \item For uncertainty of max temperature w.r.t air inlet temperature, fix CPU / fan settings and rearrange the same PCE.
     \end{itemize}
   \end{beamercolorbox}
@@ -433,6 +437,7 @@
         \item Fit and compare PCE vs PI-PCE.
         \item Report errors and reference sensitivity.
         \item Update digital twin concept if needed.
+        \item Piece together the different ideas to a full plan of a digital twin.
       \end{itemize}
     \end{minipage}
   \end{beamercolorbox}
