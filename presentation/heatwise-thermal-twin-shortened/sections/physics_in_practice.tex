@@ -2,60 +2,25 @@
 \renewcommand{\backupcode}{C5}
 \begin{frame}[more-space,label=backup-C5]{C5\enspace|\enspace Physics in practice: fit the measurements}
   \small
-  \dataheading{1. Choose the polynomial coefficients}
-  \begin{beamercolorbox}[sep=2.5mm,wd=\textwidth]{data panel}
-    \[
-      \widehat T(\mathbf x;\mathbf c)
-      =\sum_{|\alpha|\leq p}c_\alpha\Psi_\alpha(\boldsymbol\xi),
-      \qquad \mathbf x=(P,T_{\mathrm{inlet}},F).
-    \]
-    The polynomial terms $\Psi_\alpha$ are fixed. The unknowns are the coefficients $\mathbf c$.
-    \par\smallskip
-    Inputs are scaled to $\boldsymbol\xi\in[-1,1]^3$ using training ranges only.
-  \end{beamercolorbox}
-  \par\vfill
-  \dataheading{Ordinary PCE: minimize squared prediction errors}
-  \[
-    \min_{\mathbf c}\;\sum_{n\in\mathrm{training}}
-      \left[\widehat T(\mathbf x_n;\mathbf c)-y_n\right]^2.
-  \]
-  $y_n$: largest of the 18 CPU temperature averages for measured interval $n$.
-  \par\vfill
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
-    \textbf{PI-PCE uses the same measurements and objective,}
-    while restricting the polynomial to expected heating and cooling directions.
-  \end{beamercolorbox}
+
 \end{frame}
 
 \renewcommand{\backupcode}{C6}
 \begin{frame}[more-space,label=backup-C6]{C6\enspace|\enspace Physics in practice: constrain the slopes}
   \small
-  \dataheading{2. Add monotonicity constraints}
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
-    \[
-      \frac{\partial\widehat T}{\partial P}\geq0,
-      \qquad \frac{\partial\widehat T}{\partial T_{\mathrm{inlet}}}\geq0,
-      \qquad \frac{\partial\widehat T}{\partial F}\leq0.
-    \]
-    Change one input while holding the other two fixed:
-    more power / warmer inlet cannot cool; more fan cooling cannot heat.
-  \end{beamercolorbox}
-  \par\vfill
-  \dataheading{A simple linear example}
+  \dataheading{1. A simple linear example}
   Written in scaled coordinates, with slopes $a_P,a_T,a_F$:
   \[
     \widehat T=a_0+a_P\xi_P+a_T\xi_T+a_F\xi_F
     \quad\Longrightarrow\quad
     a_P\geq0,\quad a_T\geq0,\quad a_F\leq0.
   \]
-  {\footnotesize\color{black!60}For normalized linear Legendre terms, each slope is
-    $\sqrt3$ times its corresponding PCE coefficient; the sign is unchanged.\par}
 \end{frame}
 
 \renewcommand{\backupcode}{C7}
 \begin{frame}[more-space,label=backup-C7]{C7\enspace|\enspace Physics in practice: check eight corners}
   \small
-  \dataheading{3. With quadratic terms, slopes depend on the operating point}
+  \dataheading{2. Quadratic example: slopes depend on the operating point}
   For example, using ordinary polynomial notation:
   \[
     \widehat T=\cdots+a_F\xi_F+a_{PF}\xi_P\xi_F+a_{FF}\xi_F^2
@@ -78,7 +43,7 @@
 \renewcommand{\backupcode}{C8}
 \begin{frame}[more-space,label=backup-C8]{C8\enspace|\enspace Physics in practice: solve the constrained fit}
   \small
-  \dataheading{4. Adjust all coefficients together}
+  \dataheading{Adjust all coefficients together}
   \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data panel}
     \[
       \boxed{\min_{\mathbf c}\|A\mathbf c-\mathbf y\|_2^2
@@ -96,11 +61,6 @@
       check convergence and final derivative signs.
   \end{enumerate}
   \par\vfill
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
-    \textbf{Physical guidance where data are sparse.} The signs remain assumptions
-    to validate, especially for the raw fan signal. They do not establish prediction
-    accuracy, safety or behavior outside the training box.
-  \end{beamercolorbox}
   \datasource{Solver: \href{https://docs.scipy.org/doc/scipy/reference/optimize.minimize-slsqp.html}{SciPy SLSQP documentation}.
     Basis and earlier details: \hyperlink{backup-C1}{\textbf{C1}}, \hyperlink{backup-C3}{\textbf{C3}}.}
 \end{frame}
