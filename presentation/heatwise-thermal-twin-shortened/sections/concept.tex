@@ -324,7 +324,7 @@
   \datasource{Full protocol: \hyperlink{backup-C4}{\textbf{C4}}.}
 \end{frame}
 
-% 9: 6:00--6:40. Reveals: moments -> Sobol indices -> uncertainty note.
+% 9: 6:00--6:40. Reveals: moments -> Sobol indices -> reference caveat -> inlet uncertainty and control link.
 \begin{frame}[more-space]{UQ and Sensitivity: What the coefficients tell us}
   \begin{columns}[T,onlytextwidth]
     \column{0.49\textwidth}
@@ -361,15 +361,32 @@
       \end{beamercolorbox}
       \end{uncoverenv}
   \end{columns}
-  \medskip
+  \smallskip
   \begin{uncoverenv}<3->
-  \begin{beamercolorbox}[sep=2mm,wd=\textwidth]{data warning}
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data limits}
     \small
+    \setlength{\topsep}{0pt}
+    \setlength{\partopsep}{0pt}
+    \vspace{-2mm}
+    \begin{itemize}
+      \item \textbf{Not prediction error. Input distributions are not real operating probabilities.}
+    \end{itemize}
+    \vspace{-1mm}
+  \end{beamercolorbox}
+  \end{uncoverenv}
+  \par\vspace{1mm}
+  \begin{uncoverenv}<4->
+  \begin{beamercolorbox}[sep=1.5mm,wd=\textwidth]{data panel}
+    \small
+    \setlength{\topsep}{0pt}
+    \setlength{\partopsep}{0pt}
+    \vspace{-2mm}
     \begin{itemize}
       \setlength{\itemsep}{1pt}
-      \item \textbf{Not prediction error. Input distributions are not real operating probabilities.}
       \item For uncertainty of max temperature w.r.t air inlet temperature, fix CPU / fan settings and rearrange the same PCE.
+      \item[$\rightarrow$] The \textbf{moments} from this will be used for the definition of the \textbf{robust temperature constraint} in the optimization problem formulation.
     \end{itemize}
+    \vspace{-1mm}
   \end{beamercolorbox}
   \end{uncoverenv}
   \datasource{Method: \href{https://www.uqlab.com/pce-user-manual}{UQLab PCE manual}. Full Sobol formulas: \hyperlink{backup-B2}{\textbf{B2}}; conditional moments: \hyperlink{backup-D1}{\textbf{D1}}.}
@@ -386,11 +403,31 @@
         minimum height=19mm,align=center,font=\small},
       flow/.style={->,thick,rwth-blue-100,>={Latex[length=2mm]}}]
       \node[stage] (measure) {{\color{rwth-blue-100}\textbf{Measure}}\\[2mm]
-        CPU temperatures,\\inlet temperature\\and current CPU / fan settings};
+        \begin{minipage}{38mm}
+          \small
+          \begin{itemize}
+            \setlength{\itemsep}{1pt}
+            \item CPU temperatures
+            \item Inlet temperature
+            \item Current CPU / fan settings
+          \end{itemize}
+        \end{minipage}};
       \node[stage,right=of measure] (predict) {{\color{rwth-blue-100}\textbf{Predict}}\\[2mm]
-        Maximum settled\\CPU temperature};
+        \begin{minipage}{38mm}
+          \small
+          \begin{itemize}
+            \item Maximum settled CPU temperature
+          \end{itemize}
+        \end{minipage}};
       \node[stage,right=of predict] (compare) {{\color{rwth-blue-100}\textbf{Compare and Actuate}}\\[2mm]
-        CPU power $P$\\and cooling signal $F$};
+        \begin{minipage}{38mm}
+          \small
+          \begin{itemize}
+            \setlength{\itemsep}{1pt}
+            \item CPU power $P$
+            \item Cooling signal $F$
+          \end{itemize}
+        \end{minipage}};
       \draw[flow] (measure)--(predict);
       \draw[flow] (predict)--(compare);
     \end{tikzpicture}%
