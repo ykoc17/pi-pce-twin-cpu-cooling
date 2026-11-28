@@ -296,11 +296,11 @@
       block/.style={rounded corners=1mm,draw=rwth-blue-100!50,
         fill=rwth-blue-100!6,text width=22mm,minimum height=13mm,
         inner sep=2mm,align=center,font=\small}]
-      \node[block,fill=casefour!12] (c1) {Case 1\\\textbf{Test}};
-      \node[block,right=of c1] (c2) {Case 2\\Train};
-      \node[block,right=of c2] (c3) {Case 3\\Train};
-      \node[block,right=of c3] (c4) {Case 4\\Train};
-      \node[block,right=of c4] (c5) {Case 5\\Train};
+      \node[block,fill=casefour!12] (c1) {Case 1\\\textbf{Test}\\[1pt]{\footnotesize\color{black!65}4 observations}};
+      \node[block,right=of c1] (c2) {Case 2\\Train\\[1pt]{\footnotesize\color{black!65}4 observations}};
+      \node[block,right=of c2] (c3) {Case 3\\Train\\[1pt]{\footnotesize\color{black!65}5 observations}};
+      \node[block,right=of c3] (c4) {Case 4\\Train\\[1pt]{\footnotesize\color{black!65}4 observations}};
+      \node[block,right=of c4] (c5) {Case 5\\Train\\[1pt]{\footnotesize\color{black!65}2 observations}};
     \end{tikzpicture}%
   }
   \par\vfill
