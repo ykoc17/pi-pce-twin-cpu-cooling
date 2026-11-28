@@ -356,7 +356,7 @@
             \item \textbf{Total:} also includes interactions.
           \end{itemize}
           \smallskip
-          \footnotesize Larger index = more influence, \textbf{for our assumed input distributions}.
+          \footnotesize\color{black!65} Larger index = more influence, \textbf{for our assumed input distributions}.
         \end{minipage}
       \end{beamercolorbox}
       \end{uncoverenv}
@@ -445,11 +445,18 @@
   \begin{columns}[T,onlytextwidth]
     \column{0.48\textwidth}
       \dataheading{Safety loop}
-      \small Monitor temperatures; verified fallback.\\
-      Hardware protection handles peaks.
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{1pt}
+        \item Monitor temperatures $\rightarrow$ fallback.
+        \item Hardware protection handles peaks.
+      \end{itemize}
     \column{0.48\textwidth}
       \dataheading{Slower learning loop}
-      \small New steady data $\rightarrow$ refit $\rightarrow$ validate.
+      \small
+      \begin{itemize}
+        \item New steady data $\rightarrow$ refit $\rightarrow$ validate.
+      \end{itemize}
   \end{columns}
   \end{uncoverenv}
   \datasource{Full definition: \hyperlink{backup-E1}{\textbf{E1}}; learning loop: \hyperlink{backup-E2}{\textbf{E2}};
